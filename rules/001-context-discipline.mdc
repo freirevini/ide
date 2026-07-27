@@ -1,0 +1,104 @@
+---
+description: Global anti-sprawl policy - prevents uncontrolled file creation and file bloat across all projects. Always active.
+alwaysApply: true
+---
+
+# Context Discipline (Global)
+
+Uncontrolled file creation and file bloat compound: more/larger files -> more
+context to re-read every turn -> degraded reasoning -> more files created to
+compensate. This rule breaks that loop. It governs every project unless a
+project rule overrides it explicitly.
+
+## Prime directives
+
+1. **Edit over create.** Default action is modifying an existing file. Creating
+   a new file is the exception, not the workflow.
+2. **Strict scope.** Change only what the task requires. No unsolicited
+   refactors, renames, or "while I'm here" cleanups.
+3. **Targeted diffs.** Never rewrite an untouched file end-to-end to change one
+   part. Return only the changed block.
+4. **Clean code is non-negotiable.** Single responsibility, low coupling, high
+   cohesion, clear naming - these are never traded away to save a file or a
+   line. Discipline means editing the right place well, not cramming logic
+   into the wrong place to avoid a new file.
+
+## Create-or-Edit gate
+
+Before writing any new file, run this sequence and be prepared to state the
+answer in one line:
+
+1. **Search first.** Look for the concept under >= 3 name variations
+   (singular/plural, synonyms, abbreviation) across the codebase.
+2. **Find the owner.** If a file already owns this concept or a directly
+   adjacent one, edit it.
+3. **New secret test.** A new file is justified only if the code encapsulates
+   a genuinely new secret (Parnas) - a design decision, data format, or
+   algorithm likely to change independently of everything else. "It's a
+   different function" is not a new secret. "It's a different concern that
+   changes for a different reason" is.
+4. **Budget check.** Would creating this file push the task over the file
+   budget below? If yes, prefer extending an existing owner instead.
+5. **Decide and state it.** One line: `create: <path> - <secret it encapsulates>`
+   or `edit: <path> - <why this is the owner>`.
+
+## Legitimate creation (whitelist)
+
+- Convention required by the framework/language (e.g. a route file, a
+  migration, a test file mirroring a source file 1:1).
+- A genuinely new module/slice/bounded context with its own secret.
+- The user explicitly asked for a new file.
+- The existing owner file is already at or over its hard limit (see project
+  rule for thresholds) AND the new code is a distinct secret - this is
+  extraction, not sprawl; see net-neutral rule below.
+
+## Hard blocks (never create without explicit user request)
+
+- Suffix/prefix hedge names: `*_v2`, `*_new`, `*_old`, `*_fixed`, `*_final`,
+  `enhanced_*`, `improved_*`, `*.bak`, `*.backup`.
+- Shallow wrapper files that just re-export or forward calls to another file
+  with no added behavior.
+- Unsolicited documentation artifacts: `SUMMARY.md`, `NOTES.md`, `CHANGES.md`,
+  `REPORT.md`, or any ad hoc `.md` recap of work done. Put that in the chat
+  response, not in a file, unless the user asked for a doc.
+- A second file that duplicates logic already owned elsewhere "to keep this
+  file short" - that is bloat relocation, not reduction.
+
+## Default budgets (override in project rule if the project defines its own)
+
+- Net new files per task: <= 2. Crossing this requires a one-line
+  justification per extra file before writing it.
+- File size: soft limit 300 lines, hard limit 500 lines (see
+  `100-code-shape-limits` for language-specific numbers when loaded).
+- Function size: soft 50 lines. Parameters: soft 4 (use a struct/object
+  beyond that). Nesting depth: soft 3.
+
+## Net-neutral extraction rule
+
+Extracting code into a new file is only a real reduction if the source file
+shrinks by at least as many lines as the new file gains, minus ~10% glue
+(imports, re-exports). If a proposed extraction doesn't clear that bar, it's
+just moving bloat around - do the extraction differently or don't extract.
+
+## Enforcement
+
+- **Hard gate** (stop, ask before proceeding): creating a file outside the
+  whitelist above; creating any unsolicited doc artifact.
+- **Advisory** (proceed, but surface it): a target file is over its size/
+  complexity limit. Do the requested edit, then flag the file and propose a
+  refactor split in the same response - don't block the task on it.
+
+## Pre-flight / post-flight format
+
+Before creating a file (when the gate requires it), state:
+```
+create: <path>
+secret: <what this file uniquely owns>
+budget: <n>/<limit> new files this task
+```
+
+After any task that touched >= 2 files or created any file, close with:
+```
+files: <created> new, <modified> edited, <net line delta>
+flags: <any file now over budget, or "none">
+```
