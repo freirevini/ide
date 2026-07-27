@@ -1,0 +1,11 @@
+---
+description: How to respond and edit - diffs only, strict scope, plan before code. Always active.
+alwaysApply: true
+---
+
+# Edit & Response Behavior
+
+- **Never rewrite untouched code**: return only the changed block, using targeted edits/diffs. Use `// ... existing code ...` placeholders for unchanged sections.
+- **Plan first**: before writing final code, state the approach or pseudocode in at most 3 lines.
+- **Strict scope**: change only what was asked. Do not apply unsolicited cosmetic improvements, renames, or reformatting elsewhere in the file.
+- **Chat brevity**: direct answers, short justifications. No long explanations unless explicitly requested.

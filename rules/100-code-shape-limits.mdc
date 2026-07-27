@@ -1,0 +1,107 @@
+---
+description: Language-specific size/complexity thresholds and refactor recipes for source files.
+globs: **/*.{ts,tsx,js,jsx,py,go,rs,java,kt,kts,swift,rb,php,cs,sql,c,cpp,h,hpp}
+alwaysApply: false
+---
+
+# Code Shape Limits
+
+Loaded only when source files are in context. Makes the size/complexity
+side of `000-core-principles` measurable, and supplies the recipes
+`020-refactoring` applies. These numbers come from the real defaults of
+widely used linters/analyzers, not opinion - treat a breach the way a linter
+would: worth fixing, not worth blocking the task over. Advisory, not a hard
+gate: do the requested edit, then flag the breach and propose the split.
+
+## Thresholds by language
+
+| Language | File soft/hard (lines) | Function soft (lines) | Cyclomatic complexity | Source of default |
+|---|---|---|---|---|
+| TypeScript/JavaScript | 300 / 500 | 50 | 10 | ESLint `complexity`, `max-lines-per-function` defaults |
+| Python | 300 / 500 | 50 | 10 | pylint `too-many-lines` (1000 is pylint's own default but 300-500 is the widely adopted stricter convention), `mccabe` C901 default 10 |
+| Go | 300 / 500 | 40 | 10 | gocyclo default 10, golangci-lint `funlen` default 60/40 |
+| Rust | 300 / 500 | 50 | 10 | clippy `cognitive_complexity` default 25 (roughly 10 cyclomatic-equivalent) |
+| Java/Kotlin | 300 / 500 | 40 | 10 | Checkstyle `FileLength` default 2000 (project convention tightens to 500), detekt `ComplexMethod` default 15 (tightened to 10) |
+| Swift | 300 / 500 | 40 | 10 | SwiftLint `file_length` default warning 400/error 1000 (tightened), `cyclomatic_complexity` default 10 |
+| C#/.NET | 300 / 500 | 50 | 10 | SonarQube `S138`/`S1541` defaults |
+| SQL | 200 / 400 (per script/migration) | n/a | n/a | convention: one migration = one concern |
+
+Common regardless of language: max 4 parameters before bundling into a
+struct/object/record; max 3 levels of nested control flow before extracting a
+helper; max 2-3 levels of inheritance/mixin depth before flattening.
+
+## Depth test before extracting
+
+Before splitting a file, check whether the split produces a **deep module**
+(Ousterhout: small interface, substantial implementation) or a **shallow**
+one (interface roughly as complex as what it hides). A shallow split adds a
+file's worth of overhead - import lines, mental indirection, retrieval cost
+- for near-zero abstraction benefit. If the proposed new file's public
+surface (exported functions/types) is nearly as large as its body, don't
+extract; look for a different seam or leave it in place.
+
+## Refactor recipes (apply the matching one when a threshold is crossed)
+
+**God-file (many unrelated responsibilities, hard limit crossed)**
+1. List the distinct secrets currently mixed in the file (not "sections" -
+   actual independent reasons to change).
+2. Group functions/types by secret, not by call order or alphabetical
+   position.
+3. Extract the secret with the clearest single owner first; verify the
+   net-neutral rule (source shrinks by >= what's extracted, minus glue).
+4. Re-run the depth test on the result before finalizing.
+
+**Long function (soft limit crossed)**
+1. Identify the sub-steps that could be named (each becomes a candidate
+   private helper) vs. steps that are just sequential mechanics of the same
+   secret (leave inline).
+2. Extract only named sub-steps with a clear single purpose; don't extract
+   just to hit a line count if the code has one secret end to end.
+
+**Duplicated logic across 3+ sites (Rule of Three)**
+1. Before abstracting, confirm the duplicates share the same *reason to
+   change* - if they look similar but change for different reasons, keep
+   them separate (a false abstraction costs more than duplication).
+2. If they do share a reason to change, extract to the closest common owner;
+   avoid a new top-level util file if an existing module can own it.
+
+**Shallow wrapper (file exists only to forward calls)**
+1. Inline the wrapper into its single caller if there's exactly one.
+2. If there are multiple callers, keep it only if it hides real complexity
+   (config, retries, adaptation) - otherwise collapse into the callee and
+   update call sites.
+
+**Too many parameters**
+1. Bundle related parameters into a single struct/object/record with a
+   clear name reflecting the concept they represent together.
+2. Don't introduce a new file for the struct unless it's reused across
+   modules - colocate with its primary owner otherwise.
+
+## Anti-patterns
+
+```
+# BAD - new file for a single 6-line function used once
+# utils/formatDateShort.ts
+export function formatDateShort(d: Date) { ... }
+
+# GOOD - colocate with the one caller until reused elsewhere
+# invoice/renderInvoice.ts
+function formatDateShort(d: Date) { ... }
+```
+
+```
+# BAD - shallow wrapper, no added behavior
+# services/userServiceWrapper.py
+def get_user(id): return user_repo.get_user(id)
+
+# GOOD - callers use user_repo directly, wrapper deleted
+```
+
+## Verification after any refactor
+
+1. Confirm no import/reference was left pointing at a deleted or moved file.
+2. Run the project's build/typecheck/test command if available; otherwise
+   trace call sites manually and state what was checked.
+3. Confirm external behavior (public API, outputs, side effects) is
+   unchanged - if a change could alter behavior, flag it instead of
+   applying it silently.

@@ -1,0 +1,15 @@
+---
+description: Active refactoring protocol - pruning, modularization, verification. Always active.
+alwaysApply: true
+---
+
+# Refactoring Protocol
+
+When the user asks to refactor:
+
+1. **Diagnose first**: in <= 3 lines, identify the main problem (duplication, god-file, dead code, over-abstraction) before touching code.
+2. **Prune**: reduce line count while preserving or improving behavior and performance. Target obvious wins: dead code, redundant comments, needless boilerplate, duplicated logic.
+3. **Modularize god-files**: extract states, helpers, and side logic into separate hooks/modules following the project's existing structure.
+4. **Preserve behavior**: refactoring must not change external behavior. Flag any change that could, before applying it.
+5. **Incremental edits**: refactor in small, reviewable steps using targeted diffs - never a full-file rewrite in one shot.
+6. **Report the result**: end with a 1-2 line summary (e.g. "-42 lines, extracted useAuth hook, removed 3 duplicated helpers").

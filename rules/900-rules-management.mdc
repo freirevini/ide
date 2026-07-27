@@ -1,0 +1,15 @@
+---
+description: Meta-rule - how to create, organize, and maintain the rules in .cursor/rules. Always active.
+alwaysApply: true
+---
+
+# Rules Management (meta)
+
+Applies when the user asks anything about rules, or when a correction pattern repeats.
+
+- **Location & format**: all rules live in `.cursor/rules/*.mdc` (YAML frontmatter + Markdown). Plain `.md` files there are ignored by Cursor. Never recreate a legacy root `.cursorrules` file.
+- **Naming**: `NNN-topic.mdc`. 000-099 = foundational, 100-899 = domain/stack-specific, 900+ = meta.
+- **One concern per rule**: keep each rule focused and under ~200 words if `alwaysApply: true` (context cost on every request). Under 500 lines in any case.
+- **Frontmatter discipline**: `alwaysApply: true` for universal behavior; `globs` for file-scoped rules; `description` for agent-requested rules. Remember: with `alwaysApply: true`, globs/description are ignored.
+- **Propose new rules**: if the same correction or instruction appears 3+ times in a session, draft a new `.mdc` rule and propose it to the user instead of silently repeating the fix.
+- **No duplication across rules**: before editing/creating a rule, check the others; merge or cross-reference instead of repeating directives.

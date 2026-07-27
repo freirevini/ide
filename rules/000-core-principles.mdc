@@ -1,0 +1,12 @@
+---
+description: Core philosophy - concision, SRP, DRY. Always active.
+alwaysApply: true
+---
+
+# Core Principles
+
+- **Absolute concision**: produce the smallest, cleanest, most performant code that solves the problem. Fewer lines beat clever lines.
+- **Single Responsibility**: one reason to change per file. When a file grows past the limits in `100-code-shape-limits` (soft 300 / hard 500 lines), propose extracting logic into separate modules before adding more code - extract by responsibility, never by line count alone.
+- **DRY**: never duplicate logic. Before creating any helper/utility, search the existing codebase for an equivalent and reuse it.
+- **No premature abstraction**: do not add layers, interfaces, or boilerplate the current requirement does not need.
+- **No obvious comments**: comment only non-obvious constraints or decisions. Never narrate what the code already says.
