@@ -86,8 +86,8 @@ cacheável — é o preço.
 ### F-09 · Reuso de contexto entre documentos
 **Detecção**: histórico de turnos acumulado entre avaliações; `contents` recebendo
 conversa anterior.
-**Por quê**: superfície do Echo Chamber (>90% em metade das categorias, gemini-2.5-flash
-incluído).
+**Por quê**: superfície do Echo Chamber (>90% em metade das categorias; medido em
+modelos 2.0/2.5, sem refutação publicada para a 3.x).
 **Correção**: contexto novo por documento. Não custa cache — o prefixo estável permanece.
 
 ### F-10 · Manipulação detectada não bloqueia decisão favorável
@@ -182,3 +182,35 @@ probabilística — e é a única garantia dura disponível quando há ferrament
 ### F-21 · Sem egress allowlist
 **Detecção**: o agente pode requisitar domínio arbitrário.
 **Correção**: allowlist por domínio. Bloqueia deterministicamente o canal de exfiltração.
+
+---
+
+## Específicas da geração 3.x
+
+### F-22 · Defesa apoiada em `temperature` baixa
+**Detecção**: `temperature` fixada abaixo do default com justificativa de "estabilizar" ou
+"tornar determinístico" o comportamento de segurança, em `gemini-3.7-flash`,
+`gemini-3.6-flash` ou `gemini-3.5-flash-lite`.
+**Por quê**: nesses modelos `temperature`, `topP` e `topK` são **depreciados e ignorados**
+— enviá-los não dá erro e não faz nada. A defesa existe no código e não existe em
+execução. Severidade: **média**, mas com agravante de falsa sensação de controle.
+**Correção**: mover o determinismo para a *system instruction* — formato exato, critério
+ordenado, o que fazer em caso de ambiguidade, o que não inferir.
+
+### F-23 · Conteúdo não confiável em `media_resolution` baixa
+**Detecção**: parte de mídia não confiável enviada com `media_resolution=low` para
+economizar.
+**Por quê**: o payload pode continuar legível para o modelo e ficar ilegível para o
+classificador e para a revisão humana. Resolução baixa **não é sanitização** — é perda de
+visibilidade da defesa, não do atacante. Severidade: **média**.
+**Correção**: resolução suficiente na parte que é avaliada; economize nas partes de
+contexto que não carregam decisão.
+
+### F-24 · `thinking_level` tratado como defesa
+**Detecção**: justificativa de segurança para manter `HIGH`, ou para descer a `MINIMAL`.
+**Por quê**: raciocínio estendido ajuda contra injeção imperativa e é o próprio veículo da
+Cryptographic Context Injection (Gemini 3 Flash Web vulnerável em Deep Thinking).
+É capacidade neutra, não camada. Severidade: **baixa** — o dano é de raciocínio sobre a
+arquitetura, não de execução.
+**Correção**: escolha `thinking_level` por qualidade da tarefa; a segurança vem das sete
+camadas, não do nível de raciocínio.

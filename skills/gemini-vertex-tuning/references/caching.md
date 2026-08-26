@@ -7,13 +7,14 @@ exatamente o mesmo prefixo, cacheado ou não. Comece por aqui.
 
 | Item | Valor |
 |---|---|
-| Mínimo de tokens para cache (implícito **e** explícito) — Gemini 2.0 / 2.5 | **2.048** |
-| Mínimo de tokens para cache — Gemini 3 / 3.1 | **4.096** |
+| Mínimo de tokens para cache — linha 3.x | **4.096** (fonte alternativa cita **32.768** para cache explícito no `gemini-3.1-pro` — **confirme na doc oficial**) |
 | Máximo por blob/texto | 10 MB |
 | TTL padrão | 60 min |
-| Desconto no token cacheado | **90%** |
+| Leitura de cache — `gemini-3.1-pro` | **$0,50 / 1M** (75% de desconto sobre $2,00) |
+| Escrita de cache — `gemini-3.1-pro` | **$2,00 / 1M** |
+| Armazenamento — `gemini-3.1-pro` | **$4,50 / 1M por hora** |
 
-O mínimo é o portão: um prefixo de 1.500 tokens **não cacheia**, nem implícito nem
+O mínimo é o portão: um prefixo abaixo dele **não cacheia**, nem implícito nem
 explícito, e nenhum ajuste muda isso. Se o prefixo estável estiver abaixo do mínimo,
 a decisão é entre trazer mais conteúdo estável para o prefixo (as regras de compliance
 do RAG são candidatas naturais) ou aceitar que esta alavanca não se aplica.

@@ -109,6 +109,18 @@ REGRAS: list[Regra] = [
           "floor setting é configuração de projeto; se só arquivos versionados são "
           "editáveis, é recomendação inaplicável que simula tratamento",
           "usar template por request via modelArmorConfig — confirme a superfície editável"),
+    Regra("F-22", "MÉDIA", "Defesa apoiada em temperature baixa (modelo a ignora)", "condicional",
+          r"(?i)system_instruction|systemInstruction|determinismo|criterio_ordenado",
+          "em gemini-3.7-flash / 3.6-flash / 3.5-flash-lite, temperature/topP/topK são "
+          "depreciados e ignorados: a defesa existe no código e não existe em execução",
+          "mover o determinismo para system instruction: formato, critério ordenado, "
+          "o que fazer em ambiguidade, o que não inferir",
+          gatilho=r"(?i)gemini-3\.(7-flash|6-flash|5-flash-lite)"),
+    Regra("F-23", "MÉDIA", "Conteúdo não confiável em media_resolution baixa", "presente",
+          r"(?i)media_?[rR]esolution[\"']?\s*[:=]\s*[\"']?low\b",
+          "resolução baixa esconde o payload do classificador e da revisão humana, "
+          "não do modelo; não é sanitização",
+          "resolução suficiente na parte avaliada; economize nas partes de contexto"),
     Regra("F-17", "BAIXA", "Spotlighting agressivo sobre texto extraído", "presente",
           r"(?i)(rot13|datamarking|b64encode\s*\(.{0,40}(peca|documento|texto_extraido))",
           "datamarking e encoding degradam texto de OCR, que é o que a avaliação precisa "

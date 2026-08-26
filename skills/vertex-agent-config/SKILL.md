@@ -1,6 +1,6 @@
 ---
 name: vertex-agent-config
-description: Configura agentes Gemini na Vertex AI priorizando assertividade e qualidade da avaliação acima de custo — escolhe modelo, thinking, temperature, responseSchema, ordem das partes multimodais, tratamento por tipo de arquivo e estratégia de cache, e desenha pipelines de múltiplos agentes com contrato explícito entre eles. Entende o projeto antes de sugerir, pergunta o que faltar e segue a decisão final do usuário sobre modelo. Use quando pedirem "configurar agente Vertex", "qual modelo Gemini usar", "melhorar a precisão do agente", "criar novo agente", "desenhar pipeline de agentes", "ajustar temperature", "ajustar thinking", "o agente está errando na leitura do PDF" ou "como passar imagem/planilha para o Gemini".
+description: Configura agentes Gemini da geração 3.x na Vertex AI priorizando assertividade e qualidade da avaliação acima de custo — escolhe modelo (incluindo a linha de imagem Nano Banana), thinking_level, media_resolution, responseSchema, ordem das partes multimodais, tratamento por tipo de arquivo e estratégia de cache, e desenha pipelines de múltiplos agentes com contrato explícito entre eles. Entende o projeto antes de sugerir, pergunta o que faltar e segue a decisão final do usuário sobre modelo. Use quando pedirem "configurar agente Vertex", "qual modelo Gemini usar", "melhorar a precisão do agente", "criar novo agente", "desenhar pipeline de agentes", "ajustar thinking_level", "gerar imagem com Nano Banana", "o agente está errando na leitura do PDF" ou "como passar imagem/planilha para o Gemini".
 ---
 
 # Vertex Agent Config — configurar para acertar
@@ -94,14 +94,14 @@ avaliador precisa da mídia original ou basta o texto extraído.
 
 Entregue tudo, não só o modelo:
 
-1. **Modelo** — com a linha 3.x como preferencial e o equivalente 2.5 quando o deploy
-   só liberar essa família.
-2. **Thinking** — `thinking_level` (3.x) ou `thinking_budget` (2.5). Nunca os dois.
+1. **Modelo** — da geração 3.x. Para geração de imagem, a linha Nano Banana.
+2. **Thinking** — `thinking_level`: `MINIMAL`, `LOW`, `MEDIUM` ou `HIGH`.
 3. **Temperature** — marcando explicitamente quando o modelo **ignora** o parâmetro.
 4. **`responseSchema`** — exigindo evidência, não só o resultado.
 5. **`maxOutputTokens`** — dimensionado como thinking + resposta.
 6. **`seed`** — quando a avaliação precisa ser auditável/reprodutível.
-7. **Ordem das partes multimodais** — mídia antes do texto; rótulos quando há várias.
+7. **Ordem das partes multimodais** — mídia antes do texto; rótulos quando há várias; e
+   `media_resolution` por parte (`high` onde a regra mora, `low` no resto).
 8. **Tratamento por tipo de arquivo** — onde converte, para quê, e o que se perde.
 9. **Cache de contexto** — o que é prefixo estável.
 10. **Critério de escalonamento** — quando este agente passa o caso adiante ou para uma
@@ -120,7 +120,8 @@ E, quando o usuário escolher, **adapte e siga**. Não reargumente.
 
 ## Determinismo por system instruction
 
-Nos flash 3.5-lite / 3.6 / 3.7, `temperature`, `topP` e `topK` são ignorados — o controle
+Em `gemini-3.5-flash-lite`, `gemini-3.6-flash` e `gemini-3.7-flash`, `temperature`,
+`topP` e `topK` são ignorados — o controle
 de variabilidade migra inteiro para a *system instruction*. Não é o mesmo trabalho com
 outro nome: parâmetro estreitava a amostragem, instrução precisa **descrever o
 comportamento**.
@@ -158,8 +159,11 @@ O que quebra o cache sem parecer que quebra: timestamp ou id de sessão no prefi
 concatenadas em ordem não determinística (ordene antes de serializar), `json.dumps` sem
 `sort_keys=True`.
 
-**Confirme na documentação da Vertex** os mínimos de token, o TTL e o desconto vigentes
-antes de dimensionar — esta skill não fixa esses números.
+Preços de cache do `gemini-3.1-pro`: escrita **$2,00/1M**, leitura **$0,50/1M** (75% de
+desconto), armazenamento **$4,50/1M por hora**.
+
+**O mínimo de tokens diverge entre fontes** (4.096 para a linha 3.x vs 32.768 para cache
+explícito no Pro) — **confirme na documentação oficial** antes de dimensionar.
 
 Feliz coincidência: essa mesma ordem é a que isola conteúdo não confiável do prompt do
 sistema. Cache e segurança pedem o mesmo layout.
@@ -168,28 +172,34 @@ sistema. Cache e segurança pedem o mesmo layout.
 
 ## Tabela objetivo → modelo → thinking
 
-| Perfil | Linha 3.x (preferencial) | Linha 2.5 (legado) | Thinking | Temperature |
-|---|---|---|---|---|
-| `triagem` | `gemini-3.7-flash` | `gemini-2.5-flash` | `LOW` / budget `0` | 3.7-flash: **ignorada** · 2.5: `1.0` |
-| `classificacao` | `gemini-3.7-flash` | `gemini-2.5-flash` | `LOW` a `HIGH` / `2048–8192` | idem |
-| `extracao` | `gemini-3.7-flash` ou Pro 3.x | `gemini-2.5-pro` | `HIGH` / `8192+` | idem · use `seed` |
-| `avaliacao-regras` | Pro 3.x | `gemini-2.5-pro` | `HIGH` / `16384+` | `1.0` |
-| `alto-risco` | Pro 3.x | `gemini-2.5-pro` | `HIGH` / `32768` | `1.0` · use `seed` |
-| `documento-longo` | Pro 3.x | `gemini-2.5-pro` | `HIGH` / `16384+` | `1.0` |
-| `criativo` | Pro 3.x ou `gemini-3.7-flash` | `gemini-2.5-pro` | `HIGH` | `1.0` (default) |
+Somente geração 3.x. A geração 2.5 não é recomendada para projeto novo.
+
+| Perfil | Modelo | `thinking_level` | Amostragem |
+|---|---|---|---|
+| `triagem` | `gemini-3.5-flash-lite` | `LOW` | ignorada neste modelo |
+| `classificacao` | `gemini-3.7-flash` | `LOW` a `MEDIUM` | ignorada neste modelo |
+| `extracao` | `gemini-3.7-flash` ou `gemini-3.1-pro` | `HIGH` | ignorada no flash · `1.0` no Pro |
+| `avaliacao-regras` | `gemini-3.1-pro` | `HIGH` | `temperature=1.0` |
+| `alto-risco` | `gemini-3.1-pro` | `HIGH` | `temperature=1.0` · use `seed` |
+| `documento-longo` | `gemini-3.1-pro` | `HIGH` | `temperature=1.0` |
+| `criativo` | `gemini-3.1-pro` ou `gemini-3.7-flash` | `HIGH` | `1.0` (default) |
+| geração de imagem | `gemini-3.1-flash-image` (generalista) ou `gemini-3-pro-image` (texto na imagem) | — | — |
 
 Notas que mudam a decisão:
 
-- **Temperature é alavanca só na linha 2.5.** Na 3.x, mantenha `1.0` — baixá-la pode
-  causar loops e degradar raciocínio. Em `gemini-3.5-flash-lite`, `gemini-3.6-flash` e
-  `gemini-3.7-flash`, `temperature`, `topK` e `topP` são **depreciados e ignorados**;
-  determinismo se obtém por *system instruction*, não por parâmetro.
-- **`gemini-2.5-pro` não desliga thinking** (faixa 128–32768). Só o Flash aceita `0`
-  (faixa 0–24576). Flash-Lite não pensa por padrão (faixa 512–24576).
-- **Pro da linha 3.x não aceita `MINIMAL`**; `MINIMAL` exige *thought signatures*.
-- Confirme o id exato do Pro 3.x liberado no seu deploy antes de fixá-lo — não presuma.
+- **`MEDIUM` existe desde a linha 3.1.** Quando `LOW` erra e `HIGH` custa demais, é aqui
+  que se resolve — **antes** de trocar de modelo.
+- **Default de `thinking_level` é `HIGH`.** Toda chamada sem o parâmetro usa raciocínio
+  máximo e paga por ele. É o default certo para qualidade; saiba que é escolha ativa.
+- **Pro não aceita `MINIMAL`**; `MINIMAL` exige *thought signatures*.
+- **`temperature`, `topP` e `topK` são depreciados e ignorados** em `gemini-3.7-flash`,
+  `gemini-3.6-flash` e `gemini-3.5-flash-lite`. Determinismo ali é *system instruction*.
+- **`maxOutputTokens` default do `gemini-3.1-pro` é 8.192** — baixo para `HIGH`.
+  Dimensione explicitamente.
+- **Preço do Pro dobra a entrada acima de 200K tokens de contexto** ($2,00→$4,00) e a
+  saída sobe para $18,00. Documento longo cruza isso sem aviso.
 
-Detalhes e faixas completas em `references/modelos.md` e `references/parametros.md`.
+Ids, preços e modelos de imagem em `references/modelos.md`.
 
 ---
 
@@ -279,54 +289,71 @@ conversão não existe — os Office vão como texto puro.
 - **Achado que muda tudo antes de qualquer parâmetro**: Office indo como texto puro
   destrói posição e formatação, que é onde as regras moram. Converter para PDF é a
   correção de maior efeito neste caso — maior que qualquer ajuste de modelo.
-- Agente 1 `gemini-2.5-flash`, `thinking_budget=4096`, `temperature=1.0` (o `0.0` atual
-  não está ajudando), `responseSchema` devolvendo tipo + texto extraído + observações
+- **Migrar os dois para a geração 3.x** — não é troca de string: `thinking_budget` vira
+  `thinking_level`, e no flash a `temperature` deixa de ter efeito.
+- Agente 1 `gemini-3.7-flash`, `thinking_level="MEDIUM"`. O `temperature=0.0` atual é
+  **ignorado** neste modelo — o determinismo que ele tentava obter vai para a *system
+  instruction*. `responseSchema` devolvendo tipo + texto extraído + observações
   posicionais + URI da mídia original.
-- Agente 2 `gemini-2.5-pro`, `thinking_budget=16384`, `max_output_tokens=32768`,
-  `seed` fixo, `responseSchema` exigindo `regra_id` + trecho citado.
+- Agente 2 `gemini-3.1-pro`, `thinking_level="HIGH"`, `temperature=1.0`,
+  `max_output_tokens=32768` (o default de 8.192 não cabe com `HIGH`), `seed` fixo,
+  `responseSchema` exigindo `regra_id` + trecho citado.
 - **Agente 2 recebe a mídia original além do texto** — exceção à regra antirredundância,
-  porque as regras são posicionais.
+  porque as regras são posicionais. Nas páginas com rodapé crítico, `media_resolution=high`;
+  no restante, `low`.
 - Cache: system instruction + regras no prefixo estável; a peça por último.
 - Escalonamento: `revisao_humana` quando a regra depender de julgamento de grau.
-- Ids parametrizados, com a data de aposentadoria da 2.5 em comentário.
+- Ids parametrizados em env var, nunca literais espalhados.
+- Atenção ao degrau de 200K do Pro se as peças forem longas.
 
-> Se preferir a linha 3.x, digo a configuração equivalente — a escolha é sua.
+> Se preferir outro modelo da linha, digo a configuração equivalente — a escolha é sua.
 
 ---
 
 ## Armadilhas
 
-1. **`temperature=0` na linha 3.x.** Pode causar loop e degradar raciocínio. Mantenha
-   `1.0`. Nos flash 3.5-lite/3.6/3.7 o parâmetro é simplesmente ignorado — quem "fixou"
-   temperature ali acha que controlou algo e não controlou.
+1. **`temperature=0` na geração 3.x.** Pode causar loop e degradar raciocínio. Mantenha
+   `1.0`. Em `gemini-3.7-flash`, `gemini-3.6-flash` e `gemini-3.5-flash-lite` o parâmetro
+   é **ignorado** — quem "fixou" temperature ali acha que controlou algo e não controlou.
 2. **Thinking conta contra `maxOutputTokens`.** Com `responseSchema`, estourar devolve
    `text=None` e `parsed=None` com `finishReason=MAX_TOKENS` — **sem exceção lançada**.
-   Vira `TypeError` a jusante e é diagnosticado como "erro de schema".
-3. **`thinking_budget` + `thinking_level` na mesma request = erro 400.** São a API 2.5 e
-   a 3.x.
-4. **PDF escaneado sem OCR por padrão.** O modelo não avisa que está lendo pixel; a
+   Vira `TypeError` a jusante e é diagnosticado como "erro de schema". No `gemini-3.1-pro`
+   o default de `maxOutputTokens` é **8.192**, baixo para `thinking_level=HIGH`.
+3. **`thinking_level` + `thinking_budget` na mesma request = erro.** `thinking_budget` é a
+   API da geração 2.5; na 3.x só existe `thinking_level`.
+4. **Default `HIGH` cobra sem avisar.** Chamada sem `thinking_level` usa raciocínio máximo,
+   e thinking é cobrado como saída ($12,00/1M no Pro).
+5. **Degrau de 200K no Pro.** Acima de 200K de contexto a entrada dobra e a saída sobe.
+   Documento longo cruza sem aviso.
+6. **PDF escaneado sem OCR por padrão.** O modelo não avisa que está lendo pixel; a
    resposta vem confiante e errada.
-5. **Reduzir resolução de imagem quebra leitura de letra miúda.** Não há desconto por
-   resolução menor — reduzir só perde informação.
-6. **Chunking de documento gera veredito por fatia.** Regra que depende do documento
-   inteiro (ex.: "existe disclaimer em algum lugar") vira N vereditos parciais, cada um
-   olhando um pedaço. Decida a estratégia de agregação **antes** de fatiar.
-7. **Geração infinita**: se o modelo entrar em loop, **aumentar** temperature para `>= 0.1`
-   pode ajudar (aplicável onde o parâmetro não é ignorado).
+7. **`media_resolution` baixa quebra leitura de letra miúda.** Na 3.x o controle é por
+   parte: use `high` na página que carrega a regra, `low` no resto — não um valor global.
+8. **Chunking gera veredito por fatia.** Regra que depende do documento inteiro vira N
+   respostas parciais. Decida a agregação **antes** de fatiar.
+9. **Geração infinita**: aumentar temperature para `>= 0.1` pode ajudar, onde o parâmetro
+   não é ignorado.
+10. **SynthID nas imagens geradas é sempre presente.** Não trate como removível; é
+    proveniência.
 
 ---
 
 ## Ciclo de vida
 
-`gemini-2.5-pro`, `gemini-2.5-flash` e `gemini-2.5-flash-lite` têm aposentadoria
-anunciada para **não antes de 2026-10-16** (a página de lifecycle da Vertex mostra
-**2026-10-20**).
+Modelos entram, saem e mudam de tier — a geração 3.x já acumula `gemini-3-flash`,
+`3.5-flash`, `3.6-flash` e `3.7-flash` na mesma linha.
 
-Consequência prática: **mantenha o model id parametrizado** (env var ou settings), nunca
-literal espalhado pelo código. Registre a data em comentário junto ao parâmetro, para
-que a migração apareça na leitura do código e não numa falha de produção.
+1. **Mantenha o model id parametrizado** — env var ou settings, nunca literal espalhado
+   pelo código. Projeto com o id em sete arquivos migra em sete lugares, e esquece um.
+2. **Confirme o id e a disponibilidade na sua região** antes de fixar.
+3. **Revalide a qualidade a cada troca de id.** Mesmo prompt, modelo diferente, resultado
+   diferente — inclusive dentro da mesma geração.
 
----
+Esta skill não recomenda a geração 2.5 para projeto novo. Se encontrar `gemini-2.5-*`
+configurado no Passo 0, trate como migração pendente: a mudança 2.5 → 3.x não é troca de
+string, porque `thinking_budget` vira `thinking_level` e, nos flash recentes, a
+`temperature` deixa de ter efeito — configuração que dependia de temperature baixa precisa
+ser reescrita como *system instruction*.
 
 ## Referências
 

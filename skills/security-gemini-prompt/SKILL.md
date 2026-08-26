@@ -22,7 +22,10 @@ visível e deixa a fragilidade estrutural.
 3. **Nenhuma camada isolada é suficiente.** 12 defesas publicadas caíram com ASR > 90% sob
    ataque adaptativo; o próprio Google mediu degradação de Spotlighting e Self-reflection
    nas mesmas condições (`references/ataques.md`). Nunca prometa bloqueio.
-4. **Nenhuma correção entra sem a Fase 4.** Correção não verificada é hipótese.
+4. **Modelo mais novo não é camada.** DACSI foi medido em `Gemini 3.1 Pro` e
+   Cryptographic Context Injection em `Gemini 3 Flash Web`: a geração 3.x tem superfície
+   própria, não herda imunidade. Ver "O que muda na geração 3.x" em `references/ataques.md`.
+5. **Nenhuma correção entra sem a Fase 4.** Correção não verificada é hipótese.
 
 ---
 
@@ -32,7 +35,9 @@ Responda, com `arquivo:linha`, antes de varrer:
 
 1. **Forma do projeto** — ver tabela abaixo. Determina quais camadas se aplicam e com que
    força; é o primeiro item porque tudo depois depende dele.
-2. **Modelo Gemini configurado** — 2.5 ou 3.x, e onde (env var, settings, constante).
+2. **Modelo Gemini configurado** — id exato e onde (env var, settings, constante).
+   Na 3.x, verifique `thinking_level`, `media_resolution` e se há `temperature`
+   fixada em modelo que a ignora (F-22).
 3. **Onde entra conteúdo não confiável** — upload, scraping, e-mail, banco, resposta de
    API de terceiro, mensagem de usuário. Enumere **todas** as entradas; a que ficar de
    fora é a que vai ser usada.
@@ -74,7 +79,7 @@ código. Ausência de sinal não prova ausência de defesa — prova que ela nã
 reconhecida.
 
 Depois, passe o projeto pelo catálogo completo de `references/fragilidades.md` (F-01 a
-F-21). O script cobre o que dá para detectar por padrão textual; o catálogo cobre o resto
+F-24). O script cobre o que dá para detectar por padrão textual; o catálogo cobre o resto
 (revisão da base de conhecimento, tratamento de indisponibilidade do classificador,
 política de log).
 
@@ -116,6 +121,7 @@ seguinte. Duas correções juntas escondem uma que não funcionou.
 | 3 | Média | F-12 a F-16 | reduzem superfície ou corrigem falsa proteção |
 | 4 | Baixa | F-17 a F-19 | higiene e sustentação |
 | — | Se há ferramenta | F-20, F-21 | restrição dura; trate junto com as críticas |
+| — | Geração 3.x | F-22 a F-24 | corrigem defesa que não executa ou premissa errada |
 
 Duas ordens dentro das críticas importam:
 
@@ -219,7 +225,8 @@ nem ação automática (F-10). Isso é da camada 6 e roda independentemente da p
 
 ## Referências
 
-- `references/fragilidades.md` — catálogo F-01 a F-21: detecção, risco, correção.
+- `references/fragilidades.md` — catálogo F-01 a F-24: detecção, risco, correção,
+  incluindo as específicas da geração 3.x.
 - `references/camadas.md` — as sete camadas, com custo e limitação.
 - `references/ataques.md` — DACSI, Echo Chamber, Cryptographic Context Injection, ataque
   adaptativo, envenenamento de base; com fontes e números.

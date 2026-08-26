@@ -34,9 +34,16 @@ PADROES: dict[str, list[tuple[str, str]]] = {
         ("project", r"PROJECT_ID|GOOGLE_CLOUD_PROJECT|project\s*="),
     ],
     "thinking": [
-        ("thinking_budget (2.5)", r"thinking_budget|thinkingBudget"),
         ("thinking_level (3.x)", r"thinking_level|thinkingLevel"),
+        ("thinking_budget (2.5 — LEGADO)", r"thinking_budget|thinkingBudget"),
         ("ThinkingConfig", r"ThinkingConfig"),
+    ],
+    "multimodal": [
+        ("media_resolution (3.x)", r"media_resolution|mediaResolution"),
+        ("geração de imagem", r"response_modalities|responseModalities|ImageConfig|image_size"),
+    ],
+    "geracao_legada": [
+        ("model id 2.5", r"[\"']gemini-2\.5[A-Za-z0-9.\-_]*[\"']"),
     ],
     "schema": [
         ("response_schema", r"response_schema|responseSchema"),
@@ -87,6 +94,11 @@ PASSO_0 = [
     ("4c. cache de contexto", ["cache"]),
 ]
 
+# categorias que, se presentes, indicam pendência de migração para a geração 3.x
+LEGADO = {
+    "geracao_legada": "model id da geração 2.5 — esta skill recomenda migrar para 3.x",
+}
+
 
 def arquivos(raiz: Path):
     for c in raiz.rglob("*"):
@@ -133,6 +145,13 @@ def pendencias(rel: dict) -> list[str]:
             continue
         if not any(rel["achados"].get(c) for c in cats):
             faltando.append(f"{desc}: sem evidência no projeto")
+    for cat, msg in LEGADO.items():
+        if rel["achados"].get(cat):
+            onde = rel["achados"][cat][0]["onde"]
+            faltando.append(f"LEGADO. {msg} (ex.: {onde})")
+    if any(h["rotulo"].startswith("thinking_budget") for h in rel["achados"].get("thinking", [])):
+        faltando.append("LEGADO. thinking_budget é a API 2.5; na 3.x use thinking_level")
+
     problematicos = [e for e in rel["tipos_de_arquivo"] if "NÃO é tipo" in ARQUIVOS[e]]
     if problematicos and not rel["conversao_extracao"]:
         faltando.append(
@@ -170,7 +189,8 @@ def imprimir(rel: dict, faltando: list[str]) -> None:
 
     print("\n## Passo 0")
     if faltando:
-        print("  INCOMPLETO — PERGUNTE ao usuário, não assuma:")
+        print("  PENDÊNCIAS — itens 'sem evidência': PERGUNTE ao usuário, não assuma."
+              "\n              itens 'LEGADO': migração para a geração 3.x pendente.")
         for f in faltando:
             print(f"    - {f}")
     else:

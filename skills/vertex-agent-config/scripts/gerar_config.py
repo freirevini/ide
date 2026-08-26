@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Gera o GenerateContentConfig recomendado para um perfil de objetivo e um modelo.
+"""Gera o GenerateContentConfig recomendado para um perfil de objetivo e um modelo 3.x.
 
-Marca explicitamente quais parâmetros o modelo escolhido IGNORA, e ajusta o thinking
-à faixa real do modelo. Prioriza qualidade da avaliação; custo aparece como nota.
+Marca quais parâmetros o modelo escolhido IGNORA e informa o preço ao lado da
+recomendação — custo é informação, nunca critério. Cobre também a linha de imagem
+Nano Banana.
 
 Uso:
-    python gerar_config.py --perfil avaliacao-regras --modelo gemini-2.5-pro
-    python gerar_config.py --perfil extracao --modelo gemini-3.7-flash
+    python gerar_config.py --perfil avaliacao-regras --modelo gemini-3.1-pro
+    python gerar_config.py --perfil classificacao --modelo gemini-3.7-flash
+    python gerar_config.py --perfil imagem --modelo gemini-3-pro-image
     python gerar_config.py --listar
 
 Só stdlib.
@@ -15,66 +17,73 @@ Só stdlib.
 from __future__ import annotations
 
 import argparse
-import sys
 from dataclasses import dataclass, field
 
-# --------------------------------------------------------------------- modelos
+NIVEIS = ("MINIMAL", "LOW", "MEDIUM", "HIGH")
+
 
 @dataclass(frozen=True)
 class Modelo:
-    familia: str                      # "2.5" | "3.x"
-    thinking_min: int | None = None   # só 2.5
-    thinking_max: int | None = None   # só 2.5
-    desliga_thinking: bool = False    # só 2.5
-    ignora_amostragem: bool = False   # temperature/topP/topK depreciados e ignorados
-    aceita_minimal: bool = True       # só 3.x
+    tier: str                        # pro | flash | flash-lite | imagem
+    preco: str = "consultar tabela oficial"
+    ignora_amostragem: bool = False  # temperature/topP/topK depreciados e ignorados
+    aceita_minimal: bool = True
     nota: str = ""
 
 
 MODELOS: dict[str, Modelo] = {
-    "gemini-2.5-pro": Modelo("2.5", 128, 32768, desliga_thinking=False,
-                             nota="não desliga thinking (faixa 128–32768)"),
-    "gemini-2.5-flash": Modelo("2.5", 0, 24576, desliga_thinking=True),
-    "gemini-2.5-flash-lite": Modelo("2.5", 512, 24576,
-                                    nota="não pensa por padrão (faixa 512–24576)"),
-    "gemini-3.5-flash-lite": Modelo("3.x", ignora_amostragem=True),
-    "gemini-3.6-flash": Modelo("3.x", ignora_amostragem=True),
-    "gemini-3.7-flash": Modelo("3.x", ignora_amostragem=True,
-                               nota="flash mais recente da linha 3.x"),
+    "gemini-3.1-pro": Modelo(
+        "pro", "$2,00 / $12,00 por 1M · acima de 200K de contexto: $4,00 / $18,00",
+        aceita_minimal=False,
+        nota="contexto 1M · maxOutputTokens default 8.192 (baixo para HIGH)"),
+    "gemini-3.7-flash": Modelo(
+        "flash", "$0,75 / $3,75 até 2026-12-31; $1,50 / $7,50 a partir de 2027-01-01",
+        ignora_amostragem=True, nota="flash mais recente da linha"),
+    "gemini-3.6-flash": Modelo("flash", ignora_amostragem=True),
+    "gemini-3.5-flash": Modelo("flash"),
+    "gemini-3-flash": Modelo("flash"),
+    "gemini-3.5-flash-lite": Modelo("flash-lite", "$0,30 / $2,50 por 1M",
+                                    ignora_amostragem=True),
+    "gemini-3.1-flash-lite": Modelo("flash-lite"),
+    "gemini-3-pro-image": Modelo(
+        "imagem", "$3,00 / $15,00 por 1M · ou $0,134/imagem 1K-2K, $0,24/imagem 4K "
+                  "· batch: $0,067/imagem 2K",
+        nota="Nano Banana Pro · 1120 tokens (1K e 2K), 2000 (4K) · melhor em texto na imagem"),
+    "gemini-3.1-flash-image": Modelo(
+        "imagem", "consultar tabela oficial",
+        nota="Nano Banana 2 · generalista · 747 (512px), 1120 (1K), 1680 (2K), 2520 (4K)"),
+    "gemini-3.1-flash-lite-image": Modelo("imagem", nota="somente 1K · SynthID always on"),
 }
-
-APOSENTAM_2_5 = "aposentadoria anunciada para não antes de 2026-10-16 (lifecycle mostra 2026-10-20)"
 
 
 def resolver_modelo(model_id: str) -> tuple[Modelo, list[str]]:
-    """Devolve (modelo, avisos). Modelo desconhecido é inferido e marcado como tal."""
     if model_id in MODELOS:
         return MODELOS[model_id], []
-    if model_id.startswith("gemini-3"):
-        pro = "pro" in model_id
-        return (
-            Modelo("3.x", ignora_amostragem=not pro, aceita_minimal=not pro,
-                   nota="id não consta na lista documentada desta skill"),
-            [f"{model_id!r} não está na lista documentada; comportamento INFERIDO pela "
-             "linha 3.x. Confirme na documentação da Vertex antes de fixar."],
-        )
     if model_id.startswith("gemini-2.5"):
-        return (Modelo("2.5", 128, 32768, nota="id não consta na lista documentada"),
-                [f"{model_id!r} não está na lista documentada; faixas INFERIDAS da 2.5."])
-    return (Modelo("3.x", nota="família não reconhecida"),
-            [f"{model_id!r} não reconhecido. Confirme família, faixas e depreciações."])
+        return (Modelo("pro" if "pro" in model_id else "flash"),
+                [f"{model_id!r} é da geração 2.5, que esta skill não recomenda para projeto "
+                 "novo. Migre para 3.x: thinking_budget vira thinking_level e, nos flash "
+                 "recentes, temperature deixa de ter efeito.",
+                 "Se a migração não for possível agora, registre como pendência explícita."])
+    if model_id.startswith("gemini-3"):
+        pro, img = "pro" in model_id, "image" in model_id
+        return (Modelo("imagem" if img else ("pro" if pro else "flash"),
+                       ignora_amostragem=not pro and not img, aceita_minimal=not pro,
+                       nota="id não consta na lista documentada desta skill"),
+                [f"{model_id!r} não está na lista documentada; comportamento INFERIDO pela "
+                 "linha 3.x. Confirme id, preço e região na documentação da Vertex."])
+    return (Modelo("flash", nota="família não reconhecida"),
+            [f"{model_id!r} não reconhecido. Confirme família, preço e depreciações."])
 
-
-# --------------------------------------------------------------------- perfis
 
 @dataclass(frozen=True)
 class Perfil:
     descricao: str
-    budget_2_5: int
-    level_3x: str
+    nivel: str
     max_output: int
     seed: bool
     schema: bool
+    modelo_sugerido: str
     escalonamento: str
     notas: list[str] = field(default_factory=list)
 
@@ -82,96 +91,89 @@ class Perfil:
 PERFIS: dict[str, Perfil] = {
     "triagem": Perfil(
         "rotear/decidir o próximo passo; erro recuperável a jusante",
-        budget_2_5=0, level_3x="LOW", max_output=2048, seed=False, schema=True,
-        escalonamento="rota 'indeterminado' quando a confiança não separar duas rotas",
-        notas=["thinking baixo é adequado: a decisão é de roteamento, não de mérito"]),
+        "LOW", 2048, False, True, "gemini-3.5-flash-lite",
+        "rota 'indeterminado' quando a confiança não separar duas rotas",
+        ["thinking baixo é adequado: a decisão é de roteamento, não de mérito"]),
     "classificacao": Perfil(
         "atribuir rótulo de um conjunto fechado",
-        budget_2_5=4096, level_3x="LOW", max_output=4096, seed=False, schema=True,
-        escalonamento="rótulo 'indeterminado' em vez de forçar a classe mais próxima",
-        notas=["se as classes forem ambíguas entre si, suba para HIGH antes de trocar de modelo"]),
+        "MEDIUM", 4096, False, True, "gemini-3.7-flash",
+        "rótulo 'indeterminado' em vez de forçar a classe mais próxima",
+        ["MEDIUM antes de trocar de modelo: é o degrau entre LOW que erra e HIGH que custa"]),
     "extracao": Perfil(
         "tirar campos estruturados de um documento",
-        budget_2_5=8192, level_3x="HIGH", max_output=16384, seed=True, schema=True,
-        escalonamento="campo nulo + motivo, nunca valor inventado para preencher",
-        notas=["schema deve exigir o trecho de origem de cada campo, não só o valor",
-               "seed liga a reprodutibilidade: mesmo insumo, mesmo resultado"]),
+        "HIGH", 16384, True, True, "gemini-3.7-flash",
+        "campo nulo + motivo, nunca valor inventado para preencher",
+        ["schema deve exigir o trecho de origem de cada campo, não só o valor",
+         "media_resolution=high nas páginas que carregam os campos"]),
     "avaliacao-regras": Perfil(
         "julgar conteúdo contra regras multicamada, com justificativa",
-        budget_2_5=16384, level_3x="HIGH", max_output=32768, seed=True, schema=True,
-        escalonamento="'revisão humana' quando a regra depender de julgamento de grau",
-        notas=["schema deve exigir regra_id + trecho citado por achado",
-               "se alguma regra for posicional/visual, envie a mídia original além do texto"]),
+        "HIGH", 32768, True, True, "gemini-3.1-pro",
+        "'revisão humana' quando a regra depender de julgamento de grau",
+        ["schema deve exigir regra_id + trecho citado por achado",
+         "se alguma regra for posicional/visual, envie a mídia original além do texto"]),
     "alto-risco": Perfil(
         "decisão com consequência difícil de reverter",
-        budget_2_5=32768, level_3x="HIGH", max_output=65536, seed=True, schema=True,
-        escalonamento="humano no circuito por padrão; automático só na decisão conservadora",
-        notas=["thinking no teto da faixa: aqui latência é o recurso barato",
-               "registre entrada, seed e model id para poder reproduzir o caso depois"]),
+        "HIGH", 65536, True, True, "gemini-3.1-pro",
+        "humano no circuito por padrão; automático só na decisão conservadora",
+        ["aqui latência é o recurso barato",
+         "registre entrada, seed e model id para poder reproduzir o caso depois"]),
     "documento-longo": Perfil(
         "contexto grande domina a tarefa",
-        budget_2_5=16384, level_3x="HIGH", max_output=32768, seed=False, schema=True,
-        escalonamento="marcar 'contexto insuficiente' em vez de responder por uma fatia",
-        notas=["258 tokens por página de PDF: 300 páginas ≈ 77k tokens só de documento",
-               "antes de fatiar, verifique se cada regra é respondível por fatia"]),
+        "HIGH", 32768, False, True, "gemini-3.1-pro",
+        "marcar 'contexto insuficiente' em vez de responder por uma fatia",
+        ["258 tokens por página de PDF: 300 páginas ≈ 77k tokens só de documento",
+         "acima de 200K de contexto o Pro dobra a entrada — verifique antes de fatiar"]),
     "criativo": Perfil(
-        "geração aberta, sem resposta única correta",
-        budget_2_5=8192, level_3x="HIGH", max_output=16384, seed=False, schema=False,
-        escalonamento="não se aplica",
-        notas=["mantenha temperature no default 1.0; é o ponto de calibração do modelo"]),
+        "geração aberta de texto, sem resposta única correta",
+        "HIGH", 16384, False, False, "gemini-3.1-pro",
+        "não se aplica",
+        ["onde temperature funciona, mantenha 1.0: é o ponto de calibração"]),
+    "imagem": Perfil(
+        "gerar ou editar imagem",
+        "", 0, False, False, "gemini-3.1-flash-image",
+        "não se aplica",
+        ["Nano Banana 2 é o generalista; Nano Banana Pro quando houver texto na imagem",
+         "1K é o default; suba a 2K/4K só se a imagem for ampliada, impressa ou inspecionada",
+         "SynthID é sempre aplicado e não é removível"]),
 }
 
 
-# ------------------------------------------------------------------- montagem
-
-def _ajustar_budget(perfil: Perfil, m: Modelo) -> tuple[int, list[str]]:
-    lo, hi = m.thinking_min or 0, m.thinking_max or 0
-    pedido = perfil.budget_2_5
-    if pedido < lo:
-        return lo, [f"thinking_budget {pedido} abaixo do mínimo do modelo; ajustado para {lo}"
-                    + ("" if m.desliga_thinking else " (este modelo não desliga thinking)")]
-    if pedido > hi:
-        return hi, [f"thinking_budget {pedido} acima do máximo do modelo; ajustado para {hi}"]
-    return pedido, []
-
-
 def montar(perfil_nome: str, model_id: str) -> tuple[list[str], list[str], list[str]]:
-    """Devolve (linhas do config, notas, avisos)."""
     perfil = PERFIS[perfil_nome]
     m, avisos = resolver_modelo(model_id)
-    notas = list(perfil.notas)
-    linhas: list[str] = []
+    notas, linhas = list(perfil.notas), []
 
-    if m.familia == "2.5":
-        budget, ajustes = _ajustar_budget(perfil, m)
-        avisos += ajustes
-        linhas.append(f'    thinking_config=types.ThinkingConfig(thinking_budget={budget}),')
-        linhas.append('    temperature=1.0,   # ponto inicial recomendado; ajuste só com evidência')
-        linhas.append('    top_p=0.95,        # ajuste DEPOIS da temperature, e para baixo')
-        notas.append(f"{model_id}: {APOSENTAM_2_5} — mantenha o model id parametrizado")
+    if perfil_nome == "imagem" or m.tier == "imagem":
+        if perfil_nome != "imagem":
+            avisos.append(f"{model_id} é modelo de imagem; use --perfil imagem")
+        linhas += ['    response_modalities=["IMAGE"],',
+                   '    image_config=types.ImageConfig(image_size="1K"),  # 512px | 1K | 2K | 4K']
     else:
-        nivel = perfil.level_3x
+        nivel = perfil.nivel
         if nivel == "MINIMAL" and not m.aceita_minimal:
             nivel = "LOW"
-            avisos.append("MINIMAL indisponível neste modelo (Pro 3.x não aceita); usando LOW")
-        linhas.append(f'    thinking_level="{nivel}",')
+            avisos.append("MINIMAL indisponível neste modelo (Pro não aceita); usando LOW")
+        linhas.append(f'    thinking_level="{nivel}",   # MINIMAL | LOW | MEDIUM | HIGH')
         if m.ignora_amostragem:
-            linhas.append('    # temperature / top_p / top_k: DEPRECIADOS E IGNORADOS neste modelo.')
-            linhas.append('    # Determinismo se obtém por system_instruction, não por parâmetro.')
+            linhas += ['    # temperature / top_p / top_k: DEPRECIADOS E IGNORADOS neste modelo.',
+                       '    # Determinismo se obtém por system_instruction, não por parâmetro.']
             notas.append("temperature, topP e topK são ignorados aqui — não os envie esperando efeito")
         else:
-            linhas.append('    temperature=1.0,   # linha 3.x: mantenha 1.0; baixar causa loops')
-            linhas.append('    top_p=0.95,')
+            linhas += ['    temperature=1.0,   # 3.x: mantenha 1.0; baixar causa loops',
+                       '    top_p=0.95,']
+        linhas.append(f'    max_output_tokens={perfil.max_output},'
+                      '  # thinking + resposta; ver armadilha MAX_TOKENS')
+        if perfil.seed:
+            linhas.append('    seed=42,           # reprodutibilidade para avaliação auditável')
+        if perfil.schema:
+            linhas += ['    response_mime_type="application/json",',
+                       '    response_schema=SCHEMA,  # exija evidência, não só o resultado']
+        notas.append("thinking é cobrado como saída; default do parâmetro é HIGH")
 
-    linhas.append(f'    max_output_tokens={perfil.max_output},'
-                  '  # thinking + resposta; ver armadilha MAX_TOKENS')
-    if perfil.seed:
-        linhas.append('    seed=42,           # reprodutibilidade para avaliação auditável')
-    if perfil.schema:
-        linhas.append('    response_mime_type="application/json",')
-        linhas.append('    response_schema=SCHEMA,  # exija evidência, não só o resultado')
     linhas.append('    system_instruction=SYSTEM_INSTRUCTION,')
-
+    if model_id != perfil.modelo_sugerido:
+        notas.append(f"modelo sugerido para este perfil: {perfil.modelo_sugerido}")
+    notas.append(f"preço ({model_id}): {m.preco}")
     if m.nota:
         notas.append(f"{model_id}: {m.nota}")
     notas.append(f"escalonamento: {perfil.escalonamento}")
@@ -179,16 +181,13 @@ def montar(perfil_nome: str, model_id: str) -> tuple[list[str], list[str], list[
 
 
 def imprimir(perfil_nome: str, model_id: str) -> None:
-    perfil = PERFIS[perfil_nome]
     linhas, notas, avisos = montar(perfil_nome, model_id)
-
-    print(f"# perfil: {perfil_nome} — {perfil.descricao}")
+    print(f"# perfil: {perfil_nome} — {PERFIS[perfil_nome].descricao}")
     print(f"# modelo: {model_id}\n")
     print("config = types.GenerateContentConfig(")
     for l in linhas:
         print(l)
     print(")\n")
-
     print("NOTAS")
     for n in notas:
         print(f"  - {n}")
@@ -196,7 +195,7 @@ def imprimir(perfil_nome: str, model_id: str) -> None:
         print("\nAVISOS")
         for a in avisos:
             print(f"  ! {a}")
-    print("\nNunca envie thinking_budget e thinking_level na mesma request (erro 400).")
+    print("\nNunca envie thinking_level e thinking_budget na mesma request (erro).")
     print("Se preferir outro modelo, rode de novo com --modelo <outro> — a escolha é sua.")
 
 
@@ -205,19 +204,19 @@ def main() -> int:
                                 formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--perfil", choices=sorted(PERFIS))
     p.add_argument("--modelo")
-    p.add_argument("--listar", action="store_true", help="lista perfis e modelos conhecidos")
+    p.add_argument("--listar", action="store_true")
     args = p.parse_args()
 
     if args.listar:
         print("PERFIS")
         for nome, perfil in PERFIS.items():
-            print(f"  {nome:<18} {perfil.descricao}")
-        print("\nMODELOS DOCUMENTADOS")
+            nivel = perfil.nivel or "-"
+            print(f"  {nome:<18} {nivel:<7} {perfil.modelo_sugerido:<28} {perfil.descricao}")
+        print("\nMODELOS DOCUMENTADOS (geração 3.x)")
         for nome, m in MODELOS.items():
-            faixa = (f"thinking {m.thinking_min}–{m.thinking_max}" if m.familia == "2.5"
-                     else "thinking_level MINIMAL/LOW/HIGH")
             ign = "  [ignora temperature/topP/topK]" if m.ignora_amostragem else ""
-            print(f"  {nome:<24} {m.familia:<4} {faixa}{ign}")
+            print(f"  {nome:<30} {m.tier:<11}{ign}")
+            print(f"  {'':<30} {m.preco}")
         return 0
 
     if not (args.perfil and args.modelo):

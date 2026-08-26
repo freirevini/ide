@@ -2,6 +2,13 @@
 
 Toda afirmação numérica aqui tem fonte. Onde não há número público, está dito.
 
+**Sobre a geração dos modelos medidos.** Vários resultados abaixo foram obtidos em
+modelos das gerações 2.0 e 2.5 — são as medições que existem publicadas, e trocar o nome
+do modelo citado falsificaria a fonte. Leia-os como **piso**, não como teto: nenhum deles
+foi refutado na geração 3.x, e os dois ataques mais recentes (DACSI e Cryptographic
+Context Injection) **foram medidos justamente em modelos 3.x**. Ver "O que muda na
+geração 3.x" no fim desta página.
+
 ## O resultado que muda a postura: atacante adaptativo
 
 **Google DeepMind — *Lessons from Defending Gemini Against Indirect Prompt Injections***
@@ -119,3 +126,38 @@ e uso em escala é histórico, não permanente.
 - arXiv 2601.05742 — The Echo Chamber Multi-Turn LLM Jailbreak
 - thehackernews.com/2026/08/new-cryptographic-context-injection.html
 - blog.google/security/prompt-injections-web
+
+---
+
+## O que muda na geração 3.x
+
+A superfície não encolheu; mudou de forma.
+
+**Medido diretamente em 3.x:**
+
+- **DACSI** — `Gemini 3.1 Pro Low` mostra risco seletivo: a condição `A_OFFICIAL_NOTE`
+  sobe de 0% de baseline para **13,5–14,0%**. Modelo mais capaz não elimina a
+  impersonação de sinal de controle; ele apenas exige um payload mais bem formulado.
+- **Cryptographic Context Injection** — **`Gemini 3 Flash Web` demonstrado vulnerável em
+  modo Deep Thinking**. O raciocínio estendido é o próprio veículo: o modelo decifra o
+  payload em runtime e age sobre o resultado.
+
+**Consequência de configuração, específica da 3.x:**
+
+- **`thinking_level` default é `HIGH`.** Mais raciocínio ajuda a resistir a injeção
+  imperativa — e é exatamente o que a Cryptographic Context Injection explora. Não trate
+  thinking alto como defesa; trate como capacidade neutra.
+- **`thinking_level=MINIMAL` exige *thought signatures*** e não é aceito pelo Pro.
+  Se alguém propuser `MINIMAL` para reduzir a superfície de raciocínio, saiba que
+  a troca é por menos capacidade de detectar a manipulação, não por mais segurança.
+- **`temperature` deixou de ser alavanca** em `gemini-3.7-flash`, `gemini-3.6-flash` e
+  `gemini-3.5-flash-lite` (depreciada e ignorada). Qualquer defesa que dependesse de
+  temperature baixa para "estabilizar" o comportamento **não está funcionando** nesses
+  modelos, e provavelmente nunca esteve.
+- **`media_resolution` por parte** dá uma superfície nova: conteúdo malicioso escondido em
+  imagem só é percebido se a parte for enviada em resolução suficiente. Resolução baixa
+  numa parte não confiável esconde o payload do classificador e do modelo — mas não do
+  raciocínio, se o texto for grande. Não confie em resolução baixa como sanitização.
+- **Model hardening**: o fine-tuning adversarial com dados de Automated Red Teaming
+  seguiu nas gerações posteriores. É camada herdada de graça por quem usa modelo atual —
+  e continua sendo **uma** camada, não a defesa.

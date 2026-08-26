@@ -185,7 +185,8 @@ com mais texto de prompt.
 ## 7. Contexto novo por requisição
 
 Contexto novo a cada requisição, sem reuso de histórico entre elas. Fecha a
-superfície do Echo Chamber (>90% em metade das categorias, gemini-2.5-flash incluído).
+superfície do Echo Chamber (>90% em metade das categorias; medido em modelos 2.0/2.5,
+sem refutação publicada para a 3.x — ver `references/ataques.md`).
 
 **Custo zero, inclusive de cache**: o prefixo estável (system + regras) continua idêntico
 entre documentos e segue cacheável; o que não se reusa é o histórico de turnos.
@@ -207,8 +208,9 @@ grau de garantia.
 
 ## Arquitetura de referência do Google (6 camadas em produção)
 
-Model hardening (fine-tuning adversarial do Gemini 2.5 com dados de Automated Red
-Teaming) · classificadores de prompt injection · security thought reinforcement ·
+Model hardening (fine-tuning adversarial com dados de Automated Red Teaming, iniciado na
+2.5 e mantido nas gerações seguintes) · classificadores de prompt injection ·
+security thought reinforcement ·
 sanitização de markdown e redação de URL · confirmação do usuário (HITL) · notificação ao
 usuário final quando uma defesa atua.
 

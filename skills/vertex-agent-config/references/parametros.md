@@ -1,84 +1,82 @@
-# Parâmetros de geração
+# Parâmetros de geração — geração 3.x
 
-## temperature
+## temperature, topP, topK
 
-| Item | Valor |
+| Modelo | Situação |
 |---|---|
-| Faixa na Vertex | **0.0 a 2.0** |
-| Default | **1.0** |
-| Valor inicial recomendado | **1.0** |
+| `gemini-3.7-flash` | **depreciados e ignorados** |
+| `gemini-3.6-flash` | **depreciados e ignorados** |
+| `gemini-3.5-flash-lite` | **depreciados e ignorados** |
+| demais 3.x | funcionam — mantenha `temperature` em **1.0** |
 
-**Comece em 1.0 e só mexa com motivo medido.** O default não é um meio-termo preguiçoso;
-é o ponto em que o modelo foi calibrado.
+Faixa da temperature na Vertex: **0.0 a 2.0**, default **1.0**, e **1.0 é o valor inicial
+recomendado**. O default não é meio-termo preguiçoso: é o ponto em que o modelo foi
+calibrado.
 
-### Linha 3.x — mantenha 1.0
+**Baixar a temperature na geração 3.x pode causar loops e degradar o raciocínio.** Não é
+um ajuste conservador — é mudança de regime. Se o objetivo era reduzir variabilidade, o
+caminho é *system instruction*, não parâmetro.
 
-Baixar temperature na linha 3.x **pode causar loops e degradar o raciocínio**. Não é um
-ajuste conservador: é uma mudança de regime.
+Onde os parâmetros são ignorados, enviá-los **não dá erro** — simplesmente não faz nada.
+Pior que falhar: o time acredita ter controlado a variabilidade e não controlou.
 
-Em **`gemini-3.5-flash-lite`, `gemini-3.6-flash` e `gemini-3.7-flash`**, `temperature`,
-`topK` e `topP` são **depreciados e ignorados**. Enviá-los não dá erro — simplesmente não
-faz nada, o que é pior, porque o time acredita ter controlado a variabilidade.
-
-**Determinismo nesses modelos se obtém por *system instruction***: descrever o formato,
-o critério e o que fazer em caso de ambiguidade. Não por parâmetro.
-
-### Linha 2.5 — aqui é alavanca
-
-`temperature` funciona normalmente. Ainda assim comece em `1.0` e ajuste com evidência,
-não com intuição.
-
-### Geração infinita
+`topP` default **0.95**. Onde ainda funciona, ajuste **depois** da temperature e **para
+baixo**. Mexer nos dois ao mesmo tempo impede saber qual causou a mudança.
 
 Se o modelo entrar em geração infinita, **aumentar** a temperature para **>= 0.1** pode
-ajudar. Contraintuitivo, e por isso costuma ser a última coisa que se tenta. Só se aplica
-onde o parâmetro não é ignorado.
+ajudar — contraintuitivo, e por isso a última coisa que se tenta. Só onde o parâmetro
+não é ignorado.
 
-## topP
+## Determinismo por system instruction
 
-Default **0.95**. Ajuste **depois** da temperature, e **para baixo**. Mexer nos dois ao
-mesmo tempo torna impossível saber qual causou a mudança.
+Na geração 3.x o controle de variabilidade migrou para a *system instruction*. Não é o
+mesmo trabalho com outro nome: parâmetro estreitava a amostragem, instrução precisa
+**descrever o comportamento**.
 
-Ignorado nos flash 3.5-lite / 3.6 / 3.7, junto com `topK`.
+O que colocar, em ordem de efeito:
+
+1. **Formato exato da saída** — junto com `responseSchema`, não no lugar dele.
+2. **Critério de decisão explícito e ordenado.** "Se A e B, então X; se só A, então Y."
+   Critério implícito é onde a variabilidade entra.
+3. **O que fazer em caso de ambiguidade** — nomeie o valor de saída para o caso
+   indeterminado. Sem isso o modelo escolhe, e escolhe diferente a cada vez.
+4. **O que NÃO inferir** — "não deduza informação ausente; devolva campo nulo com o
+   motivo". Cobre a maior fonte de variação em extração.
+
+Um agente configurado assim varia menos entre execuções do que um com temperature baixa —
+e continua raciocinando, que é o que a temperature baixa quebrava.
 
 ## seed
 
-Existe em `GenerationConfig`. **Use para reprodutibilidade em avaliação auditável**: com
-o mesmo `seed` e a mesma entrada, a saída é reproduzível — o que permite reexecutar um
-caso contestado e obter o mesmo resultado.
+Existe em `GenerationConfig`. **Use para reprodutibilidade em avaliação auditável**: com o
+mesmo `seed` e a mesma entrada, a saída é reproduzível — permite reexecutar um caso
+contestado e obter o mesmo resultado.
 
 Recomendado nos perfis `extracao`, `alto-risco` e em qualquer avaliação que possa ser
-questionada depois. Não substitui registro da entrada: reproduzir exige ter guardado
-exatamente o que foi enviado.
+questionada depois. Não substitui registrar a entrada: reproduzir exige ter guardado
+exatamente o que foi enviado, mais o model id.
 
-## thinking
+## thinking_level
 
-### Linha 2.5 — `thinking_budget`
+Valores: **`MINIMAL`**, **`LOW`**, **`MEDIUM`**, **`HIGH`**. Default **`HIGH`**.
 
-| Modelo | Faixa | Desliga? |
-|---|---|---|
-| `gemini-2.5-pro` | **128 – 32768** | **não** |
-| `gemini-2.5-flash` | **0 – 24576** | sim (`0`) |
-| `gemini-2.5-flash-lite` | **512 – 24576** | não pensa por padrão |
-
-Se o plano era "desligar o thinking do Pro", não existe esse plano — a única forma é
-trocar de modelo.
-
-### Linha 3.x — `thinking_level`
-
-Valores: **`MINIMAL`**, **`LOW`**, **`HIGH`**. Default **`HIGH`**.
-
-- **Pro da linha 3.x não aceita `MINIMAL`.**
+- **`MEDIUM` entrou na linha 3.1** como degrau intermediário. Quando `LOW` erra e `HIGH`
+  custa demais, é aqui que se resolve — antes de trocar de modelo.
+- **Pro não aceita `MINIMAL`.**
 - **`MINIMAL` exige *thought signatures*.**
 
-### Regra que vale para as duas
+**Nunca envie `thinking_level` e `thinking_budget` na mesma request — devolve erro.**
+`thinking_budget` é a API da geração 2.5.
 
-**Nunca envie `thinking_budget` e `thinking_level` na mesma request — erro 400.** São a
-API antiga e a nova.
+**Tokens de thinking são cobrados como saída.** No `gemini-3.1-pro` isso é $12,00 por 1M —
+a linha mais cara da tabela. Um `HIGH` desnecessário aparece na fatura, não na latência.
 
 ## maxOutputTokens e a armadilha do thinking
 
 **Tokens de thinking contam contra `maxOutputTokens`.**
+
+No `gemini-3.1-pro` o default é **8.192** — baixo para tarefa com `thinking_level=HIGH`.
+Dimensione explicitamente.
 
 Com `responseSchema`, estourar o limite devolve:
 
@@ -91,8 +89,6 @@ finishReason    -> MAX_TOKENS
 **Sem exceção lançada.** Código que faz `json.loads(response.text)` quebra a jusante com
 `TypeError`, e o log registra "erro de parsing" — diagnóstico que manda o investigador
 para o schema em vez do orçamento de saída.
-
-Padrão correto:
 
 ```python
 resp = client.models.generate_content(...)
@@ -108,12 +104,39 @@ resultado = resp.parsed
 ```
 
 **Dimensione `maxOutputTokens` como thinking + resposta**, com folga. Meça o consumo real
-de thinking antes de escolher o número, em vez de estimar.
+de thinking antes de escolher o número.
+
+## Cache de contexto
+
+Regra estrutural: **estável primeiro, variável depois**.
+
+```
+system instruction ......... estável  ─┐
+regras / parâmetros ........ estável   ├─ prefixo candidato a cache
+exemplos ................... estável  ─┘
+──────────────────────────────
+metadados do item .......... variável
+conteúdo do item ........... variável
+```
+
+Preços de cache do `gemini-3.1-pro`: escrita **$2,00 / 1M**, leitura **$0,50 / 1M**
+(75% de desconto), armazenamento **$4,50 / 1M por hora**.
+
+**Mínimo de tokens: fontes divergem** — uma indica **4.096** para a linha 3.x e outra
+**32.768** para cache explícito no `gemini-3.1-pro`. **Confirme na documentação oficial da
+Vertex antes de dimensionar.** Esta skill não escolhe entre as duas.
+
+O que quebra o cache sem parecer que quebra: timestamp ou id de sessão no prefixo, regras
+concatenadas em ordem não determinística (ordene antes de serializar), `json.dumps` sem
+`sort_keys=True`.
+
+Feliz coincidência: essa ordem é a mesma que isola conteúdo não confiável do prompt do
+sistema. Cache e segurança pedem o mesmo layout.
 
 ## responseSchema
 
 Nos perfis de avaliação e extração, o schema deve exigir **evidência**, não só o
-resultado. Um campo booleano não é conferível; um campo que obriga a citar o trecho de
-origem permite que o código valide a saída contra o documento.
+resultado. Campo booleano não é conferível; campo que obriga a citar o trecho de origem
+permite validar a saída contra o documento.
 
-Isso é configuração de qualidade, não de segurança — mas serve às duas.
+Configuração de qualidade que serve também à segurança.

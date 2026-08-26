@@ -62,13 +62,18 @@ qualquer coisa, liste explicitamente:
   Terraform, cotas e configuração de deploy estão fora — toda mudança precisa caber
   em código de aplicação ou chamada de API feita pelo próprio código.
 
-Configuração típica deste projeto (**confirme, não assuma**): apenas família
-**Gemini 2.5**, location **`us-central1`**, e somente arquivos versionados editáveis.
+Exemplo de configuração restrita (**confirme, não assuma — não presuma que continua
+valendo**): apenas uma família de modelos liberada, location fixa, e somente arquivos
+versionados editáveis.
 
-Nesse cenário já ficam eliminados de saída: migrar para Gemini 3 e usar
-`thinking_level`, mudar de região para reduzir RTT, provisioned throughput, e trocar
-o backend de vetor por outro produto. Não gaste análise neles — diga que estão
-bloqueados e siga.
+Cada restrição confirmada elimina alavancas: região fixa elimina reduzir RTT; sem acesso
+ao projeto elimina provisioned throughput e troca de backend de vetor. **Diga quais estão
+bloqueadas e siga** — não gaste análise nelas.
+
+**Verifique especificamente quais modelos estão liberados hoje.** Se a geração 3.x
+estiver disponível, migrar para ela é alavanca legítima e costuma ser das mais fortes
+(ver alavanca 8). Se o deploy só liberar a 2.5, registre como restrição atual e trate a
+migração como pendência, não como opção descartada.
 
 ---
 
@@ -98,12 +103,13 @@ porque a alavanca de baixo parece mais interessante.
 | # | Alavanca | Ganho | Risco de precisão | Detalhe |
 |---|----------|-------|-------------------|---------|
 | 1 | Context caching do prefixo estável | Custo alto, latência média | **Nenhum** | `references/caching.md` |
-| 2 | `thinking_budget=0` no agente 1 (Flash) | Latência alta | Baixo–médio | `references/modelos.md` |
+| 2 | Baixar `thinking_level` no agente 1 | Latência alta | Baixo–médio | `references/modelos.md` |
 | 3 | Paralelizar chamadas independentes | Latência alta | **Nenhum** | `references/pipeline.md` |
 | 4 | Higiene de `maxOutputTokens` + schema | Corrige bug | Positivo | armadilha nº 1 |
 | 5 | Roteamento de modelo por agente | Custo alto | **Alto** | `references/modelos.md` |
 | 6 | Tuning de recuperação (ANN, leaf count) | Latência média | Médio | `references/retrieval.md` |
 | 7 | Enxugar prompt | Custo baixo | **Duplo** | `references/prompts.md` |
+| 8 | Migrar 2.5 → 3.x (se ainda na 2.5) | Alto, em custo e qualidade | Médio | `references/modelos.md` |
 
 Notas que mudam a decisão:
 
@@ -116,6 +122,12 @@ Notas que mudam a decisão:
   conjunto fechado de tipos de arquivo; raciocínio estendido ali é desperdício. O
   agente 2 emite veredito de compliance com justificativa — cortar thinking dele é a
   mudança mais provável de degradar precisão em todo este documento.
+  Como o default de `thinking_level` é **`HIGH`**, um pipeline que nunca setou o
+  parâmetro está pagando raciocínio máximo em todo agente: descer o agente 1 para
+  `MEDIUM` ou `LOW` costuma ser o maior ganho isolado do sistema.
+- **(8) não é troca de string.** `thinking_budget` vira `thinking_level`, e nos flash
+  recentes `temperature` deixa de ter efeito — configuração que dependia dela precisa
+  virar *system instruction*. Revalide a qualidade depois de migrar.
 - **(7) é a última porque tem risco duplo**: encurtar o prompt derruba precisão *e*
   quebra a estabilidade do prefixo que faz (1) funcionar. Se você fez (1), qualquer
   edição de prompt invalida o cache — reavalie o acerto de cache depois.
@@ -148,16 +160,17 @@ recall de violação como bloqueante mesmo que a acurácia global tenha subido.
    estourar o limite devolve `text=None` e `parsed=None` com
    `finishReason="MAX_TOKENS"` — sem exceção lançada. Se o código faz
    `json.loads(response.text)`, isso vira `TypeError` a jusante e some no log como
-   "erro de parsing". **Sempre cheque `finish_reason` antes de ler `.text`.** Dimensione
-   `maxOutputTokens` como thinking + resposta, não só resposta.
-2. **`thinking_budget` e `thinking_level` na mesma request = HTTP 400.** São a API
-   antiga (2.5) e a nova (3.x). Nunca envie os dois.
-3. **Gemini 2.5 Pro não desliga thinking.** O intervalo aceito é 128–32768; não existe
-   0. Só o Flash aceita 0 (intervalo 0–24576). Flash-Lite não pensa por padrão.
-   Se o plano era "desligar o thinking do Pro", o plano é trocar de modelo.
-4. **O preço do 2.5 Pro dobra acima de 200K tokens de contexto.** Peças grandes com
-   muitas regras injetadas cruzam esse limiar sem aviso. Aqui caching e enxugar
-   contexto pagam duas vezes.
+   "erro de parsing". **Sempre cheque `finish_reason` antes de ler `.text`.** No
+   `gemini-3.1-pro` o default de `maxOutputTokens` é **8.192**, baixo para `HIGH`.
+2. **`thinking_budget` e `thinking_level` na mesma request = erro.** São a API da
+   geração 2.5 e a da 3.x. Nunca envie os dois.
+3. **`thinking_level` default é `HIGH`.** Toda chamada sem o parâmetro usa raciocínio
+   máximo e paga por ele como token de saída. Não é bug — é escolha ativa que muita
+   gente nunca fez conscientemente.
+4. **O preço do `gemini-3.1-pro` dobra a entrada acima de 200K tokens de contexto**
+   ($2,00 → $4,00) e sobe a saída para $18,00. Peças grandes com muitas regras
+   injetadas cruzam esse limiar sem aviso. Aqui caching e enxugar contexto pagam duas
+   vezes.
 5. **Cache é prefixo, literalmente.** Um byte diferente no começo — timestamp,
    `session_id`, ordem de dicionário não determinística, regras do RAG concatenadas em
    ordem instável — e o acerto vai a zero. Ordene o que vier de coleção antes de
@@ -165,10 +178,13 @@ recall de violação como bloqueante mesmo que a acurácia global tenha subido.
 6. **ANN no `RagManagedDb` exige rebuild antes da primeira consulta**, e só um rebuild
    concorrente por projeto/região. Ligar ANN e consultar em seguida devolve resultado
    vazio ou degradado, não erro claro.
-7. **Aposentadoria anunciada**: Gemini 2.5 Pro/Flash/Flash-Lite não antes de
-   **2026-10-16** (a página de lifecycle da Vertex mostra 2026-10-20). Não é urgente,
-   mas fixe a data em código/comentário perto do model id para a migração não chegar
-   de surpresa.
+7. **`temperature` deixou de ser alavanca em boa parte da linha flash.** Em
+   `gemini-3.7-flash`, `gemini-3.6-flash` e `gemini-3.5-flash-lite` ela é **depreciada e
+   ignorada** — enviá-la não dá erro e não faz nada. Quem "fixou" temperature ali acha
+   que controlou a variabilidade e não controlou.
+8. **O preço promocional do `gemini-3.7-flash` termina em 2026-12-31** e dobra em
+   2027-01-01 ($0,75/$3,75 → $1,50/$7,50). Dimensionamento de custo feito no preço
+   promocional precisa ser revisto antes da virada.
 
 ---
 
@@ -202,8 +218,8 @@ Tratamento — detalhado em `references/prompts.md`:
 - `references/retrieval.md` — `RagManagedDb` (KNN/ANN, `tree_depth`, `leaf_count`,
   rebuild) e Vertex AI Vector Search (`leafNodeEmbeddingCount`,
   `leafNodesToSearchPercent`); como não confundir os dois.
-- `references/modelos.md` — família 2.5 vs 3.x, thinking, preços, roteamento por
-  agente, lifecycle.
+- `references/modelos.md` — modelos 3.x, `thinking_level`, preços, roteamento por
+  agente, migração a partir da 2.5.
 - `references/prompts.md` — estabilidade de prefixo, delimitação de conteúdo não
   confiável, saída estruturada, resistência a injeção.
 - `references/pipeline.md` — paralelização, saída antecipada, retry, streaming,

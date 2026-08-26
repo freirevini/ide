@@ -35,13 +35,18 @@ from pathlib import Path
 
 DESTINO_PADRAO = Path(os.getenv("TUNING_EVENTOS", "tuning_eventos.jsonl"))
 
-# modelo -> (USD por 1M de entrada, USD por 1M de saída)
+# modelo -> (USD por 1M de entrada, USD por 1M de saída) — geração 3.x
 PRECOS = {
-    "gemini-2.5-pro": (1.25, 10.00),
-    "gemini-2.5-flash": (0.30, 2.50),
-    "gemini-2.5-flash-lite": (0.10, 0.40),
+    "gemini-3.1-pro": (2.00, 12.00),
+    "gemini-3.7-flash": (0.75, 3.75),   # promocional até 2026-12-31; depois (1.50, 7.50)
+    "gemini-3.5-flash-lite": (0.30, 2.50),
+    "gemini-3-pro-image": (3.00, 15.00),
 }
-LIMIAR_CONTEXTO_LONGO = 200_000  # acima disso o 2.5 Pro cobra o dobro
+# acima deste contexto o gemini-3.1-pro passa a (4.00, 18.00)
+LIMIAR_CONTEXTO_LONGO = 200_000
+PRECO_LONGO = {"gemini-3.1-pro": (4.00, 18.00)}
+# leitura de cache do gemini-3.1-pro: $0,50/1M sobre $2,00 = 25% do preço cheio
+FATOR_CACHE = 0.25
 
 CAMPOS_DE_USO = (
     "prompt_token_count",
@@ -93,11 +98,13 @@ def custo_usd(evento: dict) -> float | None:
     entrada, saida = preco
     tokens_in = evento.get("prompt_token_count", 0)
     tokens_out = evento.get("candidates_token_count", 0) + evento.get("thoughts_token_count", 0)
-    if modelo.startswith("gemini-2.5-pro") and tokens_in > LIMIAR_CONTEXTO_LONGO:
-        entrada, saida = entrada * 2, saida * 2
+    if tokens_in > LIMIAR_CONTEXTO_LONGO:
+        for nome, (e_longo, s_longo) in PRECO_LONGO.items():
+            if modelo.startswith(nome):
+                entrada, saida = e_longo, s_longo
+                break
     cacheados = evento.get("cached_content_token_count", 0)
-    # token cacheado tem 90% de desconto
-    faturaveis_in = (tokens_in - cacheados) + cacheados * 0.10
+    faturaveis_in = (tokens_in - cacheados) + cacheados * FATOR_CACHE
     return (faturaveis_in * entrada + tokens_out * saida) / 1_000_000
 
 
