@@ -153,13 +153,17 @@ for f in escopo testes erros decisoes; do instala "$AGENTS_MD/templates/rules/$f
 instala "$AGENTS_MD/templates/rules/check.sh" .rules/check.sh
 instala "$AGENTS_MD/templates/githooks/commit-msg" .githooks/commit-msg
 if [ "$DRY" -eq 0 ]; then
-  case " $criados " in
-    *" .githooks/commit-msg "*)
-      chmod +x .githooks/commit-msg
-      [ "$(git config core.hooksPath 2>/dev/null)" = ".githooks" ] || git config core.hooksPath .githooks ;;
-    *) aviso ".githooks/commit-msg já existia: hook NÃO ativado por este script. Leia-o e, se confiar, rode: git config core.hooksPath .githooks" ;;
-  esac
+  # Ativa o hook só se ESTA execução criou o hook E o check.sh que ele executa, e se .githooks/
+  # não traz mais nada (clone pode vir com pre-commit hostil). Senão, avisa e deixa desligado.
   case " $criados " in *" .rules/check.sh "*) chmod +x .rules/check.sh ;; esac
+  hook_ok=0
+  case " $criados " in *" .githooks/commit-msg "*) case " $criados " in *" .rules/check.sh "*) hook_ok=1 ;; esac ;; esac
+  if [ "$hook_ok" -eq 1 ] && [ "$(ls -A .githooks 2>/dev/null)" = "commit-msg" ]; then
+    chmod +x .githooks/commit-msg
+    [ "$(git config core.hooksPath 2>/dev/null)" = ".githooks" ] || git config core.hooksPath .githooks
+  else
+    aviso "hook NÃO ativado: .githooks/commit-msg, .rules/check.sh ou outro arquivo em .githooks/ já existia neste clone. Leia os três e, se confiar, rode: git config core.hooksPath .githooks"
+  fi
 fi
 
 # ---------- 2. regras desta skill ----------
