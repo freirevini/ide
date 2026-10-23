@@ -130,7 +130,7 @@ Sem flags, o script detecta stack, remoto e ferramentas. Flags vencem a detecç�
 |---|---|---|
 | `AGENTS.md` | `agents-md/templates/AGENTS.md` | sempre |
 | `.rules/escopo.md`, `testes.md`, `erros.md`, `decisoes.md`, `check.sh` | `agents-md/templates/rules/` | sempre |
-| `.githooks/commit-msg` + `git config core.hooksPath .githooks` | `agents-md/templates/githooks/` | sempre |
+| `.githooks/commit-msg` + `git config core.hooksPath .githooks` | `agents-md/templates/githooks/` | sempre; o hook só é ativado (e `check.sh` só é executado) quando esta execução os criou. Já existiam no clone: aviso; leia os dois e ative à mão. Repositório clonado pode trazer hook hostil |
 | `.rules/contexto.md` | `templates/rules/contexto.md` | sempre |
 | `.rules/permissoes.md` | `templates/rules/permissoes.md` | sempre; três colunas: sozinho, pergunta, nunca |
 | `.rules/git.md` | `templates/rules/git.md` | remoto git (GitHub ou outro) |

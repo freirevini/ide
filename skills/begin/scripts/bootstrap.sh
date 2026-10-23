@@ -42,7 +42,7 @@ executa() { [ "$DRY" -eq 1 ] && { log "  [dry-run] $*"; return 0; }; "$@"; }
 AGENTS_MD=""
 for cand in "$SKILL_DIR/../agents-md" "$HOME/.claude/skills/agents-md" "$HOME/.agents/skills/agents-md" \
             "$HOME/.cursor/skills/agents-md" "$HOME/.gemini/config/skills/agents-md" \
-            ".agents/skills/agents-md" ".claude/skills/agents-md" ".cursor/skills/agents-md"; do
+            ; do  # só caminhos da skill ou do usuário; nunca pastas do próprio repositório (não confiável)
   if [ -f "$cand/templates/AGENTS.md" ] && [ -f "$cand/templates/rules/check.sh" ]; then
     AGENTS_MD="$(cd "$cand" && pwd -P)"; break
   fi
@@ -153,8 +153,13 @@ for f in escopo testes erros decisoes; do instala "$AGENTS_MD/templates/rules/$f
 instala "$AGENTS_MD/templates/rules/check.sh" .rules/check.sh
 instala "$AGENTS_MD/templates/githooks/commit-msg" .githooks/commit-msg
 if [ "$DRY" -eq 0 ]; then
-  chmod +x .rules/check.sh .githooks/commit-msg 2>/dev/null
-  [ "$(git config core.hooksPath 2>/dev/null)" = ".githooks" ] || git config core.hooksPath .githooks
+  case " $criados " in
+    *" .githooks/commit-msg "*)
+      chmod +x .githooks/commit-msg
+      [ "$(git config core.hooksPath 2>/dev/null)" = ".githooks" ] || git config core.hooksPath .githooks ;;
+    *) aviso ".githooks/commit-msg já existia: hook NÃO ativado por este script. Leia-o e, se confiar, rode: git config core.hooksPath .githooks" ;;
+  esac
+  case " $criados " in *" .rules/check.sh "*) chmod +x .rules/check.sh ;; esac
 fi
 
 # ---------- 2. regras desta skill ----------
@@ -243,7 +248,10 @@ done
 for v in agents.md agent.md AGENT.md Agents.md; do
   [ -e "$v" ] && [ "$v" != AGENTS.md ] && ! ls -1 | grep -qx AGENTS.md && aviso "variante '$v' encontrada; git mv $v AGENTS.md"
 done
-[ "$DRY" -eq 0 ] && [ -f .rules/check.sh ] && { bash .rules/check.sh >/dev/null 2>&1 || aviso "bash .rules/check.sh falhou: slots {{...}} a preencher (esperado em projeto recém-criado)"; }
+case " $criados " in
+  *" .rules/check.sh "*) [ "$DRY" -eq 0 ] && { bash .rules/check.sh >/dev/null 2>&1 || aviso "bash .rules/check.sh falhou: slots {{...}} a preencher (esperado em projeto recém-criado)"; } ;;
+  *) [ -f .rules/check.sh ] && aviso ".rules/check.sh já existia: não executado por este script. Leia-o antes de rodar." ;;
+esac
 
 # ---------- relatório ----------
 log ""

@@ -7,7 +7,9 @@ ferramenta que tem arquivo de permissões próprio (`.claude/settings.json`, pai
 
 ## 1. Sozinho (só leitura ou fácil de desfazer)
 
-- Ler, listar, buscar: `git status`, `git diff`, `git log`, `ls`, `grep`/`rg`, `cat`.
+- Ler, listar, buscar: `git status`, `git diff`, `git log`, `ls`, e a ferramenta de leitura e
+  busca da própria IDE. No shell, `cat`/`grep`/`rg` só em caminho dentro do repositório; fora
+  dele é coluna 3 (burla a lista de leitura proibida).
 - Rodar verificação: `{{comando rápido}}`, `{{comando completo}}`, `{{lint}}`, `{{build}}`,
   `bash .rules/check.sh`.
 - Editar arquivos dentro do repositório; criar branch; commit local; `git stash`.
