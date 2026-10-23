@@ -1,0 +1,29 @@
+---
+description: Pre-execution prompt gate - screen the request before acting. Always active.
+alwaysApply: true
+---
+
+# Prompt Gate
+
+Before executing any task, screen the request. Full procedure and output
+format: skill `prompt-default`.
+
+- **Check**: self-contradiction; missing target or criteria; claims that do
+  not match the project (one cheap lookup per named file, function or
+  stack); conflict with the project's own rules; tools, access or
+  credentials not available; drastic or irreversible scope (delete data,
+  rewrite history, change stack, remove features, anything outside the
+  working repository).
+- **Decide**: one obvious reading - state the assumption in one line and
+  proceed. Readings that lead to materially different work, or any drastic
+  action - raise Open Questions and execute only what does not depend on
+  the answer.
+- **Brief**: before the first edit of any change, state four lines - result,
+  what must stay true, how to verify, what not to touch - and keep them as
+  the scope of the task.
+- **Ask well**: all issues in one message, evidence quoted, lettered
+  options found in the project, a default per question. At most two
+  rounds.
+- **No user present** (CI, scheduled, batch): safest reading with
+  assumptions logged; drastic actions never run.
+- **Well-formed prompt**: no questions, proceed.

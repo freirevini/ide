@@ -1,6 +1,9 @@
 ---
 name: clean-code-review
-description: Clean-code review that first minimizes the number of files (merging/incorporating them), then shrinks the code inside the resulting files. Scales from simple projects (single pass) to large codebases (staged reading in batches with 'continuar' checkpoints). Use when the user asks to review, clean up, or slim down code with a clean-code focus. Never changes external behavior.
+description: Clean-code review that first minimizes the number of files (merging/incorporating them), then shrinks the code inside the resulting files, keeping the result legible for the next agent (names that grep clean, why-comments with provenance kept, errors that name the failing value). Scales from simple projects (single pass) to large codebases (staged reading in batches with 'continuar' checkpoints). Use when the user asks to review, clean up, or slim down code with a clean-code focus, "revisa o clean code", "enxuga o código", "reduz os arquivos". Never changes external behavior.
+metadata:
+  version: 1.1.0
+  type: procedure
 ---
 
 # Clean Code Review
@@ -66,13 +69,21 @@ even if the consolidated file becomes longer.
 
 ## Phase 2 — Reduce CODE SIZE (only inside the final files from Phase 1)
 For each remaining file, in this order:
-1. REMOVE what is unnecessary: dead code, unused imports/exports, redundant comments,
-   needless boilerplate, premature abstractions.
+1. REMOVE what is unnecessary: dead code, unused imports/exports, comments that only
+   restate the code, needless boilerplate, premature abstractions. Keep every comment
+   that says *why* (workaround, business constraint, issue number, commit): a rewrite
+   never strips provenance, and adds one wherever the rewrite leaves an odd line.
 2. REWRITE more objectively: shorter equivalent constructs, deduplicated logic,
-   simplified conditionals — same behavior, fewer lines.
+   simplified conditionals (guard clauses over nesting) — same behavior, fewer lines.
+   Keep it legible for the next agent: a name whose grep hits are mostly this concept,
+   judged against the project's own naming; explicit types or signatures where the
+   project already declares them; error messages that carry the offending value and
+   the expected shape. No fixed numbers: heuristics measured against the project,
+   see `forever-clean/references/signals.md` section 7.
 3. FLAG (do not silently change) ambiguity and unnecessary redundancy that requires
    a human decision: unclear names, duplicated business logic with subtle differences,
-   contradictory comments.
+   contradictory comments, odd lines whose why is unknown (flag to document, never
+   delete the hint).
 
 ## Final report
 End with a summary: files before → after (with the merge map), lines before → after

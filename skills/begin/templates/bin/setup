@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# bin/setup — leva uma máquina limpa até o estado em que os testes rodam. Idempotente:
+# rodar duas vezes não falha nem repete trabalho. Comandos vêm de AGENTS.md (seção Comandos);
+# mudou lá, mude aqui no mesmo commit.
+set -eu
+cd "$(dirname "$0")/.."
+
+passo() { printf '\n== %s\n' "$*"; }
+precisa() {  # precisa COMANDO [versão mínima]: falha com instrução clara se faltar
+  command -v "$1" >/dev/null 2>&1 || { printf 'falta %s%s; instale e rode de novo\n' "$1" "${2:+ (>= $2)}" >&2; exit 1; }
+}
+
+passo "ferramentas"
+precisa git
+precisa {{ferramenta da stack: python3 | node | go | cargo | java | dotnet}} {{versão mínima, ou apague}}
+
+passo "dependências"
+{{comando de instalação, ex.: npm ci | uv sync | pip install -r requirements.txt | go mod download}}
+
+passo "ambiente"
+if [ ! -f .env ] && [ -f .env.example ]; then
+  cp .env.example .env && echo "criado .env a partir de .env.example; preencha {{quais variáveis}}"
+fi
+[ "$(git config core.hooksPath 2>/dev/null)" = ".githooks" ] || git config core.hooksPath .githooks
+
+passo "verificação"
+{{comando rápido de teste}}
+bash .rules/check.sh
+
+echo
+echo "setup: ok. Próximo: {{comando de rodar local}}"

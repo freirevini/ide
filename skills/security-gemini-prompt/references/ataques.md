@@ -81,21 +81,38 @@ o mesmo; o que não se reusa é o histórico de turnos.
 
 ## Cryptographic Context Injection
 
-Adversa AI, agosto/2026. O payload trafega **cifrado**: o classificador de conteúdo não lê
-texto cifrado, o modelo decifra em runtime e age sobre o resultado.
+Adversa AI (Rony Utevsky), relatório de 2026-08-20; parte do Gemini conduzida em março de
+2026. O payload trafega **cifrado** (AES, base64): o classificador de conteúdo não lê texto
+cifrado, o modelo decifra em runtime e age sobre o resultado. São **dois casos distintos**,
+e a skill não os mistura:
 
-Fluxo: payload cifrado + chave numa página → usuário pede resumo → o modelo executa a
-decifragem → instruções decifradas direcionam extração de dado da sessão → dado sai como
-query string de uma navegação.
+**Caso Grok (injeção indireta, exfiltração).** Payload cifrado + chave numa página → usuário
+pede resumo → o modelo decifra → instruções decifradas direcionam extração de dado da sessão
+(nome, localização, plano, histórico) → dado sai como query string de uma navegação
+automática. **Grok 4.5 Fast: 40% de sucesso em 20 tentativas**, zero-click. Sem CVE e sem
+patch anunciados até 2026-08-20.
 
-**Grok 4.5 Fast: 40% de sucesso em 20 tentativas.** **Gemini 3 Flash Web demonstrado
-vulnerável em modo Deep Thinking.** GPT-5 falhou em parsear as instruções; Claude Sonnet
-4.5 decifrou e **sinalizou como prompt injection**.
+**Caso Gemini (prompt direto, bypass de filtro).** Um **prompt digitado pelo usuário** na
+interface pública, em modo Deep Thinking, instrui o modelo a **executar um script Python**
+que decifra o texto fornecido; o conteúdo decifrado é uma instrução que os filtros de
+segurança normalmente suprimem. Modelo identificado como **Gemini 3 Flash (Web)**, plano
+pago. Resultado: jailbreak (conteúdo restrito, reprodução de instruções de sistema). **Não
+houve página externa, não houve exfiltração.** O veículo é o **runtime de execução de
+código**, não o raciocínio estendido em si. Adversa reporta que a taxa de sucesso "caiu
+significativamente" até agosto.
+
+GPT-5 falhou em parsear as instruções; Claude Sonnet 4.5 decifrou e **sinalizou como
+prompt injection**.
+
+**O que isso muda para um projeto Gemini/Vertex**: a superfície relevante é **conteúdo não
+confiável + ferramenta de execução de código no mesmo contexto**. Sem ferramenta de
+execução, o caso Gemini não se reproduz; com ela, vale a Rule of Two (F-20).
 
 **Mitigações recomendadas**: alertar sobre **sequências** (blob opaco + instrução de
-decodificação no mesmo documento), não sobre payload isolado; manter conteúdo não
-confiável em contexto sem ferramentas nem credenciais; registrar traço de ferramenta por
-sessão com argumentos resolvidos.
+decodificação ou de execução no mesmo documento), não sobre payload isolado; manter conteúdo
+não confiável em contexto **sem ferramentas nem credenciais**; registrar traço de ferramenta
+por sessão com argumentos resolvidos. `scripts/red_team_local.py` tem a família `execucao`
+para medir o detector contra esse padrão.
 
 ## Envenenamento da base de conhecimento
 
@@ -124,8 +141,13 @@ e uso em escala é histórico, não permanente.
 - arXiv 2510.09023 — The Attacker Moves Second
 - arXiv 2606.09005 — Document-Authored Control-Signal Impersonation
 - arXiv 2601.05742 — The Echo Chamber Multi-Turn LLM Jailbreak
+- adversa.ai/blog/cryptographic-context-injection-grok-data-theft (relatório original, 2026-08-20)
 - thehackernews.com/2026/08/new-cryptographic-context-injection.html
 - blog.google/security/prompt-injections-web
+- cloud.google.com/blog/products/ai-machine-learning/gemini-4-argon-available-on-google-cloud
+
+Verificado em 2026-10-23: DACSI (arXiv 2606.09005) e Cryptographic Context Injection
+(Adversa) conferidos na fonte; demais números mantidos da versão anterior.
 
 ---
 
@@ -138,22 +160,32 @@ A superfície não encolheu; mudou de forma.
 - **DACSI** — `Gemini 3.1 Pro Low` mostra risco seletivo: a condição `A_OFFICIAL_NOTE`
   sobe de 0% de baseline para **13,5–14,0%**. Modelo mais capaz não elimina a
   impersonação de sinal de controle; ele apenas exige um payload mais bem formulado.
-- **Cryptographic Context Injection** — **`Gemini 3 Flash Web` demonstrado vulnerável em
-  modo Deep Thinking**. O raciocínio estendido é o próprio veículo: o modelo decifra o
-  payload em runtime e age sobre o resultado.
+- **Cryptographic Context Injection** — **`Gemini 3 Flash (Web)` demonstrado vulnerável em
+  modo Deep Thinking a um prompt direto que manda executar código para decifrar o payload**
+  (bypass de filtro; sem página externa, sem exfiltração — ver a seção acima). O veículo é
+  a **ferramenta de execução de código** no mesmo contexto que o conteúdo cifrado.
 
-**Consequência de configuração, específica da 3.x:**
+**Consequência de configuração, específica da 3.x e 4:**
 
-- **`thinking_level` default é `HIGH`.** Mais raciocínio ajuda a resistir a injeção
-  imperativa — e é exatamente o que a Cryptographic Context Injection explora. Não trate
-  thinking alto como defesa; trate como capacidade neutra.
-- **`thinking_level=MINIMAL` exige *thought signatures*** e não é aceito pelo Pro.
-  Se alguém propuser `MINIMAL` para reduzir a superfície de raciocínio, saiba que
-  a troca é por menos capacidade de detectar a manipulação, não por mais segurança.
-- **`temperature` deixou de ser alavanca** em `gemini-3.7-flash`, `gemini-3.6-flash` e
-  `gemini-3.5-flash-lite` (depreciada e ignorada). Qualquer defesa que dependesse de
-  temperature baixa para "estabilizar" o comportamento **não está funcionando** nesses
-  modelos, e provavelmente nunca esteve.
+- **`thinking_level` é capacidade neutra, não camada.** O default é por modelo (MEDIUM em
+  4 Argon e Flash 3.5 a 3.8; HIGH só no 3.1 Pro preview). Mais raciocínio ajuda a resistir
+  a injeção imperativa e também executa com mais afinco uma instrução de decifrar que o
+  modelo aceitou. Não trate thinking alto como defesa nem thinking baixo como redução de
+  superfície.
+- **`thinking_level=MINIMAL`** só existe em 3.6, 3.5, 3.5-lite, 3.1-lite e 3 Flash; em 4
+  Argon, 3.8, 3.7 e 3.1 Pro devolve erro. Se alguém propuser `MINIMAL` para reduzir a
+  superfície de raciocínio, a troca é por menos capacidade de detectar a manipulação, não
+  por mais segurança.
+- **`temperature`, `topP` e `topK` deixaram de ser alavanca** em `gemini-4-argon`,
+  `gemini-3.8-flash`, `gemini-3.7-flash`, `gemini-3.6-flash` e `gemini-3.5-flash-lite`
+  (ignorados hoje; o guia oficial manda remover; HTTP 400 em geração futura — no 4 Argon,
+  `candidate_count`/`frequency_penalty`/`presence_penalty` já devolvem 400). Qualquer
+  defesa que dependesse de temperature baixa para "estabilizar" o comportamento **não está
+  funcionando** nesses modelos, e provavelmente nunca esteve.
+- **Ids atuais na Vertex (2026-10-23)**: `gemini-4-argon` (GA), `gemini-3.8-flash` (GA),
+  `gemini-3.1-pro-preview` (preview). O Google descreve o 4 Argon como "our most resilient
+  model yet against indirect prompt injections" — **sem número publicado**. É hardening
+  herdado, não camada configurável; nada nesta skill muda por causa dele.
 - **`media_resolution` por parte** dá uma superfície nova: conteúdo malicioso escondido em
   imagem só é percebido se a parte for enviada em resolução suficiente. Resolução baixa
   numa parte não confiável esconde o payload do classificador e do modelo — mas não do

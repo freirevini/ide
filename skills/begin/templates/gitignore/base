@@ -1,0 +1,32 @@
+# --- begin: base (qualquer stack) ---
+# segredos e configuração local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+credentials*.json
+service-account*.json
+# sistema operacional e editor do usuário
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+# logs, temporários, caches genéricos
+*.log
+logs/
+tmp/
+.cache/
+# dados que não são do repositório
+*.sqlite
+*.sqlite3
+*.db
+*.dump
+*.bak
+# nunca ignore: AGENTS.md .rules/ .doc/ .githooks/ .github/ (contrato e handoff; ver .rules/contexto.md §7)

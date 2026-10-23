@@ -1,0 +1,22 @@
+---
+description: Keeps skills/SKILLS.txt (name, objective, usage context of every skill) in sync whenever a SKILL.md is created, changed or removed.
+globs: skills/**/SKILL.md
+---
+
+# Skills Index
+
+`skills/SKILLS.txt` is a generated table: one row per `skills/<name>/SKILL.md`
+with name (version), objective and the summarized context in which the skill
+is used. Source of every cell is the frontmatter (`name`, `description`,
+`metadata.version`). Never edit `SKILLS.txt` by hand.
+
+- After creating, changing or deleting any `SKILL.md`, run
+  `python3 skills/scripts/skills-index.py` and commit `skills/SKILLS.txt`
+  together with the skill.
+- `python3 skills/scripts/skills-index.py --check` exits 1 when the index is
+  stale. Run it before declaring a skill change done.
+- The generator takes the first sentence of `description` as the objective
+  and the text from "Use when" / "Use quando" / "Triggers" as the context.
+  Write descriptions in that shape; bump `metadata.version` on every change.
+- Claude Code: the `PostToolUse` hook in `.claude/settings.json` regenerates
+  the index after each edit of a `SKILL.md`. Other tools: run the command.

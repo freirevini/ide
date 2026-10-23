@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 """Passo 0 — varre o projeto e imprime o que já está configurado.
 
-Reporta model ids, locations, tipos de arquivo tratados e presença de responseSchema,
-thinking e cache de contexto, com arquivo:linha. Heurístico: confirme lendo o código.
+Reporta model ids (literais, env vars, config), locations, tipos de arquivo tratados e
+presença de responseSchema, thinking e cache de contexto, com arquivo:linha. Marca ids
+depreciados/retirados e amostragem enviada a modelo que a ignora (references/modelos.md,
+verificado em 2026-10-23). Heurístico: confirme lendo o código.
 
 Uso:
     python inspecionar_agentes.py <raiz_do_projeto> [--json]
@@ -26,7 +28,8 @@ EXTENSOES = {".py", ".ts", ".js", ".java", ".kt", ".go", ".yaml", ".yml", ".toml
 
 PADROES: dict[str, list[tuple[str, str]]] = {
     "model_id": [
-        ("literal", r"[\"']gemini-[0-9][A-Za-z0-9.\-_]*[\"']"),
+        ("literal", r"[\"']gemini-[a-z0-9][A-Za-z0-9.\-_]*[\"']"),
+        ("env", r"(?m)^\s*[A-Z0-9_]+\s*=\s*[\"']?gemini-[a-z0-9][A-Za-z0-9.\-_]*"),
         ("via config", r"(?i)\b(model|model_name|model_id)\s*[:=]\s*(os\.|settings|config|MODEL)"),
     ],
     "location": [
@@ -43,7 +46,18 @@ PADROES: dict[str, list[tuple[str, str]]] = {
         ("geração de imagem", r"response_modalities|responseModalities|ImageConfig|image_size"),
     ],
     "geracao_legada": [
-        ("model id 2.5", r"[\"']gemini-2\.5[A-Za-z0-9.\-_]*[\"']"),
+        ("gemini-2.5 (retirado da Vertex em 2026-10-20)", r"gemini-2\.[05][A-Za-z0-9.\-_]*"),
+        ("gemini-3.7-flash (depreciado; retira 2027-01-28 → gemini-3.8-flash)", r"gemini-3\.7-flash"),
+        ("gemini-3.6-flash (retira 2026-11-19 → gemini-3.8-flash)", r"gemini-3\.6-flash"),
+        ("gemini-3.1-pro sem -preview (id inexistente na Vertex; use gemini-3.1-pro-preview)",
+         r"gemini-3\.1-pro(?![-a-z])"),
+        ("gemini-3.1-flash-image (depreciado → gemini-nano-banana-2.1)", r"gemini-3\.1-flash-image"),
+        ("gemini-omni-flash-preview (depreciado 2026-09-30 → gemini-omni-1.1-flash)",
+         r"gemini-omni-flash-preview"),
+    ],
+    "amostragem_ignorada": [
+        ("modelo que ignora temperature/topP/topK",
+         r"gemini-(4-argon|3\.8-flash|3\.7-flash|3\.6-flash|3\.5-flash-lite)"),
     ],
     "schema": [
         ("response_schema", r"response_schema|responseSchema"),
@@ -94,15 +108,12 @@ PASSO_0 = [
     ("4c. cache de contexto", ["cache"]),
 ]
 
-# categorias que, se presentes, indicam pendência de migração para a geração 3.x
-LEGADO = {
-    "geracao_legada": "model id da geração 2.5 — esta skill recomenda migrar para 3.x",
-}
-
-
 def arquivos(raiz: Path):
     for c in raiz.rglob("*"):
-        if c.is_file() and c.suffix in EXTENSOES and not IGNORAR & set(c.parts):
+        if not c.is_file() or IGNORAR & set(c.parts):
+            continue
+        # ".env" e ".env.local" têm suffix vazio ou ".local": checar pelo nome
+        if c.suffix in EXTENSOES or c.name.startswith(".env"):
             yield c
 
 
@@ -145,12 +156,24 @@ def pendencias(rel: dict) -> list[str]:
             continue
         if not any(rel["achados"].get(c) for c in cats):
             faltando.append(f"{desc}: sem evidência no projeto")
-    for cat, msg in LEGADO.items():
-        if rel["achados"].get(cat):
-            onde = rel["achados"][cat][0]["onde"]
-            faltando.append(f"LEGADO. {msg} (ex.: {onde})")
+    vistos: set[str] = set()
+    for h in rel["achados"].get("geracao_legada", []):
+        if h["rotulo"] in vistos:
+            continue
+        vistos.add(h["rotulo"])
+        faltando.append(f"LEGADO. {h['rotulo']} (ex.: {h['onde']}) — ver references/modelos.md")
     if any(h["rotulo"].startswith("thinking_budget") for h in rel["achados"].get("thinking", [])):
-        faltando.append("LEGADO. thinking_budget é a API 2.5; na 3.x use thinking_level")
+        faltando.append("LEGADO. thinking_budget é a API 2.5; na 3.x use thinking_level "
+                        "(no 4 Argon devolve HTTP 400)")
+
+    amostragem = [h for h in rel["achados"].get("amostragem", [])
+                  if h["rotulo"] in ("temperature", "top_p / top_k")]
+    ignorantes = rel["achados"].get("amostragem_ignorada", [])
+    if amostragem and ignorantes:
+        faltando.append(
+            f"MIGRAÇÃO. temperature/top_p/top_k enviados ({amostragem[0]['onde']}) a modelo que os "
+            f"ignora ({ignorantes[0]['onde']}): hoje sem efeito, HTTP 400 em geração futura — remova; "
+            "determinismo vai para thinking_level + response_schema + system instruction")
 
     problematicos = [e for e in rel["tipos_de_arquivo"] if "NÃO é tipo" in ARQUIVOS[e]]
     if problematicos and not rel["conversao_extracao"]:
@@ -190,7 +213,8 @@ def imprimir(rel: dict, faltando: list[str]) -> None:
     print("\n## Passo 0")
     if faltando:
         print("  PENDÊNCIAS — itens 'sem evidência': PERGUNTE ao usuário, não assuma."
-              "\n              itens 'LEGADO': migração para a geração 3.x pendente.")
+              "\n              itens 'LEGADO' e 'MIGRAÇÃO': id ou parâmetro a migrar "
+              "(references/modelos.md).")
         for f in faltando:
             print(f"    - {f}")
     else:

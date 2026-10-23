@@ -1,0 +1,7 @@
+# --- begin: go ---
+bin/
+*.exe
+*.test
+*.out
+vendor/
+coverage.out

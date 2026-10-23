@@ -1,0 +1,176 @@
+SKILLS.txt - índice das skills desta pasta (GERADO; não edite à mão)
+Regenerar: python3 skills/scripts/skills-index.py   Conferir: python3 skills/scripts/skills-index.py --check
+Fonte: frontmatter (name, description, metadata.version) de cada skills/<nome>/SKILL.md.
+Objetivo = primeira frase da description. Contexto = trecho "Use quando / Use when / Triggers" resumido.
+Skills: 25
+
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| nome skill (versão)      | objetivo                                                 | contexto para ser utilizada (resumido)                       |
++==========================+==========================================================+==============================================================+
+| agents-md (2.1.0)        | Cria, audita e mantém o contrato de qualquer projeto com | Use quando pedirem "cria o AGENTS.md", "configura o projeto  |
+|                          | qualquer IA de código — um `AGENTS.md` na raiz mais a    | para IA", "regras para o agente", "pasta .rules", "revisa o  |
+|                          | pasta `.rules/` (escopo, testes, erros, decisões) — para | AGENTS.md", "o agente repetiu o erro", "mudou o que eu não   |
+|                          | o agente entender o contexto, não repetir erro já        | pedi", "toda correção gera teste", ou ao abrir projeto novo  |
+|                          | corrigido e não ...                                      | em qualquer IDE com IA.                                      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| begin (1.1.0)            | Inicia qualquer projeto — pasta vazia, repositório       | Use quando pedirem "começar projeto", "iniciar projeto",     |
+|                          | recém-clonado ou código em andamento sem contrato de IA  | "novo projeto", "preparar o repositório para IA", "setup     |
+|                          | — com o mínimo para que qualquer IA de código (Claude    | inicial", "bootstrap", "kickoff", "primeiro commit", ao      |
+|                          | Code, Cursor, Antigravity, Gemini CLI, Copilot, Codex,   | criar pasta nova, ao clonar repositório sem `AGENTS.md`, ou  |
+|                          | Aider ou outra) entenda ...                              | ao abrir pela primeira vez um projeto em qualquer IDE com    |
+|                          |                                                          | IA.                                                          |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| calculos-python          | Review numeric calculations for decimal rounding         | Use when the user asks to review, validate, or debug         |
+|                          | integrity across Python, PySpark/Databricks, BigQuery,   | calculations (division, trends, means, weighted means,       |
+|                          | and Excel sources.                                       | outlier-trimmed means, subtractive derivation, percentage    |
+|                          |                                                          | multiplication) where rounding differences between steps     |
+|                          |                                                          | could change final results.                                  |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| clean-code-review        | Clean-code review that first minimizes the number of     | Use when the user asks to review, clean up, or slim down     |
+| (1.1.0)                  | files (merging/incorporating them), then shrinks the     | code with a clean-code focus, "revisa o clean code", "enxuga |
+|                          | code inside the resulting files, keeping the result      | o código", "reduz os arquivos". Never changes external       |
+|                          | legible for the next agent (names that grep clean, why-  | behavior.                                                    |
+|                          | comments with provenance ...                             |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| codemap (1.0.0)          | Builds and refreshes a hierarchical map of an unfamiliar | Use when asked to "map this codebase", "create a codemap",   |
+|                          | repository for any AI and any stack, only on explicit    | "document the architecture for agents", "refresh the         |
+|                          | request because it is expensive.                         | codemap", "mapear o repositório", "cria o codemap",          |
+|                          |                                                          | "atualiza o mapa do código", or when onboarding into a large |
+|                          |                                                          | unknown repository. Not for routine feature work, not for    |
+|                          |                                                          | small repositories that fit in one ...                       |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| context-in (1.3.0)       | Carrega o contexto de uma task gravado em `.doc/<nome-   | Use no início de um chat em projeto com pasta `.doc`, e      |
+|                          | da-task>.md` por outra IA/IDE (via `context-out`, em     | quando pedirem "retomar task X", "carregar contexto",        |
+|                          | Claude Code, Cursor, Antigravity, Gemini CLI ou Copilot) | "continuar de onde parou", "aplicar as correções da          |
+|                          | e o adota como base da conversa atual, sem repetir       | revisão", "continuando o que a outra IA começou", "a outra   |
+|                          | explicação já coberta ...                                | sessão caiu".                                                |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| context-out (1.3.0)      | Grava o contexto de uma task em `.doc/<nome-da-task>.md` | Use ao encerrar ou pausar uma etapa, ao trocar de            |
+|                          | para handoff em cadeia entre IAs/IDEs diferentes (Claude | ferramenta/modelo, antes de passo longo que pode estourar    |
+|                          | Code, Cursor, Antigravity, Gemini CLI, Copilot) —        | cota, e quando pedirem "salvar contexto", "gerar handoff",   |
+|                          | objetivo, mudanças realizadas, decisões técnicas,        | "documentar essa task", "registrar a revisão", "checkpoint", |
+|                          | pendências e contexto ...                                | "salva onde parei", "vou continuar no                        |
+|                          |                                                          | Cursor/Antigravity/outra IDE".                               |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| debug-ledger (1.0.0)     | Investigation protocol for hard, intermittent or long-   | Use when a bug resists the first fix, reproduces only        |
+|                          | running bugs in any codebase with any AI.                | sometimes, spans many components or logs, when the agent     |
+|                          |                                                          | keeps proposing the same change, or when asked to            |
+|                          |                                                          | "investigate this bug", "it's intermittent", "we tried that  |
+|                          |                                                          | already", "start a debug log", "investigar esse bug", "não   |
+|                          |                                                          | reproduz sempre", "já tentamos isso" ...                     |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| dependency-bump (1.0.0)  | Fast, safe path for bot-authored dependency-only pull    | Use when asked to "merge the dependabot PRs", "clear the     |
+|                          | requests (Dependabot, Renovate and similar) on any       | dependency bumps", "update dependencies from the bot PRs",   |
+|                          | forge, any package manager and any AI.                   | "atualiza as dependências do dependabot", "fecha os PRs de   |
+|                          |                                                          | bump", "mergeia os bumps". Not for PRs touching application  |
+|                          |                                                          | code, migrations, container files, CI or non-dependency      |
+|                          |                                                          | config (ticket-audit), nor ...                               |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| eval-rubric (1.0.0)      | Scores an AI-produced deliverable (generated codebase,   | Use when asked to "evaluate this output", "score the         |
+|                          | PR, document, pipeline output, agent run) against a      | generated project", "which model did better", "grade this    |
+|                          | weighted rubric where every point carries a file:line or | PR", "audit the agent run", "avalie o resultado", "dê uma    |
+|                          | command-output proof.                                    | nota", "pontue o projeto gerado", "qual modelo foi melhor",  |
+|                          |                                                          | or when an A/B of prompts or models needs a number. Not for  |
+|                          |                                                          | reviewing human-written code ...                             |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| forever-clean (2.1.0)    | Edit-over-create and shape discipline for any codebase.  | Use when adding or changing code, whenever the agent is      |
+|                          |                                                          | about to create a new file, when asked to "simplify the      |
+|                          |                                                          | repo", "clean this up", "this file is too big", "too many    |
+|                          |                                                          | files", "don't create new files", or when reviewing code for |
+|                          |                                                          | integrity and functionality.                                 |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| gemini-vertex-tuning     | Otimiza latência e custo de pipelines de agentes         | Use quando pedirem "otimizar latência do agente", "a         |
+|                          | Gemini/Vertex AI (classificação de arquivos + avaliação  | avaliação está lenta", "reduzir custo Vertex", "ajustar o    |
+|                          | com RAG) sem degradar a precisão dos vereditos — via     | RAG", "trocar de modelo Gemini"; quando aparecer             |
+|                          | context caching, ajuste de thinking budget, roteamento   | finishReason=MAX_TOKENS ou parsed=None em saída estruturada; |
+|                          | de modelo, tuning de ...                                 | ou quando uma peça burlar o avaliador por injeção de prompt. |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| lab-ui                   | Best-practices review for ipywidgets UI architecture in  | Use when the user asks to review, refine, or extend notebook |
+|                          | Databricks notebooks - thin notebooks over a facade,     | UI code following this architecture.                         |
+|                          | native-control allowlist, factory+chrome pattern,        |                                                              |
+|                          | idempotent mount, state/render separation, sync-kernel   |                                                              |
+|                          | performance (hold_sync ...                               |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| llm-in-tests (1.0.0)     | Makes a system that calls an LLM (classification,        | Use when asked to "test the LLM pipeline", "mock the model", |
+|                          | extraction, generation, agents, RAG) testable and cheap  | "tests are flaky because of the AI", "cache model responses  |
+|                          | to test, for any provider (OpenAI, Anthropic,            | in tests", "set up a golden set", "the prompt changed, what  |
+|                          | Gemini/Vertex, local models) and any language.           | broke", "testar o pipeline com LLM", "como testar a chamada  |
+|                          |                                                          | do modelo", "teste intermitente por causa da IA", "mockar o  |
+|                          |                                                          | Gemini/OpenAI" ...                                           |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| post-merge-audit (1.0.0) | Audits the combined default-branch state after a batch   | Use when more than a few tickets landed in one session,      |
+|                          | of merges or before a deploy or release, on any forge    | before tagging, deploying or publishing, or when asked "is   |
+|                          | and with any AI.                                         | main ready to release?", "check main after the merges",      |
+|                          |                                                          | "audit the batch", "o main está pronto pra release?",        |
+|                          |                                                          | "audita o lote que entrou", "revisa o que foi mergeado". Not |
+|                          |                                                          | for individual PRs or issues ...                             |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| prompt-default (2.1.0)   | Pre-execution prompt gate for any project and any AI.    | Use on every task before executing, and especially when the  |
+|                          |                                                          | prompt names files, functions or routes that may not exist,  |
+|                          |                                                          | mixes contradictory instructions ("delete it and update      |
+|                          |                                                          | it"), uses vague verbs without a target ("improve", "fix     |
+|                          |                                                          | it", "arruma isso"), asks to delete, rewrite, migrate or     |
+|                          |                                                          | change the stack, conflicts ...                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| reflect (1.0.0)          | Learns from repeated work and turns it into the smallest | Use after a batch of work, at the end of a sprint, when      |
+|                          | useful asset, for any project and any AI.                | asked "what should become a skill?", "learn from this        |
+|                          |                                                          | session", "we keep doing this by hand", "audit my skills",   |
+|                          |                                                          | "kaizen", "o que vira regra?", "revisa as skills", "aprende  |
+|                          |                                                          | com essa sessão", "melhoria contínua". Not for ordinary      |
+|                          |                                                          | implementation, one-off debugging ...                        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| release (1.0.0)          | Cuts and publishes a version of any project with any AI. | Use when asked to "release", "cut a minor", "ship a patch",  |
+|                          |                                                          | "publish v2.1", "tag the version", "finalize the changelog   |
+|                          |                                                          | for this version", "lança a versão", "corta uma release",    |
+|                          |                                                          | "publica a 1.4", "fecha o changelog". Not for landing fixes  |
+|                          |                                                          | or merging tickets (that is `ticket-resolution`), not for    |
+|                          |                                                          | auditing a batch on its ...                                  |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| rules-default            | Audit, fix, and create Cursor rules                      | Use when the user asks to review rule formatting,            |
+|                          | (.cursor/rules/*.mdc).                                   | standardize rules, or create a new rule. Reads every         |
+|                          |                                                          | existing rule first; if a requested rule already exists or   |
+|                          |                                                          | its content is spread across other rules, raises an Open     |
+|                          |                                                          | Question instead of creating a duplicate.                    |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| security-gemini-prompt   | Audita um projeto que usa LLM Gemini/Vertex AI,          | Use quando pedirem "auditar segurança do projeto Gemini",    |
+| (2.1.0)                  | identifica fragilidades de segurança contra prompt       | "achar fragilidades de prompt injection", "hardening do      |
+|                          | injection direta e indireta, e as corrige.               | RAG", "proteger contra injeção", "instruction hierarchy",    |
+|                          |                                                          | "configurar Model Armor"; quando conteúdo de entrada         |
+|                          |                                                          | conseguir dobrar o comportamento do sistema; ou ao revisar   |
+|                          |                                                          | como conteúdo não confiável entra ...                        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| ticket-audit (1.0.0)     | Audits pull requests and issues before any code is       | Use when asked to audit, review, triage, validate or         |
+|                          | written or merged, on any forge (GitHub, GitLab,         | prioritize PRs or issues, to decide whether a PR is safe to  |
+|                          | Bitbucket, Azure DevOps) and with any AI.                | merge, or to process an open backlog; triggers - "audit this |
+|                          |                                                          | PR", "review the open PRs", "triage the issues", "is this    |
+|                          |                                                          | safe to merge?", "audita os PRs", "revisa as issues          |
+|                          |                                                          | abertas", "pode fazer merge?", "faz ...                      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| ticket-resolution        | Executes the approved outcomes of a ticket audit -       | Use after an audit when the user says to proceed, fix,       |
+| (1.0.0)                  | fixes, adjustments, features and closures - one ticket   | resolve, adjust or implement what the audit recommended;     |
+|                          | at a time, on any forge and with any AI.                 | triggers - "proceed with the audit", "fix everything         |
+|                          |                                                          | approved", "resolve the tickets", "land the PRs", "pode      |
+|                          |                                                          | corrigir", "resolve o que foi aprovado", "implementa o que a |
+|                          |                                                          | auditoria pediu". Not for judging ...                        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| verification-planning    | Builds an evidence path before non-trivial               | Use before a feature, bug fix, refactor, migration, cross-   |
+| (1.0.0)                  | implementation, for any project and any AI.              | system change or any behavior change the user must be able   |
+|                          |                                                          | to trust; when asked "how will we know this works?", "plan   |
+|                          |                                                          | the verification", "what is the evidence?", "prove it",      |
+|                          |                                                          | "como vamos testar isso?", "como provar que funcionou?",     |
+|                          |                                                          | "planeja a verificação", "qual ...                           |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| vertex-agent-config      | Configura agentes Gemini das gerações 3.x e 4 na Vertex  | Use quando pedirem "configurar agente Vertex", "qual modelo  |
+| (2.0.0)                  | AI priorizando assertividade e qualidade da avaliação    | Gemini usar", "melhorar a precisão do agente", "criar novo   |
+|                          | acima de custo — escolhe modelo (Gemini 4 Argon, 3.8     | agente", "desenhar pipeline de agentes", "ajustar            |
+|                          | Flash, 3.5 Flash-Lite, 3.1 Pro preview e a linha de      | thinking_level", "migrar para Gemini 4", "gerar imagem com   |
+|                          | imagem Nano Banana 2.1 / ...                             | Nano Banana", "o agente está errando na leitura do PDF" ou   |
+|                          |                                                          | "como passar imagem/planilha ...                             |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| worktrees (1.0.0)        | Manages git worktrees as isolated lanes for risky,       | Use for a refactor that could break the active checkout,     |
+|                          | parallel or exploratory work in any repository with any  | parallel tasks or agents on separate branches, spikes that   |
+|                          | AI.                                                      | may be discarded, dependency upgrades, or when asked "use a  |
+|                          |                                                          | worktree", "work on an isolated branch", "run these in       |
+|                          |                                                          | parallel", "try it without touching main", "cria uma         |
+|                          |                                                          | worktree", "isola essa mudança" ...                          |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+

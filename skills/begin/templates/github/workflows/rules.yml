@@ -1,0 +1,14 @@
+# Verificação mecânica do contrato (AGENTS.md + .rules/) em todo PR.
+# Roda o mesmo .rules/check.sh do hook local, em cada commit do PR (--range).
+# Suíte de testes do projeto: job separado, criado quando houver comando de teste verificado.
+name: rules
+on:
+  pull_request:
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: bash .rules/check.sh --range "${{ github.event.pull_request.base.sha }}..HEAD"

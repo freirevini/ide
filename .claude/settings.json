@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 -c 'import sys,json,re; p=json.load(sys.stdin).get(\"tool_input\",{}).get(\"file_path\",\"\"); sys.exit(0 if re.search(r\"/skills/[^/]+/SKILL\\.md$\", p) else 3)' && python3 \"$CLAUDE_PROJECT_DIR/skills/scripts/skills-index.py\" >/dev/null 2>&1; exit 0",
+            "timeout": 20
+          }
+        ]
+      }
+    ]
+  }
+}

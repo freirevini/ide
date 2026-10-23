@@ -1,0 +1,7 @@
+# --- begin: dotnet ---
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/

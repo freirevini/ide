@@ -103,3 +103,24 @@ eyeballed.
 Generated code, vendored dependencies, lockfiles, fixtures, snapshots, data
 files, and applied migrations are not shape targets. Do not split, merge or
 trim them as organization work.
+
+## 7. Agent-legibility signals (relative to the project)
+
+An agent navigates by search, not by reading whole files, and pays for
+every line it has to read. Inside the touched scope these are reasons to
+look closer, measured against the project's own naming and style, never a
+gate:
+
+- A touched name whose `grep -rn` hits are mostly other concepts (`data`,
+  `process`, `handler`, `Manager`, `Service`, `utils`), beyond what the
+  project already uses that way. Compare with sibling names in the same
+  directory before renaming; rename only inside the touched file.
+- A diff that removes comment lines carrying a why, an issue number or a
+  commit SHA. Those lines are provenance, not noise; `git diff` shows them
+  as removed `#` or `//` lines.
+- Error strings without the value that failed or the shape expected.
+- Nesting deeper than the directory's norm, introduced by the change.
+- Implicit types where the project declares them (`any`, bare `dict`,
+  untyped signatures next to typed siblings).
+- A one-line edit that needed hundreds of unrelated lines read first: the
+  bloat signal of section 3 seen from the agent's side.

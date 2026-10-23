@@ -1,8 +1,8 @@
 ---
 name: forever-clean
-description: Edit-over-create and shape discipline for any codebase. Reviews and adjusts existing files before creating new ones, keeps the structure the user or the project already uses (minimalist default when neither says), and avoids both extremes - dozens of tiny files or one file with thousands of lines - while preserving behavior. Every delete or move stays inside the working repository. Use when adding or changing code, whenever the agent is about to create a new file, when asked to "simplify the repo", "clean this up", "this file is too big", "too many files", "don't create new files", or when reviewing code for integrity and functionality.
+description: Edit-over-create and shape discipline for any codebase. Reviews and adjusts existing files before creating new ones, keeps the structure the user or the project already uses (minimalist default when neither says), and avoids both extremes - dozens of tiny files or one file with thousands of lines - while preserving behavior. Keeps touched code legible for the next agent (names that grep clean, comments that say why with their provenance, errors that name the failing value) without imposing numeric limits. Every delete or move stays inside the working repository. Use when adding or changing code, whenever the agent is about to create a new file, when asked to "simplify the repo", "clean this up", "this file is too big", "too many files", "don't create new files", or when reviewing code for integrity and functionality.
 metadata:
-  version: 2.0.0
+  version: 2.1.0
   type: procedure
 ---
 
@@ -134,11 +134,19 @@ say which values were measured and which were estimated.
 
 Re-read every touched file end to end after editing. Inside the touched
 scope, apply behavior-preserving improvements:
-- Remove dead code, unused imports/exports, redundant comments, leftover
-  compatibility shims from the change itself.
+- Remove dead code, unused imports/exports, leftover compatibility shims
+  from the change itself, and comments that only restate the code.
+- Keep every comment that says *why*: a workaround, a business constraint,
+  an issue number or commit that explains an odd line. A refactor never
+  strips provenance; the change adds it when it leaves an odd line behind.
 - Deduplicate snippets the edit made obviously redundant.
 - Simplify conditionals and naming where the result reads better and the
-  behavior is provably identical.
+  behavior is provably identical: guard clauses over added nesting; a name
+  the next agent can grep (its search hits are mostly this concept, judged
+  against the project's own naming); explicit types or signatures where
+  the project already declares them.
+- Error messages raised by touched code carry the offending value and the
+  expected shape. A vague message costs the next agent a debugging round.
 
 Checklist in `references/refactor-playbook.md`. Anything that could change
 behavior, or that lives outside the touched files, is flagged in the report,

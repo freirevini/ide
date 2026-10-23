@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# .githooks/commit-msg — instalado com: git config core.hooksPath .githooks   (uma vez por clone)
+# Bloqueia commit de correção sem entrada nova em .rules/erros.md e sem teste. Regras em .rules/check.sh.
+exec bash .rules/check.sh --commit-msg "$1"

@@ -4,9 +4,12 @@
 
 Um agente que **classifica** não julga. Um agente que **julga** não reclassifica.
 
-Teste prático: se a descrição da função do agente precisa de um "e" para caber, são dois
-agentes. "Classifica o tipo de arquivo **e** avalia contra as regras" são duas
-responsabilidades, com perfis, modelos e thinking diferentes.
+Teste prático: se a descrição da função do agente precisa de um "e" para caber, é sinal de
+duas responsabilidades. "Classifica o tipo de arquivo **e** avalia contra as regras" tem dois
+perfis, com modelos e thinking diferentes. A skill **pergunta** se o usuário quer separar em
+dois agentes e diz o que ganha e o que perde (latência, contrato, um ponto a mais de falha);
+não separa por conta própria. Projeto que escolhe um agente só recebe a configuração do perfil
+dominante e a nota do que ficou subatendido.
 
 Caso de referência:
 
@@ -57,8 +60,9 @@ O texto extraído diz *o que* está escrito; a regra pergunta *como* e *onde* es
 Decida isso na Etapa 2 do framework, com a pergunta sobre dependência de posição/layout.
 Na prática, o contrato leva os dois: `texto_extraido` **e** `midia_original_uri`.
 
-Custo dessa exceção: o agente 2 volta a pagar os 258 tokens por página. É o preço de
-poder avaliar a regra — e cai no princípio norteador da skill: qualidade acima de custo.
+Custo dessa exceção: o agente 2 volta a pagar os tokens da página (280, 560 ou 1.120 por
+página conforme `media_resolution`, mais o texto). É o preço de poder avaliar a regra — e cai
+no princípio norteador da skill: qualidade acima de custo.
 
 ## Nunca passar interpretação como fato
 

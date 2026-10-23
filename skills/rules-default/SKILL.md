@@ -43,19 +43,19 @@ Report: table of files → issues found → fix applied or Open Question raised.
 4. After creating, re-run the cross-rule consistency check (Mode A, item 5).
 
 ## Open Questions — format
-When a duplicate, overlap, or contradiction is found, stop and present:
+When a duplicate, overlap, or contradiction is found, stop and present the
+canonical block from the `prompt-default` skill with the `[rules-conflict]` tag:
 
 ```
-## Open Question
-Requested: <what the user asked for>
+## Open Questions
+Request: <what the user asked for>
 Found:
-- <rule-file.mdc> · "<existing directive quoted>" — <overlaps how>
-- <rule-file.mdc> · "<existing directive quoted>" — <overlaps how>
-Options:
-1. Merge into <rule-file.mdc> (extend the existing rule)
-2. Create the new rule and remove the overlapping items from the rules above
-3. Keep as is (no change)
-Awaiting decision.
+- [rules-conflict] <duplicate | overlap | contradiction>
+  Evidence: <rule-file.mdc> · "<existing directive quoted>" — <overlaps how>
+Questions:
+1. How to proceed? Options: (a) merge into <rule-file.mdc>, extending the existing rule (b) create the new rule and remove the overlapping items from the rules above (c) keep as is. Default if unanswered: (a)
+Done so far: nothing
+Awaiting answers.
 ```
 
 Never resolve an Open Question unilaterally. Wait for the user's choice, then apply it

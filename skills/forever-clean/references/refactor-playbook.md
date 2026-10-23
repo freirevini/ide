@@ -127,9 +127,16 @@ sentence, do not make the move.
 - [ ] Names that no longer match what the code does after the change -
       rename only inside the touched file unless the user asked for more.
 - [ ] Error handling: nothing swallowed, no silent fallback introduced by
-      the change.
+      the change; messages name the offending value and the expected shape.
 - [ ] Compatibility shims added "temporarily" during the move and no longer
       needed.
+- [ ] Comments that say why (workaround, constraint, issue, commit) are
+      still there; the change itself left one wherever it introduced an
+      odd line.
+- [ ] Names an agent can grep: a touched name whose search hits are mostly
+      unrelated gets a more specific one, inside the touched file only.
+- [ ] Nesting the change deepened: guard clauses and early returns where
+      the behavior is identical.
 
 Anything outside this list, outside the touched files, or that could alter
 behavior goes to `flags` in the report.

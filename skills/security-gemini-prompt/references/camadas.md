@@ -92,7 +92,7 @@ contra manipulação do resultado em si — para isso, camada 6.
 
 ---
 
-## 4. Detecção de três famílias de payload
+## 4. Detecção de quatro famílias de payload
 
 Detector calibrado só para imperativo passa direto em DACSI (0 pistas de comando). Cubra:
 
@@ -109,10 +109,18 @@ documento que imitam metadado do sistema. Exemplos: `source status: verified`,
 instrução de decodificação no mesmo documento. Alerte pela **combinação**: blob sozinho é
 ruído comum (imagem embutida, assinatura), instrução de decodificação sozinha idem.
 
+**(d) execução de código** — blob opaco ou texto cifrado **coocorrendo** com instrução de
+rodar script, Python, shell ou `eval` para decifrar ou "processar" (Cryptographic Context
+Injection). Só tem efeito quando há ferramenta de execução no contexto; sem ela, é a família
+(c).
+
 Use como **sinal**, não como bloqueio: falso positivo em detector de conteúdo é caro e a
 lista de padrões nunca fica completa. O bloqueio é responsabilidade da camada 6.
 
-`scripts/red_team_local.py` gera corpus das três famílias.
+`scripts/red_team_local.py` gera corpus das quatro famílias, em português e inglês, e mede
+o detector do projeto contra uma baseline (`--baseline`). O detector de referência embutido
+no script é o **oráculo do corpus** — prova que os payloads são detectáveis; marca
+`status: em andamento` como manipulação. Não é ponto de partida para produção.
 
 ---
 
@@ -143,18 +151,34 @@ mesmo.
 
 | Checagem | Ação |
 |---|---|
-| decisão favorável **com** evidência válida em contrário | incoerente → revisão humana |
+| decisão favorável **com** evidência contrária (`conforme: false`) válida | incoerente → revisão humana |
+| decisão favorável **sem** nenhuma evidência conforme válida | sem base → revisão humana (é a saída que uma injeção produz) |
+| decisão desfavorável sem evidência contrária válida | sem base → revisão humana |
+| evidência sem campo `conforme` | não verificável → revisão humana |
 | `regra_id` inexistente no conjunto recuperado | descarta a evidência |
 | `trecho_citado` ausente literalmente na fonte | evidência fabricada → revisão humana |
+| `trecho_citado` curto demais (abaixo de ~12 caracteres normalizados) | não verificável; não conta como evidência |
 | manipulação detectada (camada 4 ou 5) | nunca decisão favorável automática |
 | `finish_reason` fora do normal | erro, não resultado |
 
 **Assimetria de erro**: falso favorável é muito pior que falso desfavorável — o segundo
 cai em revisão humana e é recuperável; o primeiro passa. Pondere o gate nessa direção.
 
-Exige `responseSchema` pedindo **evidência** (`regra_id` + `trecho_citado`). Saída
-booleana não é verificável; saída que precisa citar regra e trecho obriga o atacante a
-fabricar evidência coerente, que o código confere.
+Exige `responseSchema` pedindo **evidência por item**, com o sentido dela:
+
+```json
+{
+  "decisao": "aprovado | reprovado | revisao_humana",
+  "evidencias": [
+    {"regra_id": "R1", "trecho_citado": "texto literal da fonte", "conforme": true}
+  ]
+}
+```
+
+Saída booleana não é verificável; saída que precisa citar regra, trecho **e** dizer se o
+trecho cumpre ou viola a regra obriga o atacante a fabricar evidência coerente, que o
+código confere. Sem o campo `conforme`, o validador não distingue evidência a favor de
+evidência contra — e aprovação sem evidência passaria.
 
 ### Modo `extracao` — campos extraídos de um documento
 

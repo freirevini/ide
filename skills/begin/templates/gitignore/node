@@ -1,0 +1,13 @@
+# --- begin: node ---
+node_modules/
+dist/
+build/
+.next/
+.nuxt/
+.turbo/
+coverage/
+.eslintcache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
