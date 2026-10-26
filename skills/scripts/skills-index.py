@@ -19,7 +19,8 @@ OUT = ROOT / "SKILLS.txt"
 W_NAME, W_OBJ, W_CTX = 24, 56, 60
 MAX_OBJ, MAX_CTX = 240, 320
 CTX_START = re.compile(
-    r"\b(Use (when|whenever|on|after|for|before|this skill|quando|ao|em|no|na|nos|nas|se|sempre que|antes|após)"
+    r"(?<!n't )(?<!not )(?<!não )"  # "Don't use for ..." é exclusão, não gatilho
+    r"\b(Use (when|whenever|on|after|for|by default|before|this skill|quando|ao|em|no|na|nos|nas|se|sempre que|antes|após)"
     r"|Triggers?\b|Gatilhos?\b|Acione\b|Invoque\b)",
     re.I,
 )
@@ -32,11 +33,20 @@ def frontmatter(text: str) -> dict:
         return {}
     fm = m.group(1)
     def field(key, indented=False):
-        pat = (r"^\s+" if indented else r"^") + re.escape(key) + r":\s*(.+?)\s*$"
+        pat = (r"^\s+" if indented else r"^") + re.escape(key) + r":[ \t]*(.*?)[ \t]*$"
         f = re.search(pat, fm, re.M)
         if not f:
             return ""
         v = f.group(1)
+        if v in ("", ">", ">-", "|", "|-", ">+", "|+"):
+            # escalar YAML em bloco (`>-`, `|`): junta as linhas indentadas que seguem
+            block = []
+            for line in fm[f.end():].split("\n")[1:]:
+                if line.strip() == "" or line[0] in " \t":
+                    block.append(line.strip())
+                else:
+                    break
+            v = " ".join(x for x in block if x)
         if len(v) >= 2 and v[0] == v[-1] and v[0] in "\"'":
             v = v[1:-1]
         return v

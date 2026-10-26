@@ -2,16 +2,50 @@ SKILLS.txt - índice das skills desta pasta (GERADO; não edite à mão)
 Regenerar: python3 skills/scripts/skills-index.py   Conferir: python3 skills/scripts/skills-index.py --check
 Fonte: frontmatter (name, description, metadata.version) de cada skills/<nome>/SKILL.md.
 Objetivo = primeira frase da description. Contexto = trecho "Use quando / Use when / Triggers" resumido.
-Skills: 25
+Skills: 66
 
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | nome skill (versão)      | objetivo                                                 | contexto para ser utilizada (resumido)                       |
 +==========================+==========================================================+==============================================================+
+| adding-dbt-unit-test     | Creates unit test YAML definitions that mock upstream    | Use when adding unit tests for a dbt model or practicing     |
+|                          | model inputs and validate expected outputs.              | test-driven development (TDD) in dbt.                        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| agent-browser            | Browser automation CLI for AI agents.                    | Use when the user needs to interact with websites, including |
+|                          |                                                          | navigating pages, filling forms, clicking buttons, taking    |
+|                          |                                                          | screenshots, extracting data, testing web apps, or           |
+|                          |                                                          | automating any browser task. Triggers include requests to    |
+|                          |                                                          | "open a website", "fill out a form", "click a button", "take |
+|                          |                                                          | a screenshot", "scrape data ...                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | agents-md (2.1.0)        | Cria, audita e mantém o contrato de qualquer projeto com | Use quando pedirem "cria o AGENTS.md", "configura o projeto  |
 |                          | qualquer IA de código — um `AGENTS.md` na raiz mais a    | para IA", "regras para o agente", "pasta .rules", "revisa o  |
 |                          | pasta `.rules/` (escopo, testes, erros, decisões) — para | AGENTS.md", "o agente repetiu o erro", "mudou o que eu não   |
 |                          | o agente entender o contexto, não repetir erro já        | pedi", "toda correção gera teste", ou ao abrir projeto novo  |
 |                          | corrigido e não ...                                      | em qualquer IDE com IA.                                      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| angular-developer (1.0)  | Generates Angular code and provides architectural        | Trigger when creating projects, components, services, or     |
+|                          | guidance.                                                | HTTP communication, or for best practices on reactivity      |
+|                          |                                                          | (signals, linkedSignal, resource, httpResource), queries and |
+|                          |                                                          | content projection, forms, dependency injection, routing,    |
+|                          |                                                          | server and hybrid rendering (SSR, prerendering, hydration),  |
+|                          |                                                          | accessibility (ARIA) ...                                     |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| angular-material         | Angular Material UI component library based on Material  | Angular Material UI component library based on Material      |
+| (2026.1.31)              | Design 3                                                 | Design 3                                                     |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| angular-new-app (1.0)    | Creates a new Angular app using the Angular CLI.         | This skill should be used whenever a user wants to create a  |
+|                          |                                                          | new Angular application and contains important guidelines    |
+|                          |                                                          | for how to effectively create a modern Angular application.  |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| apexcharts (4.0.2)       | AI skill for building ApexCharts.js charts and data      | Use when the user asks to create, configure, or troubleshoot |
+|                          | visualizations (targets v8).                             | any chart using ApexCharts (line, area, bar, pie, donut,     |
+|                          |                                                          | radialBar, scatter, bubble, heatmap, candlestick, boxPlot,   |
+|                          |                                                          | violin, histogram, radar, polarArea, rangeBar, rangeArea,    |
+|                          |                                                          | treemap, funnel, pyramid, gauge, sunburst, icicle, unit,     |
+|                          |                                                          | waffle, waterfall ...                                        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| auditing-python-security | Audits Python libraries for security vulnerabilities     | Use when reviewing library security, setting up security     |
+|                          | using Bandit, pip-audit, Semgrep, and detect-secrets.    | scanning in CI, or implementing secure coding patterns.      |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | begin (1.1.0)            | Inicia qualquer projeto — pasta vazia, repositório       | Use quando pedirem "começar projeto", "iniciar projeto",     |
 |                          | recém-clonado ou código em andamento sem contrato de IA  | "novo projeto", "preparar o repositório para IA", "setup     |
@@ -19,6 +53,29 @@ Skills: 25
 |                          | Code, Cursor, Antigravity, Gemini CLI, Copilot, Codex,   | criar pasta nova, ao clonar repositório sem `AGENTS.md`, ou  |
 |                          | Aider ou outra) entenda ...                              | ao abrir pela primeira vez um projeto em qualquer IDE com    |
 |                          |                                                          | IA.                                                          |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| bigquery-basics (1.0.2)  | Manages datasets, tables, and jobs in BigQuery.          | Use when you need to interact with BigQuery, run SQL         |
+|                          |                                                          | queries, manage BigQuery resources (datasets, tables,        |
+|                          |                                                          | views), or perform basic data ingestion and analysis.        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| bigquery-bigframes       | Generates Python code using BigQuery DataFrames          | Use by default for any Python data task involving BigQuery,  |
+| (2.0.1)                  | (BigFrames).                                             | including data processing, analysis, and machine learning.   |
+|                          |                                                          | Don't use for SQL-first workflows or the google-cloud-       |
+|                          |                                                          | bigquery client library — use bigquery-basics.               |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| bigquery-optimization    | Provides workflows to optimize BigQuery environments     | Use when optimizing cost, modeling Edition migrations,       |
+| (1.1.1)                  | (capacity planning, editions), storage assets            | rightsizing reservations, evaluating logical vs. physical    |
+|                          | (partitioning, clustering, storage lifecycles, billing   | storage, designing table partitioning/clustering, generating |
+|                          | models), and SQL queries.                                | table DDL, migrating unpartitioned tables, managing          |
+|                          |                                                          | partition expiration, optimizing individual SQL queries, or  |
+|                          |                                                          | evaluating acceleration ...                                  |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| browser-use              | Direct browser control via CDP for web interaction:      | Also covers hosted cloud browsers for AI agents: the         |
+|                          | automation, scraping, testing, screenshots, and site/app | browser-use Python library (Browser(use_cloud=True)),        |
+|                          | work.                                                    | Playwright, Puppeteer or any CDP client.                     |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| building-python-clis     | Builds command-line interfaces for Python libraries      | Use when adding CLI functionality to a library or building   |
+|                          | using Click or Typer.                                    | standalone command-line tools.                               |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | calculos-python          | Review numeric calculations for decimal rounding         | Use when the user asks to review, validate, or debug         |
 |                          | integrity across Python, PySpark/Databricks, BigQuery,   | calculations (division, trends, means, weighted means,       |
@@ -31,6 +88,11 @@ Skills: 25
 |                          | code inside the resulting files, keeping the result      | o código", "reduz os arquivos". Never changes external       |
 |                          | legible for the next agent (names that grep clean, why-  | behavior.                                                    |
 |                          | comments with provenance ...                             |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| cloud-run-basics (1.0.1) | Manages Cloud Run services, jobs, and worker pools.      | Use when you need to deploy applications responding to HTTP  |
+|                          |                                                          | requests (services), run event-triggered or scheduled tasks  |
+|                          |                                                          | (jobs), or handle always-on pull-based background processing |
+|                          |                                                          | (worker pools).                                              |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | codemap (1.0.0)          | Builds and refreshes a hierarchical map of an unfamiliar | Use when asked to "map this codebase", "create a codemap",   |
 |                          | repository for any AI and any stack, only on explicit    | "document the architecture for agents", "refresh the         |
@@ -52,6 +114,23 @@ Skills: 25
 |                          | pendências e contexto ...                                | "salva onde parei", "vou continuar no                        |
 |                          |                                                          | Cursor/Antigravity/outra IDE".                               |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-core (0.1.0)  | Databricks CLI operations and the parent/entry-point     | Load this first for CLI, auth, profile, and bundle tasks,    |
+|                          | skill for Databricks CLI use: authentication, profile    | then load the matching product skill. For finding or         |
+|                          | selection, and bundles.                                  | exploring data, answering questions about the data, or       |
+|                          |                                                          | generating SQL, load the databricks-data-discovery skill (it |
+|                          |                                                          | routes to Genie One). Contains up-to-date guidelines for     |
+|                          |                                                          | Databricks-related CLI tasks.                                |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-jobs (0.3.0)  | Develop and deploy Lakeflow Jobs on Databricks via DABs, | Use when creating data engineering jobs with notebooks,      |
+|                          | Python SDK, or the CLI.                                  | Python wheels, SQL, dbt, or pipelines. Invoke BEFORE         |
+|                          |                                                          | starting implementation. For compute (serverless,            |
+|                          |                                                          | performance mode, classic), also use databricks-serverless.  |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-pipelines     | Develop Lakeflow Spark Declarative Pipelines (formerly   | Use when building batch or streaming data pipelines with     |
+| (0.3.0)                  | Delta Live Tables) on Databricks.                        | Python or SQL, including Auto CDC from event streams or      |
+|                          |                                                          | periodic complete snapshots. Invoke BEFORE starting          |
+|                          |                                                          | implementation.                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | debug-ledger (1.0.0)     | Investigation protocol for hard, intermittent or long-   | Use when a bug resists the first fix, reproduces only        |
 |                          | running bugs in any codebase with any AI.                | sometimes, spans many components or logs, when the agent     |
 |                          |                                                          | keeps proposing the same change, or when asked to            |
@@ -66,6 +145,13 @@ Skills: 25
 |                          |                                                          | code, migrations, container files, CI or non-dependency      |
 |                          |                                                          | config (ticket-audit), nor ...                               |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| developing-with-         | Use for ALL Streamlit tasks: creating, editing,          | Use for ALL Streamlit tasks: creating, editing, debugging,   |
+| streamlit                | debugging, beautifying, styling, theming, optimizing, or | beautifying, styling, theming, optimizing, or deploying      |
+|                          | deploying Streamlit apps.                                | Streamlit apps. Also custom components, st.components.v2,    |
+|                          |                                                          | HTML/JS/CSS work. Discovers and loads version-matched        |
+|                          |                                                          | reference docs from the user's installed Streamlit (>=1.57). |
+|                          |                                                          | Triggers: streamlit, st. ...                                 |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | eval-rubric (1.0.0)      | Scores an AI-produced deliverable (generated codebase,   | Use when asked to "evaluate this output", "score the         |
 |                          | PR, document, pipeline output, agent run) against a      | generated project", "which model did better", "grade this    |
 |                          | weighted rubric where every point carries a file:line or | PR", "audit the agent run", "avalie o resultado", "dê uma    |
@@ -79,11 +165,44 @@ Skills: 25
 |                          |                                                          | files", "don't create new files", or when reviewing code for |
 |                          |                                                          | integrity and functionality.                                 |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| frontend-design          | Guidance for distinctive, intentional visual design when | Helps with aesthetic direction, typography, and making       |
+|                          | building new UI or reshaping an existing one.            | choices that don't read as templated defaults.               |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| gemini-api (1.0.1)       | Use when the user asks about using Gemini in an          | Use when the user asks about using Gemini in an enterprise   |
+|                          | enterprise environment or explicitly mentions Vertex AI, | environment or explicitly mentions Vertex AI, Google Cloud,  |
+|                          | Google Cloud, or Agent Platform.                         | or Agent Platform. Guides the usage of the Gemini API on     |
+|                          |                                                          | Agent Platform with the Google Gen AI SDK. Covers SDK usage  |
+|                          |                                                          | (Python, JS/TS, Go, Java, C#), capabilities like multimodal  |
+|                          |                                                          | inputs, tools, media ...                                     |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | gemini-vertex-tuning     | Otimiza latência e custo de pipelines de agentes         | Use quando pedirem "otimizar latência do agente", "a         |
 |                          | Gemini/Vertex AI (classificação de arquivos + avaliação  | avaliação está lenta", "reduzir custo Vertex", "ajustar o    |
 |                          | com RAG) sem degradar a precisão dos vereditos — via     | RAG", "trocar de modelo Gemini"; quando aparecer             |
 |                          | context caching, ajuste de thinking budget, roteamento   | finishReason=MAX_TOKENS ou parsed=None em saída estruturada; |
 |                          | de modelo, tuning de ...                                 | ou quando uma peça burlar o avaliador por injeção de prompt. |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| google-agents-cli-adk-   | This skill should be used when the user wants to "write  | It provides a quick reference for agent types, tool          |
+| code (1.11.0)            | agent code", "build an agent with ADK", "add a tool",    | definitions, orchestration patterns, callbacks, state        |
+|                          | "create a callback", "define an agent", "use state       | management, the graph Workflow API, and reference recipes to |
+|                          | management" — in a project that needs ADK (Agent         | study. Do NOT use for scaffolding (use google-agents-cli-    |
+|                          | Development Kit) API patterns ...                        | scaffold) or deployment (use google-agents-cli-deploy).      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| google-cloud-recipe-auth | Provides expert guidance on Identity and Access          | Provides expert guidance on Identity and Access Management   |
+| (1.0.2)                  | Management (IAM) and authenticating and authorizing to   | (IAM) and authenticating and authorizing to Google Cloud     |
+|                          | Google Cloud services and APIs, covering human users,    | services and APIs, covering human users, service identities, |
+|                          | service identities, Application Default Credentials      | Application Default Credentials (ADC), and best practices    |
+|                          | (ADC), and best practices for ...                        | for secure access.                                           |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| google-cloud-storage-    | Stores, retrieves, and manages data as objects in Cloud  | Use when you need to interact with Cloud Storage — set up a  |
+| basics (1.1.2)           | Storage on Google Cloud (also known colloquially as GCS) | Storage MCP server (remote or local Toolbox), create or      |
+|                          | buckets.                                                 | configure buckets, upload, download, stream, or transfer     |
+|                          |                                                          | data, organize objects with folders, generate signed URLs,   |
+|                          |                                                          | control access (IAM, ACLs, public access prevention), set    |
+|                          |                                                          | storage classes (Standard ...                                |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| improving-python-code-   | Improves Python library code quality through ruff        | Use when reviewing code for quality issues, adding type      |
+| quality                  | linting, mypy type checking, Pythonic idioms, and        | hints, configuring static analysis tools, or refactoring     |
+|                          | refactoring.                                             | Python library code.                                         |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | lab-ui                   | Best-practices review for ipywidgets UI architecture in  | Use when the user asks to review, refine, or extend notebook |
 |                          | Databricks notebooks - thin notebooks over a facade,     | UI code following this architecture.                         |
@@ -91,12 +210,44 @@ Skills: 25
 |                          | idempotent mount, state/render separation, sync-kernel   |                                                              |
 |                          | performance (hold_sync ...                               |                                                              |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| legacy-modernizer        | Designs incremental migration strategies, identifies     | Use when modernizing legacy systems, implementing strangler  |
+| (1.1.0)                  | service boundaries, produces dependency maps and         | fig pattern or branch by abstraction, decomposing monoliths, |
+|                          | migration roadmaps, and generates API facade designs for | upgrading frameworks or languages, or reducing technical     |
+|                          | aging codebases.                                         | debt without disrupting business operations.                 |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | llm-in-tests (1.0.0)     | Makes a system that calls an LLM (classification,        | Use when asked to "test the LLM pipeline", "mock the model", |
 |                          | extraction, generation, agents, RAG) testable and cheap  | "tests are flaky because of the AI", "cache model responses  |
 |                          | to test, for any provider (OpenAI, Anthropic,            | in tests", "set up a golden set", "the prompt changed, what  |
 |                          | Gemini/Vertex, local models) and any language.           | broke", "testar o pipeline com LLM", "como testar a chamada  |
 |                          |                                                          | do modelo", "teste intermitente por causa da IA", "mockar o  |
 |                          |                                                          | Gemini/OpenAI" ...                                           |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| managed-airflow-dag-     | Provides guidance for authoring Apache Airflow DAGs in   | Use when creating or extending an Airflow DAG. Don't use     |
+| authoring (1.0.1)        | Managed Service for Apache Airflow (MSAA; formerly Cloud | when authoring Python code unrelated to Airflow DAGs.        |
+|                          | Composer).                                               |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| optimizing-python-       | Optimizes Python library performance through profiling   | Use when analyzing performance bottlenecks, finding memory   |
+| performance              | (cProfile, PyInstrument), memory analysis (memray,       | leaks, or setting up performance regression testing.         |
+|                          | tracemalloc), benchmarking (pytest-benchmark), and       |                                                              |
+|                          | optimization strategies.                                 |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| pandas-pro (1.1.0)       | Performs pandas DataFrame operations for data analysis,  | Use when working with pandas DataFrames, data cleaning,      |
+|                          | manipulation, and transformation.                        | aggregation, merging, or time series analysis. Invoke for    |
+|                          |                                                          | data manipulation tasks such as joining DataFrames on        |
+|                          |                                                          | multiple keys, pivoting tables, resampling time series,      |
+|                          |                                                          | handling NaN values with interpolation or forward-fill,      |
+|                          |                                                          | groupby aggregations, type conversion ...                    |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| plotly                   | Interactive scientific and statistical data              | Use when creating charts, plots, or visualizations including |
+|                          | visualization library for Python.                        | scatter plots, line charts, bar charts, heatmaps, 3D plots,  |
+|                          |                                                          | geographic maps, statistical distributions, financial        |
+|                          |                                                          | charts, and dashboards. Supports both quick visualizations   |
+|                          |                                                          | (Plotly Express) and fine-grained customization (graph       |
+|                          |                                                          | objects). Outputs interactive ...                            |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| polars                   | Fast DataFrame library (Apache Arrow).                   | Select, filter, group_by, joins, lazy evaluation,            |
+|                          |                                                          | CSV/Parquet I/O, expression API, for high-performance data   |
+|                          |                                                          | analysis workflows.                                          |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | post-merge-audit (1.0.0) | Audits the combined default-branch state after a batch   | Use when more than a few tickets landed in one session,      |
 |                          | of merges or before a deploy or release, on any forge    | before tagging, deploying or publishing, or when asked "is   |
@@ -111,6 +262,17 @@ Skills: 25
 |                          |                                                          | it"), uses vague verbs without a target ("improve", "fix     |
 |                          |                                                          | it", "arruma isso"), asks to delete, rewrite, migrate or     |
 |                          |                                                          | change the stack, conflicts ...                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| python-modern-python     | Modern Python 3.12-3.14 language features and typing.    | Use for type parameters, type aliases, protocols,            |
+|                          |                                                          | dataclasses, structural pattern matching, asyncio            |
+|                          |                                                          | concurrency, cancellation, or selecting syntax for the       |
+|                          |                                                          | suite's supported Python versions. For Temporal workflow     |
+|                          |                                                          | asyncio rules, use python-temporal.                          |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| python-sqlalchemy        | SQLAlchemy 2.0 stable ORM and Core patterns.             | Use for typed mappings, select() queries, sessions and       |
+|                          |                                                          | transaction boundaries, relationships and loading, sync or   |
+|                          |                                                          | async engines, JSON, dialect-specific upserts, or Alembic    |
+|                          |                                                          | migrations. For HTTP concerns, use python-fastapi.           |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | reflect (1.0.0)          | Learns from repeated work and turns it into the smallest | Use after a batch of work, at the end of a sprint, when      |
 |                          | useful asset, for any project and any AI.                | asked "what should become a skill?", "learn from this        |
@@ -132,12 +294,43 @@ Skills: 25
 |                          |                                                          | its content is spread across other rules, raises an Open     |
 |                          |                                                          | Question instead of creating a duplicate.                    |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| running-dbt-commands     | Formats and executes dbt CLI commands, selects the       | Use when running models, tests, builds, compiles, or show    |
+|                          | correct dbt executable, and structures command           | queries via dbt CLI. Use when unsure which dbt executable to |
+|                          | parameters.                                              | use or how to format command parameters.                     |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | security-gemini-prompt   | Audita um projeto que usa LLM Gemini/Vertex AI,          | Use quando pedirem "auditar segurança do projeto Gemini",    |
 | (2.1.0)                  | identifica fragilidades de segurança contra prompt       | "achar fragilidades de prompt injection", "hardening do      |
 |                          | injection direta e indireta, e as corrige.               | RAG", "proteger contra injeção", "instruction hierarchy",    |
 |                          |                                                          | "configurar Model Armor"; quando conteúdo de entrada         |
 |                          |                                                          | conseguir dobrar o comportamento do sistema; ou ao revisar   |
 |                          |                                                          | como conteúdo não confiável entra ...                        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| setting-up-python-       | Sets up professional Python library projects with modern | Use when creating new Python libraries, modernizing existing |
+| libraries                | tooling (pyproject.toml, uv, ruff, pytest, pre-commit,   | projects to pyproject.toml, configuring linting/testing/CI,  |
+|                          | GitHub Actions).                                         | or setting up Makefiles and pre-commit hooks.                |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| skill-creator            | Create new skills, modify and improve existing skills,   | Use when users want to create a skill from scratch, edit, or |
+|                          | and measure skill performance.                           | optimize an existing skill, run evals to test a skill,       |
+|                          |                                                          | benchmark skill performance with variance analysis, or       |
+|                          |                                                          | optimize a skill's description for better triggering         |
+|                          |                                                          | accuracy.                                                    |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| spark-engineer (1.1.0)   | Use when writing Spark jobs, debugging performance       | Use when writing Spark jobs, debugging performance issues,   |
+|                          | issues, or configuring cluster settings for Apache Spark | or configuring cluster settings for Apache Spark             |
+|                          | applications, distributed data processing pipelines, or  | applications, distributed data processing pipelines, or big  |
+|                          | big data workloads.                                      | data workloads. Invoke to write DataFrame transformations,   |
+|                          |                                                          | optimize Spark SQL queries, implement RDD pipelines, tune    |
+|                          |                                                          | shuffle operations, configure ...                            |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| systematic-debugging     | Use when encountering any bug, test failure, or          | Use when encountering any bug, test failure, or unexpected   |
+|                          | unexpected behavior, before proposing fixes              | behavior, before proposing fixes                             |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| test-driven-development  | Use when implementing any feature or bugfix, before      | Use when implementing any feature or bugfix, before writing  |
+|                          | writing implementation code                              | implementation code                                          |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| testing-python-libraries | Designs and implements pytest test suites for Python     | Use when creating tests, improving coverage, setting up      |
+|                          | libraries with fixtures, parametrization, mocking,       | testing infrastructure, or implementing property-based       |
+|                          | Hypothesis property-based testing, and CI configuration. | testing.                                                     |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | ticket-audit (1.0.0)     | Audits pull requests and issues before any code is       | Use when asked to audit, review, triage, validate or         |
 |                          | written or merged, on any forge (GitHub, GitLab,         | prioritize PRs or issues, to decide whether a PR is safe to  |
@@ -152,6 +345,23 @@ Skills: 25
 |                          |                                                          | approved", "resolve the tickets", "land the PRs", "pode      |
 |                          |                                                          | corrigir", "resolve o que foi aprovado", "implementa o que a |
 |                          |                                                          | auditoria pediu". Not for judging ...                        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| ui-ux-pro-max            | UI/UX design intelligence for web, mobile, and desktop.  | This skill should be used when designing, building,          |
+|                          |                                                          | reviewing, or fixing interfaces, including pages,            |
+|                          |                                                          | components, design systems, accessibility, interaction,      |
+|                          |                                                          | responsive layout, typography, color, charts, and stack-     |
+|                          |                                                          | specific UI implementation. Searchable local data: 79        |
+|                          |                                                          | searchable styles (50 active), 192 product palettes ...      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| using-dbt-for-analytics- | Builds and modifies dbt models, writes SQL               | Use when doing any dbt work - building or modifying models,  |
+| engineering              | transformations using ref() and source(), creates tests, | debugging errors, exploring unfamiliar data sources, writing |
+|                          | and validates results with dbt show.                     | tests, or evaluating impact of changes.                      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| verification-before-     | Use when about to claim work is complete, fixed, or      | Use when about to claim work is complete, fixed, or passing, |
+| completion               | passing, before committing or creating PRs - requires    | before committing or creating PRs - requires running         |
+|                          | running verification commands and confirming output      | verification commands and confirming output before making    |
+|                          | before making any success claims; evidence before        | any success claims; evidence before assertions always        |
+|                          | assertions always                                        |                                                              |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | verification-planning    | Builds an evidence path before non-trivial               | Use before a feature, bug fix, refactor, migration, cross-   |
 | (1.0.0)                  | implementation, for any project and any AI.              | system change or any behavior change the user must be able   |

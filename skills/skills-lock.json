@@ -1,0 +1,251 @@
+{
+  "version": 1,
+  "skills": {
+    "adding-dbt-unit-test": {
+      "source": "dbt-labs/dbt-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/dbt/skills/adding-dbt-unit-test/SKILL.md",
+      "computedHash": "f8ce50a6604e31d9b73a57e95ef5f311fde48d04026b67ff09c20a5acd8a2f9f"
+    },
+    "agent-browser": {
+      "source": "vercel-labs/agent-browser",
+      "sourceType": "github",
+      "skillPath": "skills/agent-browser/SKILL.md",
+      "computedHash": "80161e6836b3b40f4e83730a290deb40ac14d877d38c97ad5f6d71be37ce74c3"
+    },
+    "angular-developer": {
+      "source": "angular/skills",
+      "sourceType": "github",
+      "skillPath": "angular-developer/SKILL.md",
+      "computedHash": "cef5f1739f4a7158f20230f7e5a03c9b4b150b77174f22938512dcc49e270b91"
+    },
+    "angular-material": {
+      "source": "angular-sanctuary/angular-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/angular-material/SKILL.md",
+      "computedHash": "0331c926849c43df17ece2fc04daac21e7724ed4e6b41995c8d36a748fa16cde"
+    },
+    "angular-new-app": {
+      "source": "angular/skills",
+      "sourceType": "github",
+      "skillPath": "angular-new-app/SKILL.md",
+      "computedHash": "49bd84ab08bd3498c52f476bed48fbb942dc6dbc0925607e84549adbed34bccf"
+    },
+    "apexcharts": {
+      "source": "apexcharts/apexcharts-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "d7d20fb950ebf47d3a16ab5929ebcab1ec8523579d75cbe714a16a1d161f38bf"
+    },
+    "auditing-python-security": {
+      "source": "wdm0006/python-skills",
+      "sourceType": "github",
+      "skillPath": "skills/python/security-audit/SKILL.md",
+      "computedHash": "4ee1922fb4ef7b8a42bb8967578684f1623d1f0f575b582da64ea0d3ffbb9d5a"
+    },
+    "bigquery-basics": {
+      "source": "google/skills",
+      "sourceType": "github",
+      "skillPath": "skills/cloud/bigquery-basics/SKILL.md",
+      "computedHash": "e891bf45a3ec599a6652170d6d0443369c609f891dca39237627727ab738b983"
+    },
+    "bigquery-bigframes": {
+      "source": "google/skills",
+      "sourceType": "github",
+      "skillPath": "skills/cloud/bigquery-bigframes/SKILL.md",
+      "computedHash": "a81bc07214a96ec6c9b8cdceb0b42e381c95872511d37dafd85adee0d1cd809c"
+    },
+    "bigquery-optimization": {
+      "source": "google/skills",
+      "sourceType": "github",
+      "skillPath": "skills/cloud/bigquery-optimization/SKILL.md",
+      "computedHash": "bb62b2b84b55e0a913f0366ce6a64816954006c1fa20de1a7f97bbdb3af7a715"
+    },
+    "browser-use": {
+      "source": "browser-use/browser-use",
+      "sourceType": "github",
+      "skillPath": "skills/browser-use/SKILL.md",
+      "computedHash": "2ec338a6678e4b285af4781958f7a59ccbfd67485dfa947caec897a412080f6a"
+    },
+    "building-python-clis": {
+      "source": "wdm0006/python-skills",
+      "sourceType": "github",
+      "skillPath": "skills/python/cli-development/SKILL.md",
+      "computedHash": "60a4a322ad989c9cd945c114a149ed1434a4fbe1ab09a50e7c275a1b25ad9ae0"
+    },
+    "cloud-run-basics": {
+      "source": "google/skills",
+      "sourceType": "github",
+      "skillPath": "skills/cloud/cloud-run-basics/SKILL.md",
+      "computedHash": "0c1323791e24cc34e977e7b4f41b016863c0faec9dc855a590db402dfb3ab7c5"
+    },
+    "databricks-core": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-core/SKILL.md",
+      "computedHash": "99940ce58e1ba5ef9e094d0d137fd831d0b0365e2809fcab247b8d9c7ce843b9"
+    },
+    "databricks-jobs": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-jobs/SKILL.md",
+      "computedHash": "fe47a0f099bb1c20300276d10c855b57cecf6842e2c351dcee72b8048e099af8"
+    },
+    "databricks-pipelines": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-pipelines/SKILL.md",
+      "computedHash": "28df6628410215be02d4c16ea6cf4ac99c1366c443c00988b6ac10ab410925b9"
+    },
+    "developing-with-streamlit": {
+      "source": "streamlit/agent-skills",
+      "sourceType": "github",
+      "skillPath": "developing-with-streamlit/SKILL.md",
+      "computedHash": "9f8006c37398b5c6a27043bdfe3a25d4aafdfb53413618c88d2c978932f9d08e"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/frontend-design/SKILL.md",
+      "computedHash": "89496d5dd00f4810205f351759594fc2742bf8eea85a2f2b2d1de59f4bd91576"
+    },
+    "gemini-api": {
+      "source": "google/skills",
+      "sourceType": "github",
+      "skillPath": "skills/cloud/gemini-api/SKILL.md",
+      "computedHash": "83563f0efaed265b955c8b11fdf5e71b35d1a4b74489b14d4320a4613e274a48"
+    },
+    "google-agents-cli-adk-code": {
+      "source": "google/agents-cli",
+      "sourceType": "github",
+      "skillPath": "skills/google-agents-cli-adk-code/SKILL.md",
+      "computedHash": "a281afbc43a8e26d79f697408889ac9ef8e9b3f544a19020422d04d36e82e7e8"
+    },
+    "google-cloud-recipe-auth": {
+      "source": "google/skills",
+      "sourceType": "github",
+      "skillPath": "skills/cloud/google-cloud-recipe-auth/SKILL.md",
+      "computedHash": "19668b1d6b8d524562fb111be7e9d71e274c93f9f7decd17a820ed7ce96929ba"
+    },
+    "google-cloud-storage-basics": {
+      "source": "google/skills",
+      "sourceType": "github",
+      "skillPath": "skills/cloud/google-cloud-storage-basics/SKILL.md",
+      "computedHash": "a0af786d950a9783045e84ce11f59ae180fb0f96dc1519cb25597ded6568d2d1"
+    },
+    "improving-python-code-quality": {
+      "source": "wdm0006/python-skills",
+      "sourceType": "github",
+      "skillPath": "skills/python/code-quality/SKILL.md",
+      "computedHash": "d2d0cf099d9d3e90d8ef5737be239036db99fe16dd20aff98351fef48c791af4"
+    },
+    "legacy-modernizer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/legacy-modernizer/SKILL.md",
+      "computedHash": "ad8e271392e4418899a86d59c5c56d1cf1b2728e782a720479dbd36c6da7b595"
+    },
+    "managed-airflow-dag-authoring": {
+      "source": "google/skills",
+      "sourceType": "github",
+      "skillPath": "skills/cloud/managed-airflow-dag-authoring/SKILL.md",
+      "computedHash": "ac657474717f58e394847c79b5c9138b3b1977b80c0cca010dc705f599dedb6a"
+    },
+    "optimizing-python-performance": {
+      "source": "wdm0006/python-skills",
+      "sourceType": "github",
+      "skillPath": "skills/python/performance/SKILL.md",
+      "computedHash": "35ebd9fc0b5217aa1e64f3679cbf81637911ddc2d450d4f864086285a6e0e096"
+    },
+    "pandas-pro": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/pandas-pro/SKILL.md",
+      "computedHash": "073727d160612654f508ec7f5fdba12c2615c9a3091f10ec2d204efe90864e16"
+    },
+    "plotly": {
+      "source": "davila7/claude-code-templates",
+      "sourceType": "github",
+      "skillPath": "cli-tool/components/skills/scientific/plotly/SKILL.md",
+      "computedHash": "c1659137bafbc9e5667a6a34b9de795ee5e33b9b5e014e6cbe7372bd2caa9945"
+    },
+    "polars": {
+      "source": "davila7/claude-code-templates",
+      "sourceType": "github",
+      "skillPath": "cli-tool/components/skills/scientific/polars/SKILL.md",
+      "computedHash": "b703c1b4711369853ee437f32202e6d42c9b8d752c3e0b25bf033a34b9c437e7"
+    },
+    "python-modern-python": {
+      "source": "martinffx/python-skills",
+      "sourceType": "github",
+      "skillPath": "skills/python-modern-python/SKILL.md",
+      "computedHash": "5f638284272959e97533776b4a456a0dbab863693ecfe3a4715795a468ea9717"
+    },
+    "python-sqlalchemy": {
+      "source": "martinffx/python-skills",
+      "sourceType": "github",
+      "skillPath": "skills/python-sqlalchemy/SKILL.md",
+      "computedHash": "2b87cea95457cdfb2c700ace131a2f986a9243baa94acd5a603ebb6eeddd3688"
+    },
+    "running-dbt-commands": {
+      "source": "dbt-labs/dbt-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/dbt/skills/running-dbt-commands/SKILL.md",
+      "computedHash": "d5fd3d0958a5c647ee0235d244cea7c7ce0ffe05b4d51d560f52196f65b6820f"
+    },
+    "setting-up-python-libraries": {
+      "source": "wdm0006/python-skills",
+      "sourceType": "github",
+      "skillPath": "skills/python/project-setup/SKILL.md",
+      "computedHash": "e57d863ae81812904ad9aa3e543da56f297c79a13bd7d075574b86a71c983a39"
+    },
+    "skill-creator": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "skillPath": "skills/skill-creator/SKILL.md",
+      "computedHash": "5ea13a6d9f0d4bb694405d79acd00cadec0d21bb138c4dd10fcf3c500cb835c2"
+    },
+    "spark-engineer": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "skillPath": "skills/spark-engineer/SKILL.md",
+      "computedHash": "2e14904be758b9fae455fafd47ee746ab808cd939bf1563fa2ef1b259296372a"
+    },
+    "systematic-debugging": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/systematic-debugging/SKILL.md",
+      "computedHash": "276fb0aadb002ab930cc2a56de89e16995a2e3e70b33587652bf0a5fb123148d"
+    },
+    "test-driven-development": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/test-driven-development/SKILL.md",
+      "computedHash": "3cfe4ebb6fa7288f668d87880d279c8e48f7a92b63415e296857060f5ce22e05"
+    },
+    "testing-python-libraries": {
+      "source": "wdm0006/python-skills",
+      "sourceType": "github",
+      "skillPath": "skills/python/testing-strategy/SKILL.md",
+      "computedHash": "5ddfb5dfeb045de56a73b388c0b6a6a88f1bea98320597414b2d1393c9aac4ee"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
+      "computedHash": "d63bd281a96b8dfa52a2656ec6e6af743bfcfde6f6bfb6c9edc203cbff377b16"
+    },
+    "using-dbt-for-analytics-engineering": {
+      "source": "dbt-labs/dbt-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/dbt/skills/using-dbt-for-analytics-engineering/SKILL.md",
+      "computedHash": "59a854e12cce06d476279f3664e1913564666c3187842b3f7a99fabd987e14fa"
+    },
+    "verification-before-completion": {
+      "source": "obra/superpowers",
+      "sourceType": "github",
+      "skillPath": "skills/verification-before-completion/SKILL.md",
+      "computedHash": "b529822bdac4b197b180fe12225cff86b930b65910435103c10622df7f041651"
+    }
+  }
+}
