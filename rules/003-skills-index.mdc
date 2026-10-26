@@ -18,5 +18,8 @@ is used. Source of every cell is the frontmatter (`name`, `description`,
 - The generator takes the first sentence of `description` as the objective
   and the text from "Use when" / "Use quando" / "Triggers" as the context.
   Write descriptions in that shape; bump `metadata.version` on every change.
+- `skills/SKILLS.md` is the hand-written Portuguese companion, grouped by
+  area. It is not generated: when a skill is created, changed or removed,
+  update its row (and the total in the header) in the same commit.
 - Claude Code: the `PostToolUse` hook in `.claude/settings.json` regenerates
   the index after each edit of a `SKILL.md`. Other tools: run the command.
