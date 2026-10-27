@@ -10,7 +10,7 @@ Este arquivo é mantido à mão. `SKILLS.txt` continua sendo a fonte gerada e
 verificada (`python3 skills/scripts/skills-index.py --check`); ao criar, mudar
 ou remover uma skill, atualize os dois.
 
-**Total: 66 skills** (25 próprias, 41 de terceiros). Atualizado em 2026-10-26.
+**Total: 73 skills** (25 próprias, 48 de terceiros). Atualizado em 2026-10-28.
 
 ## Sumário
 
@@ -138,6 +138,13 @@ Angular, gráficos, apps Streamlit e design de interface.
 | `developing-with-streamlit` | streamlit/agent-skills | Todas as tarefas Streamlit: criar, editar, depurar, estilizar, tematizar, otimizar ou implantar apps; componentes customizados e `st.components.v2`. Descobre e carrega a documentação da versão instalada (>= 1.57). | Qualquer menção a Streamlit ou `st.`. |
 | `frontend-design` | anthropics/skills | Orientação para design visual distinto e intencional ao construir ou remodelar interfaces: direção estética, tipografia, escolhas que não pareçam template. | Criar UI nova ou reformular existente quando o resultado precisa ter identidade, não o padrão genérico. |
 | `ui-ux-pro-max` | nextlevelbuilder/ui-ux-pro-max-skill | Inteligência de design UI/UX para web, mobile e desktop com base local pesquisável: estilos, paletas por produto, pares de fontes, diretrizes de UX, ícones, presets GSAP, tipos de gráfico e stacks. | Desenhar, construir, revisar ou corrigir interfaces: páginas, componentes, design systems, acessibilidade, interação, layout responsivo, tipografia, cor, gráficos, implementação por stack. |
+| `web-design-guidelines` | vercel-labs/agent-skills | Revisa código de UI quanto à conformidade com as Web Interface Guidelines. | "revisa minha UI", "verifica acessibilidade", "audita o design", "revisa UX", "confere meu site com as boas práticas". |
+| `image-to-ui` (1.0.0) | uizze/uizze | Recria uma imagem, screenshot ou mockup como implementação de UI fiel (1:1), renderizando e comparando o resultado pra corrigir diferenças visíveis. | Receber uma imagem/mockup e pedir pra reproduzir a UI igual, não redesenhada. |
+| `angular-cdk` (21.0.3) | oguzhan18/angular-ecosystem-skills | Angular CDK (Component Dev Kit): componentes acessíveis customizados, drag-drop, overlay, portal, virtual scrolling. | Sempre que trabalhar com Angular CDK ou construir componente acessível customizado. |
+| `rxjs` (8.0.0) | oguzhan18/angular-ecosystem-skills | Observables, operadores e padrões reativos do RxJS. | Sempre que trabalhar com RxJS em aplicações Angular. |
+| `better-icons` | better-auth/better-icons | CLI pra buscar ícones em mais de 200 bibliotecas (Iconify) e obter o SVG; também disponível como MCP server. | Trabalhar com ícones em qualquer projeto: `better-icons search <termo>`, `better-icons get <id>`. |
+| `echarts` (1.3.1) | sentimony/skills | Construção, estilização, depuração e otimização de gráficos Apache ECharts em JavaScript, React ou Vue: setup, ciclo de vida, redimensionamento responsivo, tematização, grandes volumes de dados, streaming, SSR. | Gráfico ECharts em branco, redimensionamento quebrado, ou qualquer tarefa com ECharts. Não é para escolher tipo de gráfico nem para outras bibliotecas. |
+| `d3-viz` | chrisvoncsefalvay/claude-d3js-skill | Visualizações de dados interativas com d3.js: gráficos customizados, diagramas de rede, visualizações geográficas, qualquer SVG complexo com controle fino sobre elementos, transições e interações. | Visualização sob medida que vai além de bibliotecas de gráfico padrão, em React, Vue, Svelte, JavaScript puro ou qualquer ambiente. |
 
 ## 8. Navegador e automação web
 

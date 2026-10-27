@@ -2,7 +2,7 @@ SKILLS.txt - índice das skills desta pasta (GERADO; não edite à mão)
 Regenerar: python3 skills/scripts/skills-index.py   Conferir: python3 skills/scripts/skills-index.py --check
 Fonte: frontmatter (name, description, metadata.version) de cada skills/<nome>/SKILL.md.
 Objetivo = primeira frase da description. Contexto = trecho "Use quando / Use when / Triggers" resumido.
-Skills: 66
+Skills: 73
 
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | nome skill (versão)      | objetivo                                                 | contexto para ser utilizada (resumido)                       |
@@ -22,6 +22,10 @@ Skills: 66
 |                          | pasta `.rules/` (escopo, testes, erros, decisões) — para | AGENTS.md", "o agente repetiu o erro", "mudou o que eu não   |
 |                          | o agente entender o contexto, não repetir erro já        | pedi", "toda correção gera teste", ou ao abrir projeto novo  |
 |                          | corrigido e não ...                                      | em qualquer IDE com IA.                                      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| angular-cdk (21.0.3)     | ALWAYS use when working with Angular CDK (Component Dev  | use when working with Angular CDK (Component Dev Kit),       |
+|                          | Kit), building custom accessible components, or using    | building custom accessible components, or using drag-drop,   |
+|                          | drag-drop, overlay, portal, or virtual scrolling.        | overlay, portal, or virtual scrolling.                       |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | angular-developer (1.0)  | Generates Angular code and provides architectural        | Trigger when creating projects, components, services, or     |
 |                          | guidance.                                                | HTTP communication, or for best practices on reactivity      |
@@ -53,6 +57,12 @@ Skills: 66
 |                          | Code, Cursor, Antigravity, Gemini CLI, Copilot, Codex,   | criar pasta nova, ao clonar repositório sem `AGENTS.md`, ou  |
 |                          | Aider ou outra) entenda ...                              | ao abrir pela primeira vez um projeto em qualquer IDE com    |
 |                          |                                                          | IA.                                                          |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| better-icons             | Use when working with icons in any project.              | Use when working with icons in any project. Provides CLI for |
+|                          |                                                          | searching 200+ icon libraries (Iconify) and retrieving SVGs. |
+|                          |                                                          | Commands: `better-icons search <query>` to find icons,       |
+|                          |                                                          | `better-icons get <id>` to get SVG. Also available as MCP    |
+|                          |                                                          | server for AI agents.                                        |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | bigquery-basics (1.0.2)  | Manages datasets, tables, and jobs in BigQuery.          | Use when you need to interact with BigQuery, run SQL         |
 |                          |                                                          | queries, manage BigQuery resources (datasets, tables,        |
@@ -114,6 +124,13 @@ Skills: 66
 |                          | pendências e contexto ...                                | "salva onde parei", "vou continuar no                        |
 |                          |                                                          | Cursor/Antigravity/outra IDE".                               |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| d3-viz                   | Creating interactive data visualisations using d3.js.    | This skill should be used when creating custom charts,       |
+|                          |                                                          | graphs, network diagrams, geographic visualisations, or any  |
+|                          |                                                          | complex SVG-based data visualisation that requires fine-     |
+|                          |                                                          | grained control over visual elements, transitions, or        |
+|                          |                                                          | interactions. Use this for bespoke visualisations beyond     |
+|                          |                                                          | standard charting libraries, whether ...                     |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | databricks-core (0.1.0)  | Databricks CLI operations and the parent/entry-point     | Load this first for CLI, auth, profile, and bundle tasks,    |
 |                          | skill for Databricks CLI use: authentication, profile    | then load the matching product skill. For finding or         |
 |                          | selection, and bundles.                                  | exploring data, answering questions about the data, or       |
@@ -151,6 +168,12 @@ Skills: 66
 |                          |                                                          | HTML/JS/CSS work. Discovers and loads version-matched        |
 |                          |                                                          | reference docs from the user's installed Streamlit (>=1.57). |
 |                          |                                                          | Triggers: streamlit, st. ...                                 |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| echarts (1.3.1)          | You MUST use this when building, styling, debugging, or  | Not for choosing chart types or for other charting           |
+|                          | optimizing Apache ECharts charts in JavaScript, React,   | libraries.                                                   |
+|                          | or Vue - setup, lifecycle, responsive resizing, theming, |                                                              |
+|                          | large datasets, streaming, SSR, and symptoms like a      |                                                              |
+|                          | blank chart or ...                                       |                                                              |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | eval-rubric (1.0.0)      | Scores an AI-produced deliverable (generated codebase,   | Use when asked to "evaluate this output", "score the         |
 |                          | PR, document, pipeline output, agent run) against a      | generated project", "which model did better", "grade this    |
@@ -199,6 +222,9 @@ Skills: 66
 |                          |                                                          | data, organize objects with folders, generate signed URLs,   |
 |                          |                                                          | control access (IAM, ACLs, public access prevention), set    |
 |                          |                                                          | storage classes (Standard ...                                |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| image-to-ui (1.0.0)      | Recreate an image, screenshot, or mockup as a 1:1 UI     | Match the reference rather than redesigning it, then render  |
+|                          | implementation.                                          | and compare the result to correct visible differences.       |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | improving-python-code-   | Improves Python library code quality through ruff        | Use when reviewing code for quality issues, adding type      |
 | quality                  | linting, mypy type checking, Pythonic idioms, and        | hints, configuring static analysis tools, or refactoring     |
@@ -298,6 +324,10 @@ Skills: 66
 |                          | correct dbt executable, and structures command           | queries via dbt CLI. Use when unsure which dbt executable to |
 |                          | parameters.                                              | use or how to format command parameters.                     |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| rxjs (8.0.0)             | ALWAYS use when working with RxJS Observables,           | use when working with RxJS Observables, operators, and       |
+|                          | operators, and reactive patterns in Angular              | reactive patterns in Angular applications.                   |
+|                          | applications.                                            |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | security-gemini-prompt   | Audita um projeto que usa LLM Gemini/Vertex AI,          | Use quando pedirem "auditar segurança do projeto Gemini",    |
 | (2.1.0)                  | identifica fragilidades de segurança contra prompt       | "achar fragilidades de prompt injection", "hardening do      |
 |                          | injection direta e indireta, e as corrige.               | RAG", "proteger contra injeção", "instruction hierarchy",    |
@@ -376,6 +406,10 @@ Skills: 66
 |                          | Flash, 3.5 Flash-Lite, 3.1 Pro preview e a linha de      | thinking_level", "migrar para Gemini 4", "gerar imagem com   |
 |                          | imagem Nano Banana 2.1 / ...                             | Nano Banana", "o agente está errando na leitura do PDF" ou   |
 |                          |                                                          | "como passar imagem/planilha ...                             |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| web-design-guidelines    | Review UI code for Web Interface Guidelines compliance.  | Use when asked to "review my UI", "check accessibility",     |
+| (1.0.0)                  |                                                          | "audit design", "review UX", or "check my site against best  |
+|                          |                                                          | practices".                                                  |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | worktrees (1.0.0)        | Manages git worktrees as isolated lanes for risky,       | Use for a refactor that could break the active checkout,     |
 |                          | parallel or exploratory work in any repository with any  | parallel tasks or agents on separate branches, spikes that   |

@@ -13,6 +13,12 @@
       "skillPath": "skills/agent-browser/SKILL.md",
       "computedHash": "80161e6836b3b40f4e83730a290deb40ac14d877d38c97ad5f6d71be37ce74c3"
     },
+    "angular-cdk": {
+      "source": "oguzhan18/angular-ecosystem-skills",
+      "sourceType": "github",
+      "skillPath": "skills/angular-cdk/SKILL.md",
+      "computedHash": "aa4d27d602ebfe02b95afd2cafb8be2e1adff0ce25f05ed514f284485fd2e0c6"
+    },
     "angular-developer": {
       "source": "angular/skills",
       "sourceType": "github",
@@ -42,6 +48,12 @@
       "sourceType": "github",
       "skillPath": "skills/python/security-audit/SKILL.md",
       "computedHash": "4ee1922fb4ef7b8a42bb8967578684f1623d1f0f575b582da64ea0d3ffbb9d5a"
+    },
+    "better-icons": {
+      "source": "better-auth/better-icons",
+      "sourceType": "github",
+      "skillPath": "skills/SKILL.md",
+      "computedHash": "656a618d6d5d5e9c567253eff57a06bee3be5d4fb983bdc401a46a209c5b76de"
     },
     "bigquery-basics": {
       "source": "google/skills",
@@ -79,6 +91,12 @@
       "skillPath": "skills/cloud/cloud-run-basics/SKILL.md",
       "computedHash": "0c1323791e24cc34e977e7b4f41b016863c0faec9dc855a590db402dfb3ab7c5"
     },
+    "d3-viz": {
+      "source": "chrisvoncsefalvay/claude-d3js-skill",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "f16b782976ac2df47f91839385b4458944d90f23f109ff32a8f450bbdaf6431d"
+    },
     "databricks-core": {
       "source": "databricks/databricks-agent-skills",
       "sourceType": "github",
@@ -102,6 +120,12 @@
       "sourceType": "github",
       "skillPath": "developing-with-streamlit/SKILL.md",
       "computedHash": "9f8006c37398b5c6a27043bdfe3a25d4aafdfb53413618c88d2c978932f9d08e"
+    },
+    "echarts": {
+      "source": "sentimony/skills",
+      "sourceType": "github",
+      "skillPath": "plugins/skills/skills/echarts/SKILL.md",
+      "computedHash": "a3e6702c714448f0ae4fd681baa6c9531bccb466cd118dd146fc6038bad99222"
     },
     "frontend-design": {
       "source": "anthropics/skills",
@@ -132,6 +156,12 @@
       "sourceType": "github",
       "skillPath": "skills/cloud/google-cloud-storage-basics/SKILL.md",
       "computedHash": "a0af786d950a9783045e84ce11f59ae180fb0f96dc1519cb25597ded6568d2d1"
+    },
+    "image-to-ui": {
+      "source": "uizze/uizze",
+      "sourceType": "github",
+      "skillPath": "skills/image-to-ui/SKILL.md",
+      "computedHash": "e70577db48a840192978307d0258790289bc6bd8c604f9ce4be3d9bbd158cb0d"
     },
     "improving-python-code-quality": {
       "source": "wdm0006/python-skills",
@@ -193,6 +223,12 @@
       "skillPath": "skills/dbt/skills/running-dbt-commands/SKILL.md",
       "computedHash": "d5fd3d0958a5c647ee0235d244cea7c7ce0ffe05b4d51d560f52196f65b6820f"
     },
+    "rxjs": {
+      "source": "oguzhan18/angular-ecosystem-skills",
+      "sourceType": "github",
+      "skillPath": "skills/rxjs/SKILL.md",
+      "computedHash": "69687b5e390686d093b470016fe2200e6e0e4be750aaf219cae8722c49e04187"
+    },
     "setting-up-python-libraries": {
       "source": "wdm0006/python-skills",
       "sourceType": "github",
@@ -246,6 +282,12 @@
       "sourceType": "github",
       "skillPath": "skills/verification-before-completion/SKILL.md",
       "computedHash": "b529822bdac4b197b180fe12225cff86b930b65910435103c10622df7f041651"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/web-design-guidelines/SKILL.md",
+      "computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
     }
   }
 }
