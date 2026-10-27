@@ -2,7 +2,7 @@ SKILLS.txt - índice das skills desta pasta (GERADO; não edite à mão)
 Regenerar: python3 skills/scripts/skills-index.py   Conferir: python3 skills/scripts/skills-index.py --check
 Fonte: frontmatter (name, description, metadata.version) de cada skills/<nome>/SKILL.md.
 Objetivo = primeira frase da description. Contexto = trecho "Use quando / Use when / Triggers" resumido.
-Skills: 75
+Skills: 79
 
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | nome skill (versão)      | objetivo                                                 | contexto para ser utilizada (resumido)                       |
@@ -428,4 +428,17 @@ Skills: 75
 |                          |                                                          | worktree", "work on an isolated branch", "run these in       |
 |                          |                                                          | parallel", "try it without touching main", "cria uma         |
 |                          |                                                          | worktree", "isola essa mudança" ...                          |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| writing-for-agents       | Writing documents for agents.                            | Use when creating or editing skills, or modifying AGENTS.md  |
+|                          |                                                          | or CLAUDE.md.                                                |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| writing-guidelines       | Review docs/prose for Writing Guidelines compliance.     | Use when asked to "review my docs", "check writing style",   |
+| (1.0.0)                  |                                                          | "audit prose", "review docs voice and tone", or "check this  |
+|                          |                                                          | page against the writing handbook".                          |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| writing-plans            | Use when you have a spec or requirements for a multi-    | Use when you have a spec or requirements for a multi-step    |
+|                          | step task, before touching code                          | task, before touching code                                   |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| writing-skills           | Use when creating new skills, editing existing skills,   | Use when creating new skills, editing existing skills, or    |
+|                          | or verifying skills work before deployment               | verifying skills work before deployment                      |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+

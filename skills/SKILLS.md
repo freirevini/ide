@@ -10,7 +10,7 @@ Este arquivo é mantido à mão. `SKILLS.txt` continua sendo a fonte gerada e
 verificada (`python3 skills/scripts/skills-index.py --check`); ao criar, mudar
 ou remover uma skill, atualize os dois.
 
-**Total: 75 skills** (25 próprias, 50 de terceiros). Atualizado em 2026-10-28.
+**Total: 79 skills** (25 próprias, 54 de terceiros). Atualizado em 2026-10-28.
 
 ## Sumário
 
@@ -42,6 +42,10 @@ com qualquer IA de código.
 | `reflect` (1.0.0) | própria | Aprende com trabalho repetido e o transforma no menor ativo útil (regra, skill, script ou nada). | Após um lote de trabalho ou fim de sprint; "o que vira regra?", "revisa as skills", "aprende com essa sessão", "melhoria contínua", "kaizen". Não é para implementação comum nem depuração pontual. |
 | `codemap` (1.0.0) | própria | Constrói e atualiza um mapa hierárquico de um repositório desconhecido, para qualquer IA e stack. Só sob pedido explícito, porque é caro. | "mapear o repositório", "cria o codemap", "atualiza o mapa do código", onboarding em repositório grande. Não é para trabalho rotineiro nem repositórios pequenos. |
 | `worktrees` (1.0.0) | própria | Gerencia git worktrees como pistas isoladas para trabalho arriscado, paralelo ou exploratório. | Refatoração que pode quebrar o checkout ativo, tarefas ou agentes em paralelo, spikes descartáveis, upgrade de dependências; "cria uma worktree", "isola essa mudança", "roda em paralelo". |
+| `writing-plans` | obra/superpowers | Escreve o plano de implementação a partir de uma spec ou de requisitos de uma task multi-etapa. | Quando já existe spec ou requisitos para uma task de várias etapas, antes de tocar no código. |
+| `writing-skills` | obra/superpowers | Cria skills novas, edita existentes, verifica que funcionam antes de publicar; inclui script que renderiza diagramas Graphviz do `SKILL.md` em SVG. | Criar skill nova, editar skill existente, verificar skill antes do deploy. |
+| `writing-for-agents` | mattpocock/skills | Escreve documentos para agentes de IA. | Criar ou editar skill, ou alterar `AGENTS.md`/`CLAUDE.md`. |
+| `writing-guidelines` | vercel-labs/agent-skills | Revisa documentação/prosa quanto à conformidade com as Writing Guidelines. | "revisa minha documentação", "verifica o estilo de escrita", "audita a prosa", "revisa voz e tom dos docs", "confere essa página com o manual de escrita". |
 
 ## 2. Qualidade, verificação e depuração
 
