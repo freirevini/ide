@@ -25,6 +25,12 @@
       "skillPath": "angular-developer/SKILL.md",
       "computedHash": "cef5f1739f4a7158f20230f7e5a03c9b4b150b77174f22938512dcc49e270b91"
     },
+    "angular-jest": {
+      "source": "oguzhan18/angular-ecosystem-skills",
+      "sourceType": "github",
+      "skillPath": "skills/angular-jest/SKILL.md",
+      "computedHash": "dcef307d67b4a79ab3f2833aaf5f91f06ff1b14026e35451cfcb5f3fed645501"
+    },
     "angular-material": {
       "source": "angular-sanctuary/angular-agent-skills",
       "sourceType": "github",
@@ -90,6 +96,12 @@
       "sourceType": "github",
       "skillPath": "skills/cloud/cloud-run-basics/SKILL.md",
       "computedHash": "0c1323791e24cc34e977e7b4f41b016863c0faec9dc855a590db402dfb3ab7c5"
+    },
+    "cypress-author": {
+      "source": "cypress-io/ai-toolkit",
+      "sourceType": "github",
+      "skillPath": "skills/cypress-author/SKILL.md",
+      "computedHash": "f537b3a2e715270c7600b062bbd35d7035bdcdd0b7ec1134949f391b9d83e103"
     },
     "d3-viz": {
       "source": "chrisvoncsefalvay/claude-d3js-skill",

@@ -10,7 +10,7 @@ Este arquivo é mantido à mão. `SKILLS.txt` continua sendo a fonte gerada e
 verificada (`python3 skills/scripts/skills-index.py --check`); ao criar, mudar
 ou remover uma skill, atualize os dois.
 
-**Total: 73 skills** (25 próprias, 48 de terceiros). Atualizado em 2026-10-28.
+**Total: 75 skills** (25 próprias, 50 de terceiros). Atualizado em 2026-10-28.
 
 ## Sumário
 
@@ -142,6 +142,8 @@ Angular, gráficos, apps Streamlit e design de interface.
 | `image-to-ui` (1.0.0) | uizze/uizze | Recria uma imagem, screenshot ou mockup como implementação de UI fiel (1:1), renderizando e comparando o resultado pra corrigir diferenças visíveis. | Receber uma imagem/mockup e pedir pra reproduzir a UI igual, não redesenhada. |
 | `angular-cdk` (21.0.3) | oguzhan18/angular-ecosystem-skills | Angular CDK (Component Dev Kit): componentes acessíveis customizados, drag-drop, overlay, portal, virtual scrolling. | Sempre que trabalhar com Angular CDK ou construir componente acessível customizado. |
 | `rxjs` (8.0.0) | oguzhan18/angular-ecosystem-skills | Observables, operadores e padrões reativos do RxJS. | Sempre que trabalhar com RxJS em aplicações Angular. |
+| `angular-jest` (21.0.0) | oguzhan18/angular-ecosystem-skills | Testar aplicações Angular com Jest, configurar Jest, ou migrar de Jasmine/Karma para Jest. | Sempre que trabalhar com testes Angular usando Jest. |
+| `cypress-author` (1.0.1) | cypress-io/ai-toolkit | Cria, atualiza e corrige testes Cypress (E2E e de componente). | "cria testes", "adiciona testes", "testa esse componente", "novo spec", "corrige teste falhando ou instável" — mesmo sem a palavra Cypress. |
 | `better-icons` | better-auth/better-icons | CLI pra buscar ícones em mais de 200 bibliotecas (Iconify) e obter o SVG; também disponível como MCP server. | Trabalhar com ícones em qualquer projeto: `better-icons search <termo>`, `better-icons get <id>`. |
 | `echarts` (1.3.1) | sentimony/skills | Construção, estilização, depuração e otimização de gráficos Apache ECharts em JavaScript, React ou Vue: setup, ciclo de vida, redimensionamento responsivo, tematização, grandes volumes de dados, streaming, SSR. | Gráfico ECharts em branco, redimensionamento quebrado, ou qualquer tarefa com ECharts. Não é para escolher tipo de gráfico nem para outras bibliotecas. |
 | `d3-viz` | chrisvoncsefalvay/claude-d3js-skill | Visualizações de dados interativas com d3.js: gráficos customizados, diagramas de rede, visualizações geográficas, qualquer SVG complexo com controle fino sobre elementos, transições e interações. | Visualização sob medida que vai além de bibliotecas de gráfico padrão, em React, Vue, Svelte, JavaScript puro ou qualquer ambiente. |

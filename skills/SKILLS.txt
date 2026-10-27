@@ -2,7 +2,7 @@ SKILLS.txt - índice das skills desta pasta (GERADO; não edite à mão)
 Regenerar: python3 skills/scripts/skills-index.py   Conferir: python3 skills/scripts/skills-index.py --check
 Fonte: frontmatter (name, description, metadata.version) de cada skills/<nome>/SKILL.md.
 Objetivo = primeira frase da description. Contexto = trecho "Use quando / Use when / Triggers" resumido.
-Skills: 73
+Skills: 75
 
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | nome skill (versão)      | objetivo                                                 | contexto para ser utilizada (resumido)                       |
@@ -33,6 +33,10 @@ Skills: 73
 |                          |                                                          | content projection, forms, dependency injection, routing,    |
 |                          |                                                          | server and hybrid rendering (SSR, prerendering, hydration),  |
 |                          |                                                          | accessibility (ARIA) ...                                     |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| angular-jest (21.0.0)    | ALWAYS use when testing Angular applications with Jest,  | use when testing Angular applications with Jest, configuring |
+|                          | configuring Jest, or migrating from Jasmine/Karma to     | Jest, or migrating from Jasmine/Karma to Jest.               |
+|                          | Jest.                                                    |                                                              |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | angular-material         | Angular Material UI component library based on Material  | Angular Material UI component library based on Material      |
 | (2026.1.31)              | Design 3                                                 | Design 3                                                     |
@@ -123,6 +127,13 @@ Skills: 73
 |                          | objetivo, mudanças realizadas, decisões técnicas,        | "documentar essa task", "registrar a revisão", "checkpoint", |
 |                          | pendências e contexto ...                                | "salva onde parei", "vou continuar no                        |
 |                          |                                                          | Cursor/Antigravity/outra IDE".                               |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| cypress-author (1.0.1)   | Creates, updates, and fixes Cypress tests (E2E/end-to-   | Use when the user asks to create tests, add tests, write     |
+|                          | end and component tests).                                | tests, update tests, test this file/component, new spec, or  |
+|                          |                                                          | fix a failing or flaky test. Apply even when the user does   |
+|                          |                                                          | not say 'Cypress' (e.g. 'create tests for this file').       |
+|                          |                                                          | Prefer cypress-explain when the user only wants to explain   |
+|                          |                                                          | or review tests without ...                                  |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | d3-viz                   | Creating interactive data visualisations using d3.js.    | This skill should be used when creating custom charts,       |
 |                          |                                                          | graphs, network diagrams, geographic visualisations, or any  |
