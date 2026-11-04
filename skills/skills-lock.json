@@ -109,11 +109,71 @@
       "skillPath": "SKILL.md",
       "computedHash": "f16b782976ac2df47f91839385b4458944d90f23f109ff32a8f450bbdaf6431d"
     },
+    "databricks-ai-functions": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-ai-functions/SKILL.md",
+      "computedHash": "db47d0a89e045ac63422954ff4efa0ac46b11925ccadb7df28dcaaea95726eee"
+    },
+    "databricks-aibi-dashboards": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-aibi-dashboards/SKILL.md",
+      "computedHash": "a7599598a4fc210582916255f83ba57094a21c88c3d703d68881142f131adbd0"
+    },
+    "databricks-app-design": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-app-design/SKILL.md",
+      "computedHash": "4f164898f38a7b408a4626fd44c7117e02c1f262c20997c95377c8bb6466f565"
+    },
+    "databricks-apps": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-apps/SKILL.md",
+      "computedHash": "dc18b0ff083105b59247f471735d19eba7774fddc04b73f745de15e61844c4c4"
+    },
+    "databricks-apps-python": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-apps-python/SKILL.md",
+      "computedHash": "8544aa20c8e4c0e3cc11d6d9384e286c91f96306cd825867922a9f7ac86107e6"
+    },
     "databricks-core": {
       "source": "databricks/databricks-agent-skills",
       "sourceType": "github",
       "skillPath": "skills/databricks-core/SKILL.md",
       "computedHash": "99940ce58e1ba5ef9e094d0d137fd831d0b0365e2809fcab247b8d9c7ce843b9"
+    },
+    "databricks-dabs": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-dabs/SKILL.md",
+      "computedHash": "87df29eadccdee2e3d8d62de62b8012d46ce6082d8a7df3c834223555d30a192"
+    },
+    "databricks-data-discovery": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-data-discovery/SKILL.md",
+      "computedHash": "267c1a463a8756f03fee3b09e115327176097f3628d19d713bbdc547b89a3536"
+    },
+    "databricks-dbsql": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-dbsql/SKILL.md",
+      "computedHash": "0cbd6e835f4180c52d47556dc092d22c702b537b831408aab705f12248ac0793"
+    },
+    "databricks-docs": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-docs/SKILL.md",
+      "computedHash": "3fe1bf494746dc9ed3dfac77116b5d2c6660090d86076662aab12971a46a9ed0"
+    },
+    "databricks-execution-compute": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-execution-compute/SKILL.md",
+      "computedHash": "0ee21fd298206356b3543ab8500206f242ac23a59ca5f916c8ceb62065aacd44"
     },
     "databricks-jobs": {
       "source": "databricks/databricks-agent-skills",
@@ -121,11 +181,59 @@
       "skillPath": "skills/databricks-jobs/SKILL.md",
       "computedHash": "fe47a0f099bb1c20300276d10c855b57cecf6842e2c351dcee72b8048e099af8"
     },
+    "databricks-lakebase": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-lakebase/SKILL.md",
+      "computedHash": "d6c85c0c8bd797719293b690f1d846024dd93e47deb1c7b0786c78194dd31760"
+    },
+    "databricks-metric-views": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-metric-views/SKILL.md",
+      "computedHash": "13552cb8dda52e239a6014a6a743db0794fd0670b3521f0250a9b18e578b44e8"
+    },
     "databricks-pipelines": {
       "source": "databricks/databricks-agent-skills",
       "sourceType": "github",
       "skillPath": "skills/databricks-pipelines/SKILL.md",
       "computedHash": "28df6628410215be02d4c16ea6cf4ac99c1366c443c00988b6ac10ab410925b9"
+    },
+    "databricks-python-sdk": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-python-sdk/SKILL.md",
+      "computedHash": "384563a152bbda4fde7a015381c4110564c68c14e5eb4b0e2af12e41ae41e448"
+    },
+    "databricks-serverless": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-serverless/SKILL.md",
+      "computedHash": "848e871185733101aaf1ca98e5cda8568b2c3d1e8b70d604d7ea01244e54ed36"
+    },
+    "databricks-serverless-migration": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-serverless-migration/SKILL.md",
+      "computedHash": "e284b4577cf219a249d9a65acebb311fea1c15276e3047931d44dfeb7cafa786"
+    },
+    "databricks-setup-local": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-setup-local/SKILL.md",
+      "computedHash": "6c98a293333e7db665f3b18bcb366c4633dad870ed1b229ba31899e876b8a788"
+    },
+    "databricks-spark-structured-streaming": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-spark-structured-streaming/SKILL.md",
+      "computedHash": "265ce1796cffa4a31429d3e06a7676ab80e32ca1debd52edbfe635740d0d921b"
+    },
+    "databricks-unity-catalog": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/databricks-unity-catalog/SKILL.md",
+      "computedHash": "a41b3f6e140d304dc0acd5f7c43c7a0237d0f7ebf895bcea0861ee8d30e76f4f"
     },
     "developing-with-streamlit": {
       "source": "streamlit/agent-skills",
@@ -217,6 +325,12 @@
       "skillPath": "cli-tool/components/skills/scientific/polars/SKILL.md",
       "computedHash": "b703c1b4711369853ee437f32202e6d42c9b8d752c3e0b25bf033a34b9c437e7"
     },
+    "pyspark-etl": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "pyspark-etl/SKILL.md",
+      "computedHash": "9133fa506139eebca6ee81b1d955fdf27f552df7e65c2bce13c890636aa337f8"
+    },
     "python-modern-python": {
       "source": "martinffx/python-skills",
       "sourceType": "github",
@@ -258,6 +372,12 @@
       "sourceType": "github",
       "skillPath": "skills/spark-engineer/SKILL.md",
       "computedHash": "2e14904be758b9fae455fafd47ee746ab808cd939bf1563fa2ef1b259296372a"
+    },
+    "spark-python-data-source": {
+      "source": "databricks/databricks-agent-skills",
+      "sourceType": "github",
+      "skillPath": "experimental/spark-python-data-source/SKILL.md",
+      "computedHash": "7f23859642f7b1a0b8749afe5f08ea6b834987781acb4da7e2ee845848bc09de"
     },
     "systematic-debugging": {
       "source": "obra/superpowers",
