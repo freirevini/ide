@@ -36,6 +36,37 @@ Map, for every source and tool in the pipeline, how values are stored and rounde
 Direction to enforce in code: read/ingest the FULL value (no rounding at read time,
 no lossy casts), compute with full precision, apply rounding only afterwards, at output.
 
+## Step 1b — Databricks and Spark traps
+Check each of these explicitly; they produce differences in the last decimal places
+that survive code review:
+
+- **Decimal arithmetic precision.** `DECIMAL(p1,s1) * DECIMAL(p2,s2)` has precision
+  `p1+p2+1` and scale `s1+s2`; division widens the scale further. When the result
+  exceeds precision 38, Spark reduces the scale (keeping at least 6) while
+  `spark.sql.decimalOperations.allowPrecisionLoss` is true (default). Chained
+  multiplications of wide decimals lose digits silently. Fix: cast operands to the
+  narrowest `DECIMAL(p, s)` the data needs before multiplying, and check the result
+  type with `df.schema` or `typeof()`.
+- **Decimal mixed with double.** Any expression combining `DECIMAL` and `DOUBLE`
+  (literal `1.5` in Python, `float` column, `F.lit(0.1)`) is computed as `DOUBLE`.
+  Fix: `F.lit(Decimal("0.1"))` or `CAST('0.1' AS DECIMAL(...))`.
+- **Non-deterministic double sums.** `sum`/`avg` over `DOUBLE` adds in partition
+  order, which changes between runs and cluster sizes; the last digits drift. Exact
+  totals require `DECIMAL`.
+- **`F.round` vs `F.bround`.** `round` is HALF_UP (away from zero, same as Excel
+  `ROUND` and BigQuery `ROUND`); `bround` is HALF_EVEN (same as Python built-in
+  `round`). Pick one policy per output and use it everywhere.
+- **Rounding at load.** Casting a string with more decimals than the target scale
+  rounds it. The difference appears at ingestion, not in the calculation. See
+  `numeric-ingestion`.
+- **Python round-trips.** `toPandas()`, Python UDFs returning `float`, and
+  `Decimal(float)` each change values. Look for them in the critical path.
+
+Code patterns to grep for first: `inferSchema=True`, `.cast("double")`,
+`DoubleType()`, `FloatType()`, `F.round(` or `round(` before the final step,
+`F.lit(` with a float literal, `@udf` returning float, `.toPandas()` followed by math,
+`Decimal(` applied to a float.
+
 ## Step 2 — Research precision particularities
 For the specific versions/connectors in use, check how data crosses boundaries:
 BigQuery → pandas/PySpark reader type mapping (NUMERIC to decimal vs float64),
