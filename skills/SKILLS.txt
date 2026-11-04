@@ -2,11 +2,17 @@ SKILLS.txt - índice das skills desta pasta (GERADO; não edite à mão)
 Regenerar: python3 skills/scripts/skills-index.py   Conferir: python3 skills/scripts/skills-index.py --check
 Fonte: frontmatter (name, description, metadata.version) de cada skills/<nome>/SKILL.md.
 Objetivo = primeira frase da description. Contexto = trecho "Use quando / Use when / Triggers" resumido.
-Skills: 103
+Skills: 112
 
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | nome skill (versão)      | objetivo                                                 | contexto para ser utilizada (resumido)                       |
 +==========================+==========================================================+==============================================================+
+| accessibility            | Design, implement, and audit accessible UI to WCAG 2.2   | Use when building or auditing UI for accessibility           |
+|                          | Level AA across Web, iOS, and Android — semantic ARIA    | compliance, keyboard navigation, or screen-reader support.   |
+|                          | roles and labels, accessibility traits and hints, focus  |                                                              |
+|                          | management, contrast, target size, and screen-reader     |                                                              |
+|                          | support.                                                 |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | adding-dbt-unit-test     | Creates unit test YAML definitions that mock upstream    | Use when adding unit tests for a dbt model or practicing     |
 |                          | model inputs and validate expected outputs.              | test-driven development (TDD) in dbt.                        |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
@@ -45,12 +51,16 @@ Skills: 103
 |                          |                                                          | new Angular application and contains important guidelines    |
 |                          |                                                          | for how to effectively create a modern Angular application.  |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
-| apexcharts (4.0.2)       | AI skill for building ApexCharts.js charts and data      | Use when the user asks to create, configure, or troubleshoot |
+| apexcharts (4.1.0)       | AI skill for building ApexCharts.js charts and data      | Use when the user asks to create, configure, or troubleshoot |
 |                          | visualizations (targets v8).                             | any chart using ApexCharts (line, area, bar, pie, donut,     |
 |                          |                                                          | radialBar, scatter, bubble, heatmap, candlestick, boxPlot,   |
 |                          |                                                          | violin, histogram, radar, polarArea, rangeBar, rangeArea,    |
 |                          |                                                          | treemap, funnel, pyramid, gauge, sunburst, icicle, unit,     |
 |                          |                                                          | waffle, waterfall ...                                        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| api-design               | REST API design patterns including resource naming,      | Use when designing or reviewing REST endpoints, resource     |
+|                          | status codes, pagination, filtering, error responses,    | names, status codes, pagination, or versioning.              |
+|                          | versioning, and rate limiting for production APIs.       |                                                              |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | auditing-python-security | Audits Python libraries for security vulnerabilities     | Use when reviewing library security, setting up security     |
 |                          | using Bandit, pip-audit, Semgrep, and detect-secrets.    | scanning in CI, or implementing secure coding patterns.      |
@@ -127,6 +137,13 @@ Skills: 103
 |                          | objetivo, mudanças realizadas, decisões técnicas,        | "documentar essa task", "registrar a revisão", "checkpoint", |
 |                          | pendências e contexto ...                                | "salva onde parei", "vou continuar no                        |
 |                          |                                                          | Cursor/Antigravity/outra IDE".                               |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| coreui-angular (1.0.0)   | Build, review and migrate Angular apps on CoreUI 5 with  | Use when the project depends on @coreui/angular or           |
+|                          | Chart.js 4 (CoreUI Free/Admin template) - standalone     | @coreui/angular-chartjs, when a CoreUI component, icon,      |
+|                          | imports and providers, icon registration, the c-chart    | sidebar or chart misbehaves, when migrating CoreUI 4 to 5,   |
+|                          | component and its inputs, theming with data-coreui-theme | or when the user says "CoreUI", "c-chart", "template         |
+|                          | and --cui-* ...                                          | CoreUI", "cIcon", "sidebar do CoreUI", "Chart.js no          |
+|                          |                                                          | Angular".                                                    |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | cypress-author (1.0.1)   | Creates, updates, and fixes Cypress tests (E2E/end-to-   | Use when the user asks to create tests, add tests, write     |
 |                          | end and component tests).                                | tests, update tests, test this file/component, new spec, or  |
@@ -290,7 +307,16 @@ Skills: 103
 |                          |                                                          | reference docs from the user's installed Streamlit (>=1.57). |
 |                          |                                                          | Triggers: streamlit, st. ...                                 |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
-| echarts (1.3.1)          | You MUST use this when building, styling, debugging, or  | Not for choosing chart types or for other charting           |
+| docker-patterns          | Docker and Docker Compose patterns for local             | Use when creating or reviewing Dockerfiles and Compose       |
+|                          | development, hardened CLI installer harnesses, container | services, testing installers across Linux distributions, or  |
+|                          | security, networking, volumes, and multi-service         | planning accurate native macOS and Windows validation.       |
+|                          | orchestration.                                           |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| e2e-testing              | Playwright E2E testing patterns, Page Object Model,      | Use when writing Playwright tests, structuring page objects, |
+|                          | configuration, CI/CD integration, artifact management,   | or fixing flaky E2E runs in CI.                              |
+|                          | and flaky test strategies.                               |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| echarts (0.0.17)         | You MUST use this when building, styling, debugging, or  | Not for choosing chart types or for other charting           |
 |                          | optimizing Apache ECharts charts in JavaScript, React,   | libraries.                                                   |
 |                          | or Vue - setup, lifecycle, responsive resizing, theming, |                                                              |
 |                          | large datasets, streaming, SSR, and symptoms like a      |                                                              |
@@ -312,7 +338,7 @@ Skills: 103
 | frontend-design          | Guidance for distinctive, intentional visual design when | Helps with aesthetic direction, typography, and making       |
 |                          | building new UI or reshaping an existing one.            | choices that don't read as templated defaults.               |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
-| gemini-api (1.0.1)       | Use when the user asks about using Gemini in an          | Use when the user asks about using Gemini in an enterprise   |
+| gemini-api (1.0.2)       | Use when the user asks about using Gemini in an          | Use when the user asks about using Gemini in an enterprise   |
 |                          | enterprise environment or explicitly mentions Vertex AI, | environment or explicitly mentions Vertex AI, Google Cloud,  |
 |                          | Google Cloud, or Agent Platform.                         | or Agent Platform. Guides the usage of the Gemini API on     |
 |                          |                                                          | Agent Platform with the Google Gen AI SDK. Covers SDK usage  |
@@ -326,7 +352,7 @@ Skills: 103
 |                          | de modelo, tuning de ...                                 | ou quando uma peça burlar o avaliador por injeção de prompt. |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | google-agents-cli-adk-   | This skill should be used when the user wants to "write  | It provides a quick reference for agent types, tool          |
-| code (1.11.0)            | agent code", "build an agent with ADK", "add a tool",    | definitions, orchestration patterns, callbacks, state        |
+| code (1.13.0)            | agent code", "build an agent with ADK", "add a tool",    | definitions, orchestration patterns, callbacks, state        |
 |                          | "create a callback", "define an agent", "use state       | management, the graph Workflow API, and reference recipes to |
 |                          | management" — in a project that needs ADK (Agent         | study. Do NOT use for scaffolding (use google-agents-cli-    |
 |                          | Development Kit) API patterns ...                        | scaffold) or deployment (use google-agents-cli-deploy).      |
@@ -373,12 +399,18 @@ Skills: 103
 | authoring (1.0.1)        | Managed Service for Apache Airflow (MSAA; formerly Cloud | when authoring Python code unrelated to Airflow DAGs.        |
 |                          | Composer).                                               |                                                              |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| multi-stage-dockerfile   | Create optimized multi-stage Dockerfiles for any         | Create optimized multi-stage Dockerfiles for any language or |
+|                          | language or framework                                    | framework                                                    |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | numeric-ingestion        | Lossless ingestion contract for numeric data on          | Use when writing or reviewing code that reads CSV, Excel or  |
 | (1.0.0)                  | Databricks - read .csv, .xlsx and source tables without  | tables with monetary, percentage or rate columns, when       |
 |                          | silent precision loss (no inferred doubles, explicit     | loaded values differ from the file by small amounts, or when |
 |                          | DecimalType, Brazilian locale "1.234,56", Excel stored   | the user says "importar csv/xlsx", "carregar planilha no     |
 |                          | vs displayed values, pandas ...                          | Databricks", "diferença de arredondamento na carga", "valor  |
 |                          |                                                          | diferente do arquivo" ...                                    |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| openapi-to-application-  | Generate a complete, production-ready application from   | Generate a complete, production-ready application from an    |
+| code                     | an OpenAPI specification                                 | OpenAPI specification                                        |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | optimizing-python-       | Optimizes Python library performance through profiling   | Use when analyzing performance bottlenecks, finding memory   |
 | performance              | (cProfile, PyInstrument), memory analysis (memray,       | leaks, or setting up performance regression testing.         |
@@ -498,6 +530,13 @@ Skills: 103
 |                          |                                                          | from or push data to a system via Spark, or work with the    |
 |                          |                                                          | PySpark DataSource API in any ...                            |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| streamlit-legacy-140     | Write, port and review Streamlit apps pinned to          | Use instead of developing-with-streamlit (which needs        |
+| (1.0.0)                  | 1.38-1.40 (corporate images, frameworks that cap         | >=1.57) whenever requirements pin streamlit below 1.41, when |
+|                          | Streamlit) - what exists and what does not in 1.40.2,    | porting code written for a newer Streamlit down to 1.40, or  |
+|                          | the replacement for each newer API (theme, JavaScript,   | when the user says "Streamlit 1.40", "versão homologada do   |
+|                          | pagination, ButtonColumn ...                             | Streamlit", "não existe na 1.40", "portar para Streamlit     |
+|                          |                                                          | antigo", "TypeError ...                                      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | systematic-debugging     | Use when encountering any bug, test failure, or          | Use when encountering any bug, test failure, or unexpected   |
 |                          | unexpected behavior, before proposing fixes              | behavior, before proposing fixes                             |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
@@ -556,6 +595,10 @@ Skills: 103
 | web-design-guidelines    | Review UI code for Web Interface Guidelines compliance.  | Use when asked to "review my UI", "check accessibility",     |
 | (1.0.0)                  |                                                          | "audit design", "review UX", or "check my site against best  |
 |                          |                                                          | practices".                                                  |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| webapp-testing           | Toolkit for interacting with and testing local web       | Supports verifying frontend functionality, debugging UI      |
+|                          | applications using Playwright.                           | behavior, capturing browser screenshots, and viewing browser |
+|                          |                                                          | logs.                                                        |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | worktrees (1.0.0)        | Manages git worktrees as isolated lanes for risky,       | Use for a refactor that could break the active checkout,     |
 |                          | parallel or exploratory work in any repository with any  | parallel tasks or agents on separate branches, spikes that   |
