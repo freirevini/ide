@@ -2,7 +2,7 @@ SKILLS.txt - índice das skills desta pasta (GERADO; não edite à mão)
 Regenerar: python3 skills/scripts/skills-index.py   Conferir: python3 skills/scripts/skills-index.py --check
 Fonte: frontmatter (name, description, metadata.version) de cada skills/<nome>/SKILL.md.
 Objetivo = primeira frase da description. Contexto = trecho "Use quando / Use when / Triggers" resumido.
-Skills: 79
+Skills: 103
 
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | nome skill (versão)      | objetivo                                                 | contexto para ser utilizada (resumido)                       |
@@ -142,6 +142,38 @@ Skills: 79
 |                          |                                                          | interactions. Use this for bespoke visualisations beyond     |
 |                          |                                                          | standard charting libraries, whether ...                     |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-ai-functions  | Use Databricks built-in AI Functions (ai_classify,       | Also covers document parsing and building custom RAG         |
+| (0.3.0)                  | ai_decide, ai_extract, ai_summarize, ai_mask,            | pipelines (parse → prep_search → index → query).             |
+|                          | ai_translate, ai_fix_grammar, ai_gen,                    |                                                              |
+|                          | ai_analyze_sentiment, ai_similarity, ai_parse_document,  |                                                              |
+|                          | ai_prep_search, ai_query, ai_forecast) to add AI ...     |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-aibi-         | Create Databricks AI/BI dashboards.                      | use when creating, updating, or deploying Lakeview           |
+| dashboards (0.2.3)       |                                                          | dashboards as Databricks Dashboard have a unique json        |
+|                          |                                                          | structure. CRITICAL: You MUST test ALL SQL queries via CLI   |
+|                          |                                                          | BEFORE deploying. Follow guidelines strictly.                |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-app-design    | Design the UX of custom-code Databricks Apps             | Use when BUILDING or reviewing the UI of an AppKit/React app |
+| (0.1.0)                  | (AppKit/React) data screens — KPI/overview pages,        | that displays data or answers data questions: choosing       |
+|                          | reports, charts, tables, and Genie/chat data assistants  | genre, layout, charts, KPIs, semantic color, required states |
+|                          | — mapped to concrete AppKit components.                  | (loading/empty/error), IBCS notation, and AI-result trust    |
+|                          |                                                          | (showing generated SQL/sources for Genie/chat). A plain      |
+|                          |                                                          | "create a dashboard" request ...                             |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-apps (0.1.4)  | Build apps on Databricks Apps platform.                  | Use when asked to create data apps, analytics tools, or      |
+|                          |                                                          | custom interactive visualizations. A plain \"create a        |
+|                          |                                                          | dashboard\" request means a managed AI/BI (Lakeview)         |
+|                          |                                                          | dashboard → use databricks-aibi-dashboards, not this skill.  |
+|                          |                                                          | Evaluates data access patterns (analytics vs Lakebase synced |
+|                          |                                                          | tables) before scaffolding. Invoke ...                       |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-apps-python   | Python backend for Databricks Apps — FastAPI (default),  | Use this skill only when the user asks for a Python backend, |
+| (0.1.0)                  | Flask, Dash, Streamlit, Gradio, Reflex. **Default for a  | extends an existing Python app, or the team is Python-only.  |
+|                          | new Databricks App is `databricks-apps` (AppKit —        | Covers OAuth auth, app resources, SQL warehouse and Lakebase |
+|                          | Node/TypeScript/React) — reach for it first.** Use this  | connectivity, foundation-model / Vector Search / model-      |
+|                          | skill only when the ...                                  | serving APIs (via `databricks-python-sdk`), and deployment   |
+|                          |                                                          | via CLI or DABs.                                             |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | databricks-core (0.1.0)  | Databricks CLI operations and the parent/entry-point     | Load this first for CLI, auth, profile, and bundle tasks,    |
 |                          | skill for Databricks CLI use: authentication, profile    | then load the matching product skill. For finding or         |
 |                          | selection, and bundles.                                  | exploring data, answering questions about the data, or       |
@@ -149,15 +181,93 @@ Skills: 79
 |                          |                                                          | routes to Genie One). Contains up-to-date guidelines for     |
 |                          |                                                          | Databricks-related CLI tasks.                                |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-dabs          | Create, configure, validate, deploy, run, and manage     | Use when working with Databricks resources via DABs          |
+|                          | Declarative Automation Bundles (DABs, formerly           | including dashboards, jobs, pipelines, alerts, volumes, and  |
+|                          | Databricks Asset Bundles).                               | apps.                                                        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-data-         | Discover, explore, and query Databricks data via Genie — | MUST be invoked whenever the user asks to find or locate     |
+| discovery (0.1.0)        | the CLI equivalent of the Genie One MCP.                 | data ('what tables are in X', 'where does X live', 'which    |
+|                          |                                                          | catalog/schema has Y'), answer a natural-language question   |
+|                          |                                                          | about the data, or write a SQL query.                        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-dbsql (0.1.0) | Databricks SQL (DBSQL) advanced features and SQL         | This skill MUST be invoked when the user mentions: "DBSQL",  |
+|                          | warehouse capabilities.                                  | "Databricks SQL", "SQL warehouse", "SQL scripting", "stored  |
+|                          |                                                          | procedure", "CALL procedure", "materialized view", "CREATE   |
+|                          |                                                          | MATERIALIZED VIEW", "pipe syntax", "|>", "geospatial", "H3", |
+|                          |                                                          | "ST_", "spatial SQL", "collation", "COLLATE", "ai_query",    |
+|                          |                                                          | "ai_classify" ...                                            |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-docs (0.1.0)  | Databricks documentation reference via llms.txt index.   | Use when other skills do not cover a topic, looking up       |
+|                          |                                                          | unfamiliar Databricks features, or needing authoritative     |
+|                          |                                                          | docs on APIs, configurations, or platform capabilities.      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-execution-    | Execute code and manage compute on Databricks: run       | Execute code and manage compute on Databricks: run           |
+| compute (0.1.0)          | Python/Scala/SQL/R via serverless, classic, or           | Python/Scala/SQL/R via serverless, classic, or interactive   |
+|                          | interactive clusters, and create/resize/delete clusters  | clusters, and create/resize/delete clusters and SQL          |
+|                          | and SQL warehouses.                                      | warehouses.                                                  |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | databricks-jobs (0.3.0)  | Develop and deploy Lakeflow Jobs on Databricks via DABs, | Use when creating data engineering jobs with notebooks,      |
 |                          | Python SDK, or the CLI.                                  | Python wheels, SQL, dbt, or pipelines. Invoke BEFORE         |
 |                          |                                                          | starting implementation. For compute (serverless,            |
 |                          |                                                          | performance mode, classic), also use databricks-serverless.  |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-lakebase      | Databricks Lakebase Postgres: projects, scaling,         | Use when asked about Lakebase databases, OLTP storage, or    |
+| (0.2.0)                  | connectivity, Lakebase synced tables, and Data API.      | connecting apps to Postgres on Databricks.                   |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-local-loop    | Develop Databricks projects locally in Cursor,           | Use when the user asks to develop Databricks code locally,   |
+| (1.0.0)                  | Antigravity or any AI IDE and reflect them in the        | connect the IDE to Databricks, run or deploy local changes   |
+|                          | workspace - project layout, dev target, the edit-run-    | to the workspace, set up a Databricks project from scratch,  |
+|                          | deploy inner loop (Databricks Connect, bundle            | or says "desenvolver local", "conectar a IDE ao Databricks", |
+|                          | deploy/run, sync), and what differs between ...          | "refletir no workspace", "deploy do projeto", "rodar no      |
+|                          |                                                          | cluster pelo ...                                             |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-metric-views  | Unity Catalog metric views: define, create, query, and   | Use when building standardized KPIs, revenue metrics, order  |
+| (0.1.0)                  | manage governed business metrics in YAML.                | analytics, or any reusable business metrics that need        |
+|                          |                                                          | consistent definitions across teams and tools.               |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-notebook-     | Write, convert and review Databricks notebooks in source | Use when the user asks to create or edit a Databricks        |
+| source (1.0.0)           | format (.py or .sql with "Databricks notebook source"    | notebook as a file, convert a notebook to a module or back,  |
+|                          | header, COMMAND separators, MAGIC cells), versus .ipynb  | make notebooks work in Git and the IDE, or says "notebook em |
+|                          | - plus %run, %pip, widgets, and moving logic from        | .py", "formato source do Databricks", "MAGIC %sql",          |
+|                          | notebooks into ...                                       | "transformar notebook em módulo", "notebook no Cursor".      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | databricks-pipelines     | Develop Lakeflow Spark Declarative Pipelines (formerly   | Use when building batch or streaming data pipelines with     |
 | (0.3.0)                  | Delta Live Tables) on Databricks.                        | Python or SQL, including Auto CDC from event streams or      |
 |                          |                                                          | periodic complete snapshots. Invoke BEFORE starting          |
 |                          |                                                          | implementation.                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-python-sdk    | Databricks development guidance including Python SDK,    | Use when working with databricks-sdk, databricks-connect, or |
+| (0.1.0)                  | Databricks Connect, CLI, and REST API.                   | Databricks APIs.                                             |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-serverless    | Serverless compute for Databricks jobs, Lakeflow         | Use when creating, deploying, scheduling or editing a job or |
+| (0.3.2)                  | pipelines and Declarative Automation Bundles (DABs),     | pipeline, or deciding its compute. Invoke BEFORE writing a   |
+|                          | with STANDARD or PERFORMANCE_OPTIMIZED and classic only  | job spec. For migrating existing classic workloads, use      |
+|                          | where serverless cannot run the workload.                | databricks-serverless-migration.                             |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-serverless-   | Migrate Databricks workloads from classic compute to     | Use when migrating notebooks, jobs, pipelines, or Scala JARs |
+| migration (0.1.1)        | serverless compute.                                      | (`spark_jar_task`) from classic clusters to serverless,      |
+|                          |                                                          | checking if existing code is serverless-compatible, or       |
+|                          |                                                          | writing new serverless-compatible code. Provides concrete    |
+|                          |                                                          | fixes for the serverless Spark Connect architecture and      |
+|                          |                                                          | guides the full migration. Not ...                           |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-setup-local   | Previews, provisions, or diagnoses a uv-managed local    | Use when the user wants to set up or fix one for Databricks  |
+| (0.1.0)                  | Python .venv with `databricks environments setup-local`. | Connect, cluster or serverless compute, `--job-task`, or a   |
+|                          |                                                          | bundle target, or when setup-local fails.                    |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-spark-        | Comprehensive guide to Spark Structured Streaming for    | Use when building streaming pipelines, working with Kafka    |
+| structured-streaming     | production workloads.                                    | ingestion, implementing Real-Time Mode (RTM), configuring    |
+| (0.1.0)                  |                                                          | triggers (processingTime, availableNow), handling stateful   |
+|                          |                                                          | operations with watermarks, optimizing checkpoints,          |
+|                          |                                                          | performing stream-stream or stream-static joins, writing to  |
+|                          |                                                          | multiple sinks, or tuning ...                                |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| databricks-unity-catalog | Unity Catalog governance, access control, and            | Use to grant or revoke access (GRANT/REVOKE), reason about   |
+| (0.3.0)                  | observability.                                           | the privilege model and ownership, set up row-level security |
+|                          |                                                          | and column masks, create external locations and storage      |
+|                          |                                                          | credentials, define catalogs/schemas/tables/volumes, answer  |
+|                          |                                                          | \"who can read this table\", and query system tables (audit, |
+|                          |                                                          | lineage, billing) or ...                                     |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | debug-ledger (1.0.0)     | Investigation protocol for hard, intermittent or long-   | Use when a bug resists the first fix, reproduces only        |
 |                          | running bugs in any codebase with any AI.                | sometimes, spans many components or logs, when the agent     |
@@ -263,6 +373,13 @@ Skills: 79
 | authoring (1.0.1)        | Managed Service for Apache Airflow (MSAA; formerly Cloud | when authoring Python code unrelated to Airflow DAGs.        |
 |                          | Composer).                                               |                                                              |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| numeric-ingestion        | Lossless ingestion contract for numeric data on          | Use when writing or reviewing code that reads CSV, Excel or  |
+| (1.0.0)                  | Databricks - read .csv, .xlsx and source tables without  | tables with monetary, percentage or rate columns, when       |
+|                          | silent precision loss (no inferred doubles, explicit     | loaded values differ from the file by small amounts, or when |
+|                          | DecimalType, Brazilian locale "1.234,56", Excel stored   | the user says "importar csv/xlsx", "carregar planilha no     |
+|                          | vs displayed values, pandas ...                          | Databricks", "diferença de arredondamento na carga", "valor  |
+|                          |                                                          | diferente do arquivo" ...                                    |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | optimizing-python-       | Optimizes Python library performance through profiling   | Use when analyzing performance bottlenecks, finding memory   |
 | performance              | (cProfile, PyInstrument), memory analysis (memray,       | leaks, or setting up performance regression testing.         |
 |                          | tracemalloc), benchmarking (pytest-benchmark), and       |                                                              |
@@ -299,6 +416,17 @@ Skills: 79
 |                          |                                                          | it"), uses vague verbs without a target ("improve", "fix     |
 |                          |                                                          | it", "arruma isso"), asks to delete, rewrite, migrate or     |
 |                          |                                                          | change the stack, conflicts ...                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| pyspark-etl              | Best practices for building performant, testable PySpark | Use when writing or reviewing PySpark jobs, designing joins  |
+|                          | ETL pipelines with Spark SQL and Apache Iceberg.         | and window functions, working with map/array higher-order    |
+|                          |                                                          | functions, or building idempotent cumulative/snapshot table  |
+|                          |                                                          | merges.                                                      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| pyspark-testing (1.1.0)  | Write and run pytest tests for PySpark and Databricks    | Use when the user asks to test PySpark or Databricks code,   |
+|                          | code - pure transformation functions, SparkSession       | add unit tests for a transformation, set up pytest for       |
+|                          | fixtures (local vs Databricks Connect), small synthetic  | Spark, or says "testar PySpark", "teste unitário             |
+|                          | DataFrames, DataFrame equality assertions, marking tests | Databricks", "pytest com Spark", "comparar DataFrames",      |
+|                          | that need a workspace.                                   | "testar sem workspace".                                      |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | python-modern-python     | Modern Python 3.12-3.14 language features and typing.    | Use for type parameters, type aliases, protocols,            |
 |                          |                                                          | dataclasses, structural pattern matching, asyncio            |
@@ -362,6 +490,13 @@ Skills: 79
 |                          | big data workloads.                                      | data workloads. Invoke to write DataFrame transformations,   |
 |                          |                                                          | optimize Spark SQL queries, implement RDD pipelines, tune    |
 |                          |                                                          | shuffle operations, configure ...                            |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| spark-python-data-source | Build custom Python data sources for Apache Spark using  | Use this skill whenever someone wants to connect Spark to an |
+| (0.1.0)                  | the PySpark DataSource API — batch and streaming         | external system (database, API, message queue, custom        |
+|                          | readers/writers for external systems.                    | protocol), build a Spark connector or plugin in Python,      |
+|                          |                                                          | implement a DataSourceReader or DataSourceWriter, pull data  |
+|                          |                                                          | from or push data to a system via Spark, or work with the    |
+|                          |                                                          | PySpark DataSource API in any ...                            |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | systematic-debugging     | Use when encountering any bug, test failure, or          | Use when encountering any bug, test failure, or unexpected   |
 |                          | unexpected behavior, before proposing fixes              | behavior, before proposing fixes                             |
