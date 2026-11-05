@@ -2,7 +2,7 @@ SKILLS.txt - índice das skills desta pasta (GERADO; não edite à mão)
 Regenerar: python3 skills/scripts/skills-index.py   Conferir: python3 skills/scripts/skills-index.py --check
 Fonte: frontmatter (name, description, metadata.version) de cada skills/<nome>/SKILL.md.
 Objetivo = primeira frase da description. Contexto = trecho "Use quando / Use when / Triggers" resumido.
-Skills: 112
+Skills: 127
 
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | nome skill (versão)      | objetivo                                                 | contexto para ser utilizada (resumido)                       |
@@ -51,6 +51,10 @@ Skills: 112
 |                          |                                                          | new Angular application and contains important guidelines    |
 |                          |                                                          | for how to effectively create a modern Angular application.  |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| angular-testing (21.0.0) | ALWAYS use when writing tests for Angular applications,  | use when writing tests for Angular applications, including   |
+|                          | including unit tests, component tests, service tests, or | unit tests, component tests, service tests, or E2E tests     |
+|                          | E2E tests with Jasmine, Karma, Vitest, or Cypress.       | with Jasmine, Karma, Vitest, or Cypress.                     |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | apexcharts (4.1.0)       | AI skill for building ApexCharts.js charts and data      | Use when the user asks to create, configure, or troubleshoot |
 |                          | visualizations (targets v8).                             | any chart using ApexCharts (line, area, bar, pie, donut,     |
 |                          |                                                          | radialBar, scatter, bubble, heatmap, candlestick, boxPlot,   |
@@ -61,6 +65,11 @@ Skills: 112
 | api-design               | REST API design patterns including resource naming,      | Use when designing or reviewing REST endpoints, resource     |
 |                          | status codes, pagination, filtering, error responses,    | names, status codes, pagination, or versioning.              |
 |                          | versioning, and rate limiting for production APIs.       |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| architecture-decision-   | Capture architectural decisions made during Claude Code  | Auto-detects decision moments, records context, alternatives |
+| records                  | sessions as structured ADRs.                             | considered, and rationale. Maintains an ADR log so future    |
+|                          |                                                          | developers understand why the codebase is shaped the way it  |
+|                          |                                                          | is.                                                          |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | auditing-python-security | Audits Python libraries for security vulnerabilities     | Use when reviewing library security, setting up security     |
 |                          | using Bandit, pip-audit, Semgrep, and detect-secrets.    | scanning in CI, or implementing secure coding patterns.      |
@@ -144,6 +153,10 @@ Skills: 112
 |                          | component and its inputs, theming with data-coreui-theme | or when the user says "CoreUI", "c-chart", "template         |
 |                          | and --cui-* ...                                          | CoreUI", "cIcon", "sidebar do CoreUI", "Chart.js no          |
 |                          |                                                          | Angular".                                                    |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| create-github-action-    | Create a formal specification for an existing GitHub     | Create a formal specification for an existing GitHub Actions |
+| workflow-specification   | Actions CI/CD workflow, optimized for AI consumption and | CI/CD workflow, optimized for AI consumption and workflow    |
+|                          | workflow maintenance.                                    | maintenance.                                                 |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | cypress-author (1.0.1)   | Creates, updates, and fixes Cypress tests (E2E/end-to-   | Use when the user asks to create tests, add tests, write     |
 |                          | end and component tests).                                | tests, update tests, test this file/component, new spec, or  |
@@ -300,6 +313,10 @@ Skills: 112
 |                          |                                                          | code, migrations, container files, CI or non-dependency      |
 |                          |                                                          | config (ticket-audit), nor ...                               |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| design-system            | Use this skill to generate or audit design systems,      | Use this skill to generate or audit design systems, check    |
+|                          | check visual consistency, and review PRs that touch      | visual consistency, and review PRs that touch styling.       |
+|                          | styling.                                                 |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | developing-with-         | Use for ALL Streamlit tasks: creating, editing,          | Use for ALL Streamlit tasks: creating, editing, debugging,   |
 | streamlit                | debugging, beautifying, styling, theming, optimizing, or | beautifying, styling, theming, optimizing, or deploying      |
 |                          | deploying Streamlit apps.                                | Streamlit apps. Also custom components, st.components.v2,    |
@@ -311,6 +328,11 @@ Skills: 112
 |                          | development, hardened CLI installer harnesses, container | services, testing installers across Linux distributions, or  |
 |                          | security, networking, volumes, and multi-service         | planning accurate native macOS and Windows validation.       |
 |                          | orchestration.                                           |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| documentation-writer     | Diátaxis Documentation Expert.                           | An expert technical writer specializing in creating high-    |
+|                          |                                                          | quality software documentation, guided by the principles and |
+|                          |                                                          | structure of the Diátaxis technical documentation authoring  |
+|                          |                                                          | framework.                                                   |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | e2e-testing              | Playwright E2E testing patterns, Page Object Model,      | Use when writing Playwright tests, structuring page objects, |
 |                          | configuration, CI/CD integration, artifact management,   | or fixing flaky E2E runs in CI.                              |
@@ -351,6 +373,9 @@ Skills: 112
 |                          | context caching, ajuste de thinking budget, roteamento   | finishReason=MAX_TOKENS ou parsed=None em saída estruturada; |
 |                          | de modelo, tuning de ...                                 | ou quando uma peça burlar o avaliador por injeção de prompt. |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| github-actions-          | Audit GitHub Actions workflow efficiency and recommend   | Audit GitHub Actions workflow efficiency and recommend fixes |
+| efficiency               | fixes to reduce CI minutes and costs.                    | to reduce CI minutes and costs.                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | google-agents-cli-adk-   | This skill should be used when the user wants to "write  | It provides a quick reference for agent types, tool          |
 | code (1.13.0)            | agent code", "build an agent with ADK", "add a tool",    | definitions, orchestration patterns, callbacks, state        |
 |                          | "create a callback", "define an agent", "use state       | management, the graph Workflow API, and reference recipes to |
@@ -370,12 +395,19 @@ Skills: 112
 |                          |                                                          | control access (IAM, ACLs, public access prevention), set    |
 |                          |                                                          | storage classes (Standard ...                                |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| helm-chart-scaffolding   | Design, organize, and manage Helm charts for templating  | Use when creating Helm charts, packaging Kubernetes          |
+|                          | and packaging Kubernetes applications with reusable      | applications, or implementing templated deployments.         |
+|                          | configurations.                                          |                                                              |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | image-to-ui (1.0.0)      | Recreate an image, screenshot, or mockup as a 1:1 UI     | Match the reference rather than redesigning it, then render  |
 |                          | implementation.                                          | and compare the result to correct visible differences.       |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | improving-python-code-   | Improves Python library code quality through ruff        | Use when reviewing code for quality issues, adding type      |
 | quality                  | linting, mypy type checking, Pythonic idioms, and        | hints, configuring static analysis tools, or refactoring     |
 |                          | refactoring.                                             | Python library code.                                         |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| jenkins-pipeline         | Build Jenkins declarative and scripted pipelines with    | Implement multi-branch pipelines and deployment automation.  |
+|                          | stages, agents, parameters, and plugins.                 |                                                              |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | lab-ui                   | Best-practices review for ipywidgets UI architecture in  | Use when the user asks to review, refine, or extend notebook |
 |                          | Databricks notebooks - thin notebooks over a facade,     | UI code following this architecture.                         |
@@ -485,6 +517,11 @@ Skills: 112
 |                          |                                                          | or merging tickets (that is `ticket-resolution`), not for    |
 |                          |                                                          | auditing a batch on its ...                                  |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| ruff-recursive-fix       | Run Ruff checks with optional scope and rule overrides,  | Run Ruff checks with optional scope and rule overrides,      |
+|                          | apply safe and unsafe autofixes iteratively, review each | apply safe and unsafe autofixes iteratively, review each     |
+|                          | change, and resolve remaining findings with targeted     | change, and resolve remaining findings with targeted edits   |
+|                          | edits or user decisions.                                 | or user decisions.                                           |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | rules-default            | Audit, fix, and create Cursor rules                      | Use when the user asks to review rule formatting,            |
 |                          | (.cursor/rules/*.mdc).                                   | standardize rules, or create a new rule. Reads every         |
 |                          |                                                          | existing rule first; if a requested rule already exists or   |
@@ -499,12 +536,32 @@ Skills: 112
 |                          | operators, and reactive patterns in Angular              | reactive patterns in Angular applications.                   |
 |                          | applications.                                            |                                                              |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| sas-to-pyspark (1.0.0)   | Convert SAS programs (DATA steps, PROC SQL, PROC         | Use when the user asks to migrate, convert, port or          |
+|                          | MEANS/FREQ/SORT/TRANSPOSE/FORMAT, macros) to PySpark or  | translate SAS code to Python, PySpark, Spark SQL or          |
+|                          | Spark SQL on Databricks with the SAS semantics preserved | Databricks, review a converted program, or says "converter   |
+|                          | - missing values, BY-group FIRST./LAST., RETAIN, LAG,    | SAS", "migrar SAS para PySpark", "código SAS no Databricks", |
+|                          | MERGE ...                                                | "traduzir DATA step", "PROC SQL para Spark", "o resultado    |
+|                          |                                                          | não bate com o SAS".                                         |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| scss-best-practices      | SCSS/Sassy CSS best practices and coding guidelines for  | SCSS/Sassy CSS best practices and coding guidelines for      |
+|                          | maintainable, scalable stylesheets                       | maintainable, scalable stylesheets                           |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| secret-scanning          | Guide for configuring and managing GitHub secret         | Use this skill when enabling secret scanning, setting up     |
+|                          | scanning, push protection, custom patterns, and secret   | push protection, defining custom patterns, triaging alerts,  |
+|                          | alert remediation.                                       | resolving blocked pushes, or when an agent needs to scan     |
+|                          |                                                          | code for secrets before committing.                          |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | security-gemini-prompt   | Audita um projeto que usa LLM Gemini/Vertex AI,          | Use quando pedirem "auditar segurança do projeto Gemini",    |
 | (2.1.0)                  | identifica fragilidades de segurança contra prompt       | "achar fragilidades de prompt injection", "hardening do      |
 |                          | injection direta e indireta, e as corrige.               | RAG", "proteger contra injeção", "instruction hierarchy",    |
 |                          |                                                          | "configurar Model Armor"; quando conteúdo de entrada         |
 |                          |                                                          | conseguir dobrar o comportamento do sistema; ou ao revisar   |
 |                          |                                                          | como conteúdo não confiável entra ...                        |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| security-review          | Use this skill when adding authentication, handling user | Use this skill when adding authentication, handling user     |
+|                          | input, working with secrets, creating API endpoints, or  | input, working with secrets, creating API endpoints, or      |
+|                          | implementing payment/sensitive features.                 | implementing payment/sensitive features. Provides            |
+|                          |                                                          | comprehensive security checklist and patterns.               |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | setting-up-python-       | Sets up professional Python library projects with modern | Use when creating new Python libraries, modernizing existing |
 | libraries                | tooling (pyproject.toml, uv, ruff, pytest, pre-commit,   | projects to pyproject.toml, configuring linting/testing/CI,  |
@@ -596,6 +653,12 @@ Skills: 112
 | (1.0.0)                  |                                                          | "audit design", "review UX", or "check my site against best  |
 |                          |                                                          | practices".                                                  |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| web-design-reviewer      | This skill enables visual inspection of websites running | Triggers on requests like "review website design", "check    |
+|                          | locally or remotely to identify and fix design issues.   | the UI", "fix the layout", "find design problems". Detects   |
+|                          |                                                          | issues with responsive design, accessibility, visual         |
+|                          |                                                          | consistency, and layout breakage, then performs fixes at the |
+|                          |                                                          | source code level.                                           |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | webapp-testing           | Toolkit for interacting with and testing local web       | Supports verifying frontend functionality, debugging UI      |
 |                          | applications using Playwright.                           | behavior, capturing browser screenshots, and viewing browser |
 |                          |                                                          | logs.                                                        |
@@ -619,4 +682,7 @@ Skills: 112
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
 | writing-skills           | Use when creating new skills, editing existing skills,   | Use when creating new skills, editing existing skills, or    |
 |                          | or verifying skills work before deployment               | verifying skills work before deployment                      |
++--------------------------+----------------------------------------------------------+--------------------------------------------------------------+
+| xlsx-manipulation        | Create, edit, and manipulate Excel spreadsheets          | Create, edit, and manipulate Excel spreadsheets              |
+|                          | programmatically using openpyxl                          | programmatically using openpyxl                              |
 +--------------------------+----------------------------------------------------------+--------------------------------------------------------------+

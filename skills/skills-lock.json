@@ -49,6 +49,12 @@
       "skillPath": "angular-new-app/SKILL.md",
       "computedHash": "49bd84ab08bd3498c52f476bed48fbb942dc6dbc0925607e84549adbed34bccf"
     },
+    "angular-testing": {
+      "source": "oguzhan18/angular-ecosystem-skills",
+      "sourceType": "github",
+      "skillPath": "skills/angular-testing/SKILL.md",
+      "computedHash": "7f3340b2dfd6db8274ad611b3775c5b4b0e4002fc015ca50117335cef6e86cd3"
+    },
     "apexcharts": {
       "source": "apexcharts/apexcharts-skill",
       "sourceType": "github",
@@ -60,6 +66,12 @@
       "sourceType": "github",
       "skillPath": "skills/api-design/SKILL.md",
       "computedHash": "9b3dda8b2e808315bb308ee7d492dd0f5171f78a169120de1f06613964ef8a5d"
+    },
+    "architecture-decision-records": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/architecture-decision-records/SKILL.md",
+      "computedHash": "3108a62e2d812aad5f1d192281dc79d7c2891234ef179ca97cf79472286f5126"
     },
     "auditing-python-security": {
       "source": "wdm0006/python-skills",
@@ -108,6 +120,12 @@
       "sourceType": "github",
       "skillPath": "skills/cloud/cloud-run-basics/SKILL.md",
       "computedHash": "0c1323791e24cc34e977e7b4f41b016863c0faec9dc855a590db402dfb3ab7c5"
+    },
+    "create-github-action-workflow-specification": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/create-github-action-workflow-specification/SKILL.md",
+      "computedHash": "527e6c77d921d58a9d0059aa95d0d14b441d2166f9c20518263048a56ca8fbbb"
     },
     "cypress-author": {
       "source": "cypress-io/ai-toolkit",
@@ -247,6 +265,12 @@
       "skillPath": "skills/databricks-unity-catalog/SKILL.md",
       "computedHash": "a41b3f6e140d304dc0acd5f7c43c7a0237d0f7ebf895bcea0861ee8d30e76f4f"
     },
+    "design-system": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/design-system/SKILL.md",
+      "computedHash": "e94439a0e2704d3802c2c5b393444a65afd2a5e0f2b0809e5ec9189452f4734b"
+    },
     "developing-with-streamlit": {
       "source": "streamlit/agent-skills",
       "sourceType": "github",
@@ -258,6 +282,12 @@
       "sourceType": "github",
       "skillPath": "skills/docker-patterns/SKILL.md",
       "computedHash": "2518afd6ae1e1b91d7f8d2f8d9b7145fb08ec640b9624e3dffc0a21289417245"
+    },
+    "documentation-writer": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/documentation-writer/SKILL.md",
+      "computedHash": "ee53d65b163cd7eb953a930c95841cfe398cc2c0bd24c06508bbaa07c432be35"
     },
     "e2e-testing": {
       "source": "affaan-m/everything-claude-code",
@@ -283,6 +313,12 @@
       "skillPath": "skills/cloud/gemini-api/SKILL.md",
       "computedHash": "48cfd11e898d787c53a7d0423f0482facd15212ebcdd07f98e4f50bc50181973"
     },
+    "github-actions-efficiency": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/github-actions-efficiency/SKILL.md",
+      "computedHash": "92628da7f3eb2ae5625168f31587712a3cd77ac9ba5a23ffc24e86fd12c4408c"
+    },
     "google-agents-cli-adk-code": {
       "source": "google/agents-cli",
       "sourceType": "github",
@@ -301,6 +337,12 @@
       "skillPath": "skills/cloud/google-cloud-storage-basics/SKILL.md",
       "computedHash": "a0af786d950a9783045e84ce11f59ae180fb0f96dc1519cb25597ded6568d2d1"
     },
+    "helm-chart-scaffolding": {
+      "source": "wshobson/agents",
+      "sourceType": "github",
+      "skillPath": "plugins/kubernetes-operations/skills/helm-chart-scaffolding/SKILL.md",
+      "computedHash": "d37f4bee4daa0c969ce9912054b46b04164d57ecd0e1d958e6dfb2e5aec16503"
+    },
     "image-to-ui": {
       "source": "uizze/uizze",
       "sourceType": "github",
@@ -312,6 +354,12 @@
       "sourceType": "github",
       "skillPath": "skills/python/code-quality/SKILL.md",
       "computedHash": "08aad62d8897bc6ff5790e0d2cb5bb57cecc5b08bb1147800bfbf150be3ecab9"
+    },
+    "jenkins-pipeline": {
+      "source": "aj-geddes/useful-ai-prompts",
+      "sourceType": "github",
+      "skillPath": "skills/jenkins-pipeline/SKILL.md",
+      "computedHash": "c7489ef3c9b0d49f702f5200fee648ee2fb7a873d4ec600a0325faefe7aa7002"
     },
     "legacy-modernizer": {
       "source": "jeffallan/claude-skills",
@@ -379,6 +427,12 @@
       "skillPath": "skills/python-sqlalchemy/SKILL.md",
       "computedHash": "2b87cea95457cdfb2c700ace131a2f986a9243baa94acd5a603ebb6eeddd3688"
     },
+    "ruff-recursive-fix": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/ruff-recursive-fix/SKILL.md",
+      "computedHash": "a6f4b355dd277d24f9ea95cb0f6f181fb4fc77fa8080d1e4f649af21d2095f2a"
+    },
     "running-dbt-commands": {
       "source": "dbt-labs/dbt-agent-skills",
       "sourceType": "github",
@@ -390,6 +444,24 @@
       "sourceType": "github",
       "skillPath": "skills/rxjs/SKILL.md",
       "computedHash": "69687b5e390686d093b470016fe2200e6e0e4be750aaf219cae8722c49e04187"
+    },
+    "scss-best-practices": {
+      "source": "mindrally/skills",
+      "sourceType": "github",
+      "skillPath": "scss-best-practices/SKILL.md",
+      "computedHash": "20314b9f6c794d88e07f24e8d24aac2809d48151b44bd8f9c8c82644ca63e2eb"
+    },
+    "secret-scanning": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/secret-scanning/SKILL.md",
+      "computedHash": "cc7de79bee80775578227a370637d0a83aa0f2cbec28374058899859261d2081"
+    },
+    "security-review": {
+      "source": "affaan-m/everything-claude-code",
+      "sourceType": "github",
+      "skillPath": "skills/security-review/SKILL.md",
+      "computedHash": "9814020fb226bff5a25c01f6862be0ca2853187230e25bb092689b8ec3a23759"
     },
     "setting-up-python-libraries": {
       "source": "wdm0006/python-skills",
@@ -457,6 +529,12 @@
       "skillPath": "skills/web-design-guidelines/SKILL.md",
       "computedHash": "a6a44d5498f7e8f68289902f3dedfc6f38ae0cee1e96527c80724cf27f727c2a"
     },
+    "web-design-reviewer": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "skillPath": "skills/web-design-reviewer/SKILL.md",
+      "computedHash": "10c6fad8b4f01dbeae969009d81d6c306c8a96d56077cad9bfe2a73a38f5dcbe"
+    },
     "webapp-testing": {
       "source": "anthropics/skills",
       "sourceType": "github",
@@ -486,6 +564,12 @@
       "sourceType": "github",
       "skillPath": "skills/writing-skills/SKILL.md",
       "computedHash": "5dfeb4768effae27e94cc7ce27420f461a09fbca4c6e3846cf7acb1765d5d3d7"
+    },
+    "xlsx-manipulation": {
+      "source": "claude-office-skills/skills",
+      "sourceType": "github",
+      "skillPath": "xlsx-manipulation/SKILL.md",
+      "computedHash": "8ff345006ea94c56d09b9ee2324b14be93050ce164370e2c89cacbb6ca0c539e"
     }
   }
 }
